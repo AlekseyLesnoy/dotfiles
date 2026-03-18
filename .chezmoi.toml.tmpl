@@ -1,6 +1,12 @@
-{{- $profile  := promptStringOnce . "profile"  "Machine profile (common/gaming/work)" -}}
-{{- $hostname := promptStringOnce . "hostname" "Hostname for this machine" -}}
-{{- $email    := promptStringOnce . "email"    "Git email address" -}}
+{{- $profile  := "common" -}}
+{{- $hostname := "localhost" -}}
+{{- $email    := "user@example.com" -}}
+
+{{- if not (env "CI") -}}
+{{-   $profile  = promptStringOnce . "profile"  "Machine profile (common/gaming/work)" -}}
+{{-   $hostname = promptStringOnce . "hostname" "Hostname for this machine" -}}
+{{-   $email    = promptStringOnce . "email"    "Git email address" -}}
+{{- end -}}
 
 [data]
   profile   = {{ $profile  | quote }}
