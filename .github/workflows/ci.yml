@@ -21,8 +21,9 @@ jobs:
         run: sudo apt-get install -y shellcheck
       - name: Run shellcheck
         run: |
-          find . -name "*.sh" -o -name "*.sh.tmpl" | \
-            grep -v node_modules | \
+          # Only lint pure .sh files — .sh.tmpl files contain Go template syntax
+          # that shellcheck cannot parse (causes exit 123)
+          find . -name "*.sh" ! -path "*/node_modules/*" | \
             xargs shellcheck --severity=warning
 
   # ─── Lint: PSScriptAnalyzer ──────────────────────────────────────────────────
