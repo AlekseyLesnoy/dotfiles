@@ -28,8 +28,8 @@ $DOTFILES_REPO = 'https://github.com/AlekseyLesnoy/dotfiles.git'
 $ScriptPath    = $MyInvocation.MyCommand.Path
 
 # ─── Helpers (5.1-compatible) ─────────────────────────────────────────────────
-function Write-Step { param([string]$Msg) Write-Host "`n═══ $Msg ═══" -ForegroundColor Cyan }
-function Write-Log  { param([string]$Msg) Write-Host "[bootstrap] $Msg" }
+function Write-Step        { param([string]$Msg) Write-Host "`n═══ $Msg ═══" -ForegroundColor Cyan }
+function Write-BootstrapLog { param([string]$Msg) Write-Host "[bootstrap] $Msg" }
 
 function Test-IsAdmin {
     $id = [Security.Principal.WindowsIdentity]::GetCurrent()
@@ -53,7 +53,7 @@ Write-Step "Phase 1: Install pwsh 7 + re-launch"
 $IsPwsh7 = ($PSVersionTable.PSVersion.Major -ge 7)
 
 if (-not $IsPwsh7) {
-    Write-Log "Running under PowerShell $($PSVersionTable.PSVersion). Installing pwsh 7..."
+    Write-BootstrapLog "Running under PowerShell $($PSVersionTable.PSVersion). Installing pwsh 7..."
 
     # winget may not be present on very old Win 10 — handle gracefully
     $winget = Get-Command winget -ErrorAction SilentlyContinue
@@ -77,12 +77,12 @@ if (-not $IsPwsh7) {
     if ($CI)      { $argList += '-CI' }
     if ($DryRun)  { $argList += '-DryRun' }
 
-    Write-Log "Re-launching under pwsh 7..."
+    Write-BootstrapLog "Re-launching under pwsh 7..."
     Start-Process $pwsh -ArgumentList $argList -Wait
     exit $LASTEXITCODE
 }
 
-Write-Log "Running under pwsh $($PSVersionTable.PSVersion). Continuing..."
+Write-BootstrapLog "Running under pwsh $($PSVersionTable.PSVersion). Continuing..."
 
 # ─── Load lib scripts ─────────────────────────────────────────────────────────
 $LibDir    = Join-Path $PSScriptRoot 'lib'
@@ -112,13 +112,13 @@ else {
 if ($Resume) {
     Write-Step "Resuming after reboot"
     Unregister-BootstrapResume
-    Write-Log "Resume key removed."
+    Write-BootstrapLog "Resume key removed."
 }
 
 # ─── Phase 2: Self-elevation ──────────────────────────────────────────────────
 Write-Step "Phase 2: Self-elevation"
 if (-not (Test-IsAdmin)) {
-    Write-Log "Not running as Administrator. Re-launching elevated..."
+    Write-BootstrapLog "Not running as Administrator. Re-launching elevated..."
     $argString = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', "`"$ScriptPath`"")
     if ($Resume)  { $argString += '-Resume' }
     if ($CI)      { $argString += '-CI' }
@@ -126,35 +126,35 @@ if (-not (Test-IsAdmin)) {
     Start-Process pwsh -Verb RunAs -ArgumentList $argString -Wait
     exit $LASTEXITCODE
 }
-Write-Log "Running as Administrator."
+Write-BootstrapLog "Running as Administrator."
 
 # ─── Phase 3: Execution policy ────────────────────────────────────────────────
 Write-Step "Phase 3: Execution policy"
 if (-not (Test-PhaseComplete 'exec_policy')) {
     Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
-    Write-Log "Execution policy set to RemoteSigned for CurrentUser."
+    Write-BootstrapLog "Execution policy set to RemoteSigned for CurrentUser."
     Set-PhaseComplete 'exec_policy'
 }
-else { Write-Log "Execution policy already set. Skipping." }
+else { Write-BootstrapLog "Execution policy already set. Skipping." }
 
 # ─── Phase 4: System settings (require admin) ─────────────────────────────────
 Write-Step "Phase 4: System settings"
 if (-not (Test-PhaseComplete 'system_settings')) {
-    Write-Log "Enabling Developer Mode..."
+    Write-BootstrapLog "Enabling Developer Mode..."
     $devPath = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock'
     if (-not (Test-Path $devPath)) { New-Item -Path $devPath -Force | Out-Null }
     Set-ItemProperty -Path $devPath -Name 'AllowDevelopmentWithoutDevLicense' -Value 1 -Type DWord
     Set-ItemProperty -Path $devPath -Name 'AllowAllTrustedApps' -Value 1 -Type DWord
-    Write-Log "Developer Mode enabled."
+    Write-BootstrapLog "Developer Mode enabled."
 
     # Windows sudo (Win 11 24H2+)
-    Write-Log "Enabling Windows sudo..."
+    Write-BootstrapLog "Enabling Windows sudo..."
     $sudoPath = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Sudo'
     try {
         if (-not (Test-Path $sudoPath)) { New-Item -Path $sudoPath -Force | Out-Null }
         # Mode 1 = inline (prompt-less equivalent)
         Set-ItemProperty -Path $sudoPath -Name 'Enabled' -Value 1 -Type DWord
-        Write-Log "Windows sudo enabled."
+        Write-BootstrapLog "Windows sudo enabled."
     }
     catch {
         Write-Warning "Could not enable Windows sudo (may not be supported on this OS version): $_"
@@ -162,22 +162,22 @@ if (-not (Test-PhaseComplete 'system_settings')) {
 
     Set-PhaseComplete 'system_settings'
 }
-else { Write-Log "System settings already applied. Skipping." }
+else { Write-BootstrapLog "System settings already applied. Skipping." }
 
 # ─── Phase 5: Install Git ─────────────────────────────────────────────────────
 Write-Step "Phase 5: Install Git"
 if (-not (Test-PhaseComplete 'git_install')) {
     $installed = winget list --id Git.Git --exact 2>&1
     if ($LASTEXITCODE -eq 0 -and $installed -match 'Git.Git') {
-        Write-Log "Git already installed. Skipping."
+        Write-BootstrapLog "Git already installed. Skipping."
     }
     else {
-        Write-Log "Installing Git via winget..."
+        Write-BootstrapLog "Installing Git via winget..."
         winget install --id Git.Git --exact --silent --accept-package-agreements --accept-source-agreements
     }
     Set-PhaseComplete 'git_install'
 }
-else { Write-Log "Git install phase already done. Skipping." }
+else { Write-BootstrapLog "Git install phase already done. Skipping." }
 
 # ─── Phase 6: Install 1Password CLI ──────────────────────────────────────────
 Write-Step "Phase 6: Install 1Password CLI"
@@ -186,31 +186,32 @@ if (-not (Test-PhaseComplete 'op_install')) {
         . (Join-Path $LibDir 'install-op.ps1')
     }
     else {
-        Write-Log "Fetching install-op.ps1 from GitHub..."
-        $opScript = (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/AlekseyLesnoy/dotfiles/main/bootstrap/lib/install-op.ps1' -UseBasicParsing).Content
-        Invoke-Expression $opScript
+        Write-BootstrapLog "Fetching install-op.ps1 from GitHub..."
+        $opTmp = Join-Path $env:TEMP 'dotfile-install-op.ps1'
+        (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/AlekseyLesnoy/dotfiles/main/bootstrap/lib/install-op.ps1' -UseBasicParsing).Content | Set-Content $opTmp -Encoding UTF8
+        . $opTmp
     }
 
     if (-not $CI) {
-        Write-Log "Adding 1Password account (follow prompts)..."
+        Write-BootstrapLog "Adding 1Password account (follow prompts)..."
         if (Get-Command op -ErrorAction SilentlyContinue) {
             $accounts = & op account list 2>&1
             if (-not ($accounts -match '\S')) {
                 op account add
             }
-            else { Write-Log "1Password account already configured." }
+            else { Write-BootstrapLog "1Password account already configured." }
         }
     }
     Set-PhaseComplete 'op_install'
 }
-else { Write-Log "1Password CLI already installed. Skipping." }
+else { Write-BootstrapLog "1Password CLI already installed. Skipping." }
 
 # ─── Phase 7: WSL (optional) ──────────────────────────────────────────────────
 Write-Step "Phase 7: Install WSL (optional)"
 if (-not (Test-PhaseComplete 'wsl_install')) {
     $installWSL = $false
     if ($CI) {
-        Write-Log "[CI] Skipping WSL install."
+        Write-BootstrapLog "[CI] Skipping WSL install."
     }
     elseif (-not $DryRun) {
         $choice = Read-Host "Install WSL 2 with Ubuntu? [y/N]"
@@ -218,7 +219,7 @@ if (-not (Test-PhaseComplete 'wsl_install')) {
     }
 
     if ($installWSL) {
-        Write-Log "Installing WSL 2 with Ubuntu (requires restart)..."
+        Write-BootstrapLog "Installing WSL 2 with Ubuntu (requires restart)..."
         wsl --install --distribution Ubuntu
 
         # Register resume key and save phase
@@ -226,18 +227,18 @@ if (-not (Test-PhaseComplete 'wsl_install')) {
         if (Test-Path (Join-Path $LibDir 'state.ps1')) {
             Register-BootstrapResume -ScriptPath $ScriptPath
         }
-        Write-Log "Restart required for WSL. The bootstrap will resume automatically after login."
+        Write-BootstrapLog "Restart required for WSL. The bootstrap will resume automatically after login."
         if (-not $DryRun) {
             Restart-Computer -Force
             exit 0
         }
     }
     else {
-        Write-Log "Skipping WSL install."
+        Write-BootstrapLog "Skipping WSL install."
         Set-PhaseComplete 'wsl_install'
     }
 }
-else { Write-Log "WSL phase already done. Skipping." }
+else { Write-BootstrapLog "WSL phase already done. Skipping." }
 
 # ─── Phase 8: Install chezmoi ────────────────────────────────────────────────
 Write-Step "Phase 8: Install chezmoi"
@@ -246,13 +247,14 @@ if (-not (Test-PhaseComplete 'chezmoi_install')) {
         . (Join-Path $LibDir 'install-chezmoi.ps1')
     }
     else {
-        Write-Log "Fetching install-chezmoi.ps1 from GitHub..."
-        $chezScript = (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/AlekseyLesnoy/dotfiles/main/bootstrap/lib/install-chezmoi.ps1' -UseBasicParsing).Content
-        Invoke-Expression $chezScript
+        Write-BootstrapLog "Fetching install-chezmoi.ps1 from GitHub..."
+        $chezTmp = Join-Path $env:TEMP 'dotfile-install-chezmoi.ps1'
+        (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/AlekseyLesnoy/dotfiles/main/bootstrap/lib/install-chezmoi.ps1' -UseBasicParsing).Content | Set-Content $chezTmp -Encoding UTF8
+        . $chezTmp
     }
     Set-PhaseComplete 'chezmoi_install'
 }
-else { Write-Log "chezmoi already installed. Skipping." }
+else { Write-BootstrapLog "chezmoi already installed. Skipping." }
 
 # Refresh PATH
 $env:PATH = [System.Environment]::GetEnvironmentVariable('PATH', 'Machine') + ';' +
@@ -261,11 +263,11 @@ $env:PATH = [System.Environment]::GetEnvironmentVariable('PATH', 'Machine') + ';
 # ─── Phase 9: chezmoi init --apply ───────────────────────────────────────────
 Write-Step "Phase 9: chezmoi init --apply"
 if ($DryRun) {
-    Write-Log "[dry-run] Would run: chezmoi init --apply --verbose $DOTFILES_REPO"
+    Write-BootstrapLog "[dry-run] Would run: chezmoi init --apply --verbose $DOTFILES_REPO"
 }
 elseif (-not (Test-PhaseComplete 'chezmoi_apply')) {
     if (Get-Command chezmoi -ErrorAction SilentlyContinue) {
-        Write-Log "Handing off to chezmoi..."
+        Write-BootstrapLog "Handing off to chezmoi..."
         chezmoi init --apply --verbose $DOTFILES_REPO
         Set-PhaseComplete 'chezmoi_apply'
     }
@@ -274,7 +276,7 @@ elseif (-not (Test-PhaseComplete 'chezmoi_apply')) {
     }
 }
 else {
-    Write-Log "chezmoi already applied. Running update..."
+    Write-BootstrapLog "chezmoi already applied. Running update..."
     chezmoi update --verbose
 }
 

@@ -10,7 +10,7 @@ function Install-Op {
     }
 
     Write-Host "[op] Installing 1Password CLI via winget..."
-    $result = winget install --id AgileBits.1Password.CLI --exact --silent --accept-package-agreements --accept-source-agreements
+    winget install --id AgileBits.1Password.CLI --exact --silent --accept-package-agreements --accept-source-agreements
     if ($LASTEXITCODE -ne 0 -and $LASTEXITCODE -ne -1978335189) {
         # -1978335189 = APPINSTALLER_ERROR_ALREADY_INSTALLED (winget code)
         throw "[op] winget install failed with exit code $LASTEXITCODE"

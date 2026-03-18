@@ -10,7 +10,7 @@ function Install-Chezmoi {
     }
 
     Write-Host "[chezmoi] Installing chezmoi via winget..."
-    $result = winget install --id twpayne.chezmoi --exact --silent --accept-package-agreements --accept-source-agreements
+    winget install --id twpayne.chezmoi --exact --silent --accept-package-agreements --accept-source-agreements
     if ($LASTEXITCODE -ne 0 -and $LASTEXITCODE -ne -1978335189) {
         throw "[chezmoi] winget install failed with exit code $LASTEXITCODE"
     }

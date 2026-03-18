@@ -8,13 +8,13 @@ $Failed = @()
 $YamlFiles = Get-ChildItem -Path "packages" -Filter "*.yaml"
 
 foreach ($file in $YamlFiles) {
-    Write-Host "`nChecking $($file.Name)..."
+    Write-Output "`nChecking $($file.Name)..."
     $ids = yq e '.winget.packages[].id' $file.FullName 2>$null
     foreach ($id in $ids) {
         if ([string]::IsNullOrWhiteSpace($id)) { continue }
-        $result = winget show --id $id --exact 2>&1
+        winget show --id $id --exact 2>&1 | Out-Null
         if ($LASTEXITCODE -eq 0) {
-            Write-Host "  OK: $id"
+            Write-Output "  OK: $id"
         }
         else {
             Write-Warning "  FAIL: $id — not found in winget"
@@ -28,4 +28,4 @@ if ($Failed.Count -gt 0) {
     exit 1
 }
 
-Write-Host "`nAll winget IDs validated successfully."
+Write-Output "`nAll winget IDs validated successfully."

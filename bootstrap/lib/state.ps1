@@ -52,12 +52,12 @@ function Register-BootstrapResume {
     param([string]$ScriptPath)
     $cmd = "pwsh -NoProfile -ExecutionPolicy Bypass -File `"${ScriptPath}`" -Resume"
     Set-ItemProperty -Path $RunKeyPath -Name $RunKeyName -Value $cmd -Type String
-    Write-Host "[state] Registered resume key: $cmd"
+    Write-Output "[state] Registered resume key: $cmd"
 }
 
 function Unregister-BootstrapResume {
     if (Get-ItemProperty -Path $RunKeyPath -Name $RunKeyName -ErrorAction SilentlyContinue) {
         Remove-ItemProperty -Path $RunKeyPath -Name $RunKeyName
-        Write-Host "[state] Removed resume registry key."
+        Write-Output "[state] Removed resume registry key."
     }
 }
