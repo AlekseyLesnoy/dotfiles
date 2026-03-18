@@ -1,0 +1,77 @@
+# scripts/run_onchange_10-system-settings.ps1.tmpl
+# chezmoi run_onchange_ script: apply Windows system settings
+# Re-runs only when this file content changes (controlled by chezmoi)
+#
+# Packages hash: {{ include "packages/common.yaml" | sha256sum }}
+#Requires -Version 7.0
+
+$ErrorActionPreference = 'Stop'
+
+function Write-Log { param([string]$Msg) Write-Host "[system-settings] $Msg" }
+function Set-RegValue {
+    param([string]$Path, [string]$Name, $Value, [string]$Type = 'DWord')
+    if (-not (Test-Path $Path)) { New-Item -Path $Path -Force | Out-Null }
+    Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type $Type
+}
+
+Write-Log "Applying Windows system settings..."
+
+# ─── Developer Mode ──────────────────────────────────────────────────────────
+Write-Log "Enabling Developer Mode..."
+$devPath = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock'
+Set-RegValue -Path $devPath -Name 'AllowDevelopmentWithoutDevLicense' -Value 1
+Set-RegValue -Path $devPath -Name 'AllowAllTrustedApps' -Value 1
+
+# ─── Windows sudo (Win 11 24H2+) ─────────────────────────────────────────────
+Write-Log "Enabling Windows sudo..."
+try {
+    $sudoPath = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Sudo'
+    Set-RegValue -Path $sudoPath -Name 'Enabled' -Value 1
+}
+catch {
+    Write-Warning "Could not enable Windows sudo (may not be supported): $_"
+}
+
+# ─── Explorer settings ────────────────────────────────────────────────────────
+Write-Log "Configuring Explorer..."
+$explorerPath = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+Set-RegValue -Path $explorerPath -Name 'Hidden'           -Value 1      # Show hidden files
+Set-RegValue -Path $explorerPath -Name 'HideFileExt'      -Value 0      # Show file extensions
+Set-RegValue -Path $explorerPath -Name 'ShowSuperHidden'  -Value 1      # Show system files
+Set-RegValue -Path $explorerPath -Name 'LaunchTo'         -Value 1      # Open to This PC
+Set-RegValue -Path $explorerPath -Name 'NavPaneExpandToCurrentFolder' -Value 1
+
+# ─── Taskbar ──────────────────────────────────────────────────────────────────
+Write-Log "Configuring Taskbar..."
+$taskbarPath = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+Set-RegValue -Path $taskbarPath -Name 'TaskbarMn'        -Value 0  # Remove Chat button
+Set-RegValue -Path $taskbarPath -Name 'ShowTaskViewButton' -Value 0  # Remove Task View
+
+# ─── Privacy settings ─────────────────────────────────────────────────────────
+Write-Log "Applying privacy settings..."
+# Disable telemetry
+$telemetryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection'
+Set-RegValue -Path $telemetryPath -Name 'AllowTelemetry' -Value 0
+
+# Disable advertising ID
+$adPath = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo'
+Set-RegValue -Path $adPath -Name 'Enabled' -Value 0
+
+# ─── Power settings ───────────────────────────────────────────────────────────
+Write-Log "Applying power settings..."
+# Disable sleep when plugged in
+powercfg /change standby-timeout-ac 0 2>$null | Out-Null
+# Disable hibernate
+powercfg /h off 2>$null | Out-Null
+
+# ─── Restart Explorer to apply ────────────────────────────────────────────────
+Write-Log "Restarting Explorer to apply changes..."
+try {
+    Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+    Start-Process explorer
+}
+catch {
+    Write-Warning "Could not restart Explorer: $_"
+}
+
+Write-Log "Windows system settings complete."

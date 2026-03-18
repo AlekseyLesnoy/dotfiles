@@ -1,0 +1,78 @@
+# Windows PowerShell 7 Profile — managed by chezmoi
+# Target: $HOME/Documents/PowerShell/Microsoft.PowerShell_profile.ps1
+#Requires -Version 7.0
+
+# ─── Starship ──────────────────────────────────────────────────────────────
+if (Get-Command starship -ErrorAction SilentlyContinue) {
+    Invoke-Expression (&starship init powershell)
+}
+
+# ─── PSReadLine ────────────────────────────────────────────────────────────
+Import-Module PSReadLine -ErrorAction SilentlyContinue
+
+Set-PSReadLineOption -EditMode Emacs
+Set-PSReadLineOption -PredictionSource History
+Set-PSReadLineOption -PredictionViewStyle ListView
+Set-PSReadLineOption -BellStyle None
+Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
+Set-PSReadLineKeyHandler -Key UpArrow   -Function HistorySearchBackward
+Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
+Set-PSReadLineKeyHandler -Chord 'Ctrl+p' -Function HistorySearchBackward
+Set-PSReadLineKeyHandler -Chord 'Ctrl+n' -Function HistorySearchForward
+
+# ─── Aliases ───────────────────────────────────────────────────────────────
+Set-Alias -Name g   -Value git
+Set-Alias -Name v   -Value nvim
+Set-Alias -Name vi  -Value nvim
+Set-Alias -Name vim -Value nvim
+Set-Alias -Name cz  -Value chezmoi
+
+function ll  { eza -l --icons --git @args }
+function la  { eza -la --icons --git @args }
+function lt  { eza --tree --icons @args }
+function ..  { Set-Location .. }
+function ... { Set-Location ../.. }
+
+function gs  { git status @args }
+function gd  { git diff @args }
+function gl  { git log --oneline --graph --decorate @args }
+function gp  { git push @args }
+function gpl { git pull @args }
+function gc  { git commit @args }
+function gco { git checkout @args }
+
+# ─── fzf ──────────────────────────────────────────────────────────────────
+if (Get-Command fzf -ErrorAction SilentlyContinue) {
+    $env:FZF_DEFAULT_COMMAND = 'fd --type f --hidden --follow --exclude .git'
+    $env:FZF_DEFAULT_OPTS    = '--height 40% --reverse --border'
+}
+
+# ─── direnv ────────────────────────────────────────────────────────────────
+if (Get-Command direnv -ErrorAction SilentlyContinue) {
+    Invoke-Expression "$(direnv hook pwsh)"
+}
+
+# ─── Profile-specific ─────────────────────────────────────────────────────
+{{ if .is_work }}
+$env:WORK_ENV = 'true'
+# Work-specific PATH additions
+$workBin = Join-Path $env:USERPROFILE '.work\bin'
+if (Test-Path $workBin) { $env:PATH = "$workBin;$env:PATH" }
+{{ end }}
+
+{{ if .is_gaming }}
+$env:GAMING_ENV = 'true'
+{{ end }}
+
+# ─── Utility functions ─────────────────────────────────────────────────────
+function which { Get-Command $args[0] | Select-Object -ExpandProperty Source }
+function touch { New-Item -ItemType File -Path $args[0] -Force | Out-Null }
+
+function Set-DotfileProfile {
+    param([ValidateSet('common','gaming','work')][string]$Profile)
+    chezmoi edit-config
+    Write-Host "Edit data.profile in the config file, then run: chezmoi apply"
+}
+Set-Alias -Name dotfile-set-profile -Value Set-DotfileProfile
+
+Write-Host "pwsh $($PSVersionTable.PSVersion) | Profile: {{ .profile }} | Host: {{ .hostname }}" -ForegroundColor DarkGray

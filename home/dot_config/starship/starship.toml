@@ -1,0 +1,90 @@
+# Starship prompt configuration
+# https://starship.rs/config/
+
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$git_state\
+$fill\
+$nodejs\
+$python\
+$rust\
+$golang\
+$terraform\
+$kubernetes\
+$cmd_duration\
+$line_break\
+$character"""
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol   = "[❯](bold red)"
+
+[directory]
+style            = "bold cyan"
+truncation_length = 3
+truncate_to_repo  = true
+read_only        = " 󰌾"
+
+[git_branch]
+symbol = " "
+style  = "bold purple"
+
+[git_status]
+format    = '([$all_status$ahead_behind]($style) )'
+style     = "bold yellow"
+conflicted = "="
+ahead      = "⇡${count}"
+behind     = "⇣${count}"
+diverged   = "⇕⇡${ahead_count}⇣${behind_count}"
+up_to_date = ""
+untracked  = "?${count}"
+stashed    = "$${count}"
+modified   = "!${count}"
+staged     = "+${count}"
+renamed    = "»${count}"
+deleted    = "✘${count}"
+
+[fill]
+symbol = " "
+
+[nodejs]
+symbol = " "
+style  = "bold green"
+
+[python]
+symbol = " "
+style  = "bold yellow"
+
+[rust]
+symbol = " "
+style  = "bold red"
+
+[golang]
+symbol = " "
+style  = "bold cyan"
+
+[terraform]
+symbol = "󱁢 "
+style  = "bold purple"
+
+[kubernetes]
+symbol   = "󱃾 "
+style    = "bold blue"
+disabled = false
+
+[cmd_duration]
+min_time = 500
+format   = "[$duration](bold yellow)"
+
+[hostname]
+ssh_only = true
+style    = "bold green"
+
+[username]
+show_always = false
+style_user  = "bold yellow"
+style_root  = "bold red"

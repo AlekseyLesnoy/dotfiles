@@ -1,0 +1,62 @@
+meta:
+  profile: common
+
+brew:
+  taps:
+    - homebrew/cask-fonts
+  formulae:
+    - git
+    - chezmoi
+    - starship
+    - zsh
+    - neovim
+    - ripgrep
+    - fd
+    - bat
+    - eza
+    - fzf
+    - jq
+    - yq
+    - direnv
+    - gh
+    - zinit
+  casks:
+    - 1password
+    - visual-studio-code
+    - font-jetbrains-mono-nerd-font
+    - alacritty
+
+apt:
+  packages:
+    - git
+    - zsh
+    - neovim
+    - ripgrep
+    - fd-find
+    - bat
+    - fzf
+    - jq
+    - direnv
+    - build-essential
+    - curl
+    - wget
+    - unzip
+
+winget:
+  packages:
+    - id: Git.Git
+    - id: Neovim.Neovim
+    - id: Microsoft.VisualStudioCode
+    - id: Starship.Starship
+    - id: AgileBits.1Password
+    - id: AgileBits.1Password.CLI
+    - id: Microsoft.WindowsTerminal
+    - id: twpayne.chezmoi
+    - id: mikefarah.yq
+    - id: sharkdp.bat
+    - id: eza-community.eza
+    - id: junegunn.fzf
+    - id: GitHub.cli
+    - id: Microsoft.PowerShell
+  remove:
+    - id: Microsoft.OneDrive   # Flagged (not auto-removed) on non-work machines

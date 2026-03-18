@@ -1,0 +1,28 @@
+# .chezmoiignore — Platform-specific file exclusions
+
+# Exclude macOS-specific files on non-macOS systems
+{{ if ne .chezmoi.os "darwin" }}
+home/dot_hushlogin
+home/dot_config/alacritty
+{{ end }}
+
+# Exclude Windows-specific files on non-Windows systems
+{{ if ne .chezmoi.os "windows" }}
+windows/
+{{ end }}
+
+# Exclude Linux-specific files on macOS/Windows
+{{ if eq .chezmoi.os "darwin" }}
+# (nothing Linux-specific to exclude from macOS)
+{{ end }}
+
+# Never sync these to any target
+.git/
+.github/
+tests/
+docs/
+*.md
+TASKS.md
+packages/
+scripts/
+bootstrap/

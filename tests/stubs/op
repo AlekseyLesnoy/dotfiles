@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+# tests/stubs/op — Fake 1Password CLI for CI
+# Returns stub JSON for item get, stub string for read, exits 0 for all subcommands
+
+OP_STUB_SECRET="ci-stub-secret-value-$(echo "$*" | md5sum | cut -c1-8)"
+
+case "$1" in
+    account)
+        case "$2" in
+            list)
+                # Return a fake account so "already logged in" check passes
+                echo "ci-stub-account  ci@example.com  my.1password.com  USER"
+                exit 0
+                ;;
+            add)
+                echo "[stub] op account add (no-op in CI)"
+                exit 0
+                ;;
+        esac
+        ;;
+    signin)
+        echo "export OP_SESSION_ci=ci-stub-session-token"
+        exit 0
+        ;;
+    item)
+        case "$2" in
+            get)
+                cat <<'EOF'
+{
+  "id": "ci-stub-item-id",
+  "title": "CI Stub Item",
+  "category": "LOGIN",
+  "fields": [
+    {"id": "username", "label": "username", "value": "ci-user@example.com"},
+    {"id": "password", "label": "password", "value": "ci-stub-password"},
+    {"id": "fingerprint", "label": "fingerprint", "value": "AABBCCDDEEFF00112233445566778899AABBCCDD"}
+  ]
+}
+EOF
+                exit 0
+                ;;
+        esac
+        ;;
+    read)
+        # op read "op://vault/item/field"
+        # Return a stub string based on the path
+        FIELD="${*: -1}"
+        case "$FIELD" in
+            *fingerprint*)
+                echo "AABBCCDDEEFF00112233445566778899AABBCCDD"
+                ;;
+            *username*|*email*)
+                echo "ci-user@example.com"
+                ;;
+            *password*)
+                echo "ci-stub-password-value"
+                ;;
+            *)
+                echo "ci-stub-secret-value"
+                ;;
+        esac
+        exit 0
+        ;;
+    --version)
+        echo "2.999.0"
+        exit 0
+        ;;
+    *)
+        # Default: succeed silently for any unknown subcommand
+        exit 0
+        ;;
+esac
+
+exit 0

@@ -1,0 +1,36 @@
+meta:
+  profile: work
+
+# Applied in addition to common.yaml
+
+brew:
+  taps: []
+  formulae:
+    - awscli
+    - kubectl
+    - helm
+    - terraform
+    - vault
+    - docker
+  casks:
+    - docker
+    - slack
+    - zoom
+    - notion
+
+apt:
+  packages:
+    - awscli
+    - kubectl
+
+winget:
+  packages:
+    - id: Amazon.AWSCLI
+    - id: Kubernetes.kubectl
+    - id: Helm.Helm
+    - id: Hashicorp.Terraform
+    - id: SlackTechnologies.Slack
+    - id: Zoom.Zoom
+    - id: Notion.Notion
+    - id: Docker.DockerDesktop
+  remove: []

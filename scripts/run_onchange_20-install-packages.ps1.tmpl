@@ -1,0 +1,72 @@
+# scripts/run_onchange_20-install-packages.ps1.tmpl
+# chezmoi run_onchange_ script: install packages via winget
+# Re-runs only when package YAML files change.
+#
+# Packages hash: {{ include "packages/common.yaml" | sha256sum }}
+# Profile hash:  {{ include (printf "packages/%s.yaml" .chezmoi.data.profile) | sha256sum }}
+#Requires -Version 7.0
+
+$ErrorActionPreference = 'Stop'
+
+$Profile_   = "{{ .chezmoi.data.profile }}"
+$SourceDir  = "{{ .chezmoi.sourceDir }}"
+$PackagesDir = Join-Path $SourceDir "packages"
+
+function Write-Log { param([string]$Msg) Write-Host "[packages] $Msg" }
+
+# ─── winget helper ────────────────────────────────────────────────────────────
+function Install-WingetPackage {
+    param([string]$Id)
+    Write-Log "Checking $Id..."
+    $installed = winget list --id $Id --exact 2>&1
+    if ($LASTEXITCODE -eq 0 -and ($installed -match [regex]::Escape($Id))) {
+        Write-Log "SKIP: $Id (already installed)"
+        return
+    }
+    Write-Log "Installing $Id..."
+    winget install --id $Id --exact --silent --accept-package-agreements --accept-source-agreements
+    if ($LASTEXITCODE -ne 0 -and $LASTEXITCODE -ne -1978335189) {
+        Write-Warning "winget install $Id exited with code $LASTEXITCODE"
+    }
+}
+
+# ─── Install from a YAML file ────────────────────────────────────────────────
+function Install-FromYaml {
+    param([string]$YamlFile)
+    if (-not (Test-Path $YamlFile)) {
+        Write-Log "WARN: $YamlFile not found, skipping."
+        return
+    }
+    $packages = yq e '.winget.packages[].id' $YamlFile 2>$null
+    foreach ($id in $packages) {
+        if ([string]::IsNullOrWhiteSpace($id)) { continue }
+        Install-WingetPackage -Id $id
+    }
+}
+
+# ─── Main ─────────────────────────────────────────────────────────────────────
+Write-Log "Installing packages for profile: $Profile_"
+
+# Install common packages
+Install-FromYaml (Join-Path $PackagesDir "common.yaml")
+
+# Install profile-specific packages
+if ($Profile_ -ne "common") {
+    Install-FromYaml (Join-Path $PackagesDir "$Profile_.yaml")
+}
+
+# Refresh PATH after installs
+$env:PATH = [System.Environment]::GetEnvironmentVariable('PATH', 'Machine') + ';' +
+            [System.Environment]::GetEnvironmentVariable('PATH', 'User')
+
+Write-Log "Package installation complete."
+
+# ─── Report flagged removals ──────────────────────────────────────────────────
+Write-Log ""
+Write-Log "═══ Flagged for removal (manual action required) ═══"
+$removals = yq e '.winget.remove[].id' (Join-Path $PackagesDir "common.yaml") 2>$null
+foreach ($id in $removals) {
+    if (-not [string]::IsNullOrWhiteSpace($id)) {
+        Write-Log "  REMOVE: $id"
+    }
+}

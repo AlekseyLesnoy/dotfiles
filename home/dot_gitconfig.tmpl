@@ -1,0 +1,59 @@
+[user]
+    name  = Aleksey Lesnoy
+    email = {{ .email }}
+{{ if eq .chezmoi.os "darwin" "linux" }}
+    signingkey = {{ if not (env "CI") }}{{ onepasswordRead "op://Personal/GPG Signing Key/fingerprint" }}{{ else }}ci-stub-gpg-key{{ end }}
+{{ end }}
+
+[core]
+    autocrlf = {{ if eq .chezmoi.os "windows" }}true{{ else }}input{{ end }}
+    editor   = nvim
+    pager    = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate    = true
+    side-by-side = true
+    line-numbers = true
+
+[diff]
+    colorMoved = default
+
+[merge]
+    conflictstyle = zdiff3
+
+[pull]
+    rebase = true
+
+[push]
+    default     = current
+    autoSetupRemote = true
+
+[rebase]
+    autoStash = true
+
+[init]
+    defaultBranch = main
+
+[alias]
+    lg   = log --oneline --graph --decorate
+    st   = status -sb
+    undo = reset HEAD~1 --mixed
+    wip  = commit -am "wip"
+
+[url "git@github.com:"]
+    insteadOf = https://github.com/
+
+{{ if .is_work }}
+[includeIf "gitdir:~/work/"]
+    path = ~/.gitconfig_work
+{{ end }}
+
+{{ if eq .chezmoi.os "darwin" "linux" }}
+[gpg]
+    program = gpg
+[commit]
+    gpgsign = true
+{{ end }}

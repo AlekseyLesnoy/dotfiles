@@ -1,0 +1,128 @@
+# ~/.zshrc — managed by chezmoi
+# Template variables: .profile, .email, .is_work, .is_gaming, .hostname
+
+# ─── zinit bootstrap ──────────────────────────────────────────────────────────
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+if [[ ! -d "$ZINIT_HOME" ]]; then
+    mkdir -p "$(dirname "$ZINIT_HOME")"
+    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+fi
+source "${ZINIT_HOME}/zinit.zsh"
+
+# ─── Plugins ──────────────────────────────────────────────────────────────────
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light Aloxaf/fzf-tab
+
+# oh-my-zsh snippets
+zinit snippet OMZ::lib/completion.zsh
+zinit snippet OMZ::lib/history.zsh
+zinit snippet OMZ::lib/key-bindings.zsh
+zinit snippet OMZ::plugins/git/git.plugin.zsh
+zinit snippet OMZ::plugins/sudo/sudo.plugin.zsh
+
+# ─── Completion system ────────────────────────────────────────────────────────
+autoload -Uz compinit
+compinit
+zinit cdreplay -q
+
+# ─── History ──────────────────────────────────────────────────────────────────
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.zsh_history
+setopt appendhistory sharehistory hist_ignore_space hist_ignore_all_dups
+
+# ─── Key bindings ─────────────────────────────────────────────────────────────
+bindkey -e
+bindkey '^p' history-search-backward
+bindkey '^n' history-search-forward
+
+# ─── Aliases ──────────────────────────────────────────────────────────────────
+alias ls='eza --icons'
+alias ll='eza -l --icons --git'
+alias la='eza -la --icons --git'
+alias lt='eza --tree --icons'
+alias cat='bat --paging=never'
+alias grep='grep --color=auto'
+alias ..='cd ..'
+alias ...='cd ../..'
+
+# Git aliases
+alias g='git'
+alias gs='git status'
+alias gd='git diff'
+alias gl='git log --oneline --graph --decorate'
+alias gp='git push'
+alias gpl='git pull'
+alias gc='git commit'
+alias gca='git commit --amend'
+alias gco='git checkout'
+alias gb='git branch'
+
+# chezmoi aliases
+alias cz='chezmoi'
+alias czd='chezmoi diff'
+alias cza='chezmoi apply'
+alias cze='chezmoi edit'
+
+# ─── Path ─────────────────────────────────────────────────────────────────────
+export PATH="$HOME/.local/bin:$PATH"
+{{ if eq .chezmoi.os "darwin" }}
+# Homebrew (Apple Silicon)
+if [[ -d /opt/homebrew/bin ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -d /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+fi
+{{ end }}
+{{ if eq .chezmoi.os "linux" }}
+# Linuxbrew
+if [[ -d /home/linuxbrew/.linuxbrew ]]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+# fd-find symlink (Ubuntu names the binary fdfind)
+if command -v fdfind &>/dev/null && ! command -v fd &>/dev/null; then
+    alias fd='fdfind'
+fi
+{{ end }}
+
+# ─── fzf ──────────────────────────────────────────────────────────────────────
+if command -v fzf &>/dev/null; then
+    source <(fzf --zsh)
+    export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+    export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
+fi
+
+# ─── direnv ───────────────────────────────────────────────────────────────────
+if command -v direnv &>/dev/null; then
+    eval "$(direnv hook zsh)"
+fi
+
+# ─── Profile-specific config ──────────────────────────────────────────────────
+{{ if .is_work }}
+# Work profile
+export WORK_ENV=true
+[[ -f "$HOME/.zshrc_work" ]] && source "$HOME/.zshrc_work"
+{{ end }}
+
+{{ if .is_gaming }}
+# Gaming profile — nothing shell-specific
+export GAMING_ENV=true
+{{ end }}
+
+# ─── WSL-specific ─────────────────────────────────────────────────────────────
+{{ if .chezmoi.kernel.osRelease.ID | eq "ubuntu" }}
+if grep -qi microsoft /proc/version 2>/dev/null; then
+    # WSL: expose Windows host clipboard
+    alias pbcopy='clip.exe'
+    alias pbpaste='powershell.exe Get-Clipboard'
+    # Open Windows Explorer from current directory
+    alias open='explorer.exe'
+fi
+{{ end }}
+
+# ─── Starship prompt ──────────────────────────────────────────────────────────
+if command -v starship &>/dev/null; then
+    eval "$(starship init zsh)"
+fi

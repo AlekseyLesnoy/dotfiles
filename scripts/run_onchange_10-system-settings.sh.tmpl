@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+# scripts/run_onchange_10-system-settings.sh.tmpl
+# chezmoi run_onchange_ script: apply macOS/Linux system settings
+# Re-runs only when this file content changes (controlled by chezmoi)
+#
+# Packages hash: {{ include "packages/common.yaml" | sha256sum }}
+
+set -euo pipefail
+
+OS="$(uname -s)"
+IS_WSL=false
+if grep -qi microsoft /proc/version 2>/dev/null; then
+    IS_WSL=true
+fi
+
+log() { echo "[system-settings] $*"; }
+
+# ─── macOS defaults ──────────────────────────────────────────────────────────
+if [[ "$OS" == "Darwin" ]]; then
+    log "Applying macOS system defaults..."
+
+    # Keyboard: faster key repeat
+    defaults write NSGlobalDomain KeyRepeat -int 2
+    defaults write NSGlobalDomain InitialKeyRepeat -int 15
+
+    # Trackpad: tap to click
+    defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+    defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+
+    # Finder: show all file extensions, hidden files, path bar, status bar
+    defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+    defaults write com.apple.finder ShowHiddenFiles -bool true
+    defaults write com.apple.finder ShowPathbar -bool true
+    defaults write com.apple.finder ShowStatusBar -bool true
+    defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+    defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+
+    # Dock: auto-hide, minimize to dock off, show recent apps off
+    defaults write com.apple.dock autohide -bool true
+    defaults write com.apple.dock show-recents -bool false
+    defaults write com.apple.dock tilesize -int 48
+
+    # Screenshots: save to ~/Desktop/Screenshots
+    mkdir -p "${HOME}/Desktop/Screenshots"
+    defaults write com.apple.screencapture location -string "${HOME}/Desktop/Screenshots"
+    defaults write com.apple.screencapture type -string "png"
+    defaults write com.apple.screencapture disable-shadow -bool true
+
+    # Safari: developer tools, show full URL
+    defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true
+    defaults write com.apple.Safari IncludeDevelopMenu -bool true
+    defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
+
+    # Terminal: only UTF-8
+    defaults write com.apple.terminal StringEncodings -array 4
+
+    # Disable .DS_Store on network and USB volumes
+    defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+    defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
+    # Restart affected apps
+    for app in "Finder" "Dock" "SystemUIServer"; do
+        killall "$app" &>/dev/null || true
+    done
+
+    log "macOS defaults applied."
+fi
+
+# ─── Linux / WSL sysctl ───────────────────────────────────────────────────────
+if [[ "$OS" == "Linux" ]]; then
+    if [[ "$IS_WSL" == "true" ]]; then
+        log "WSL detected — skipping sysctl (managed via wsl.conf)."
+    else
+        log "Applying Linux system settings..."
+
+        # Increase inotify watch limit (needed for dev tools like webpack)
+        if ! grep -q "fs.inotify.max_user_watches" /etc/sysctl.conf 2>/dev/null; then
+            echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf > /dev/null
+        fi
+        if ! grep -q "fs.inotify.max_user_instances" /etc/sysctl.conf 2>/dev/null; then
+            echo "fs.inotify.max_user_instances=512" | sudo tee -a /etc/sysctl.conf > /dev/null
+        fi
+        sudo sysctl -p /etc/sysctl.conf &>/dev/null || true
+
+        log "Linux sysctl settings applied."
+    fi
+fi
+
+log "System settings complete."

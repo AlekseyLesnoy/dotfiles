@@ -1,0 +1,34 @@
+FROM ubuntu:24.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV HOME=/root
+ENV CI=true
+
+# Install base dependencies
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends \
+        bash \
+        curl \
+        wget \
+        git \
+        sudo \
+        ca-certificates \
+        gnupg \
+        lsb-release \
+        procps \
+        && rm -rf /var/lib/apt/lists/*
+
+# Copy the entire repo into /repo
+COPY . /repo
+RUN chmod +x /repo/bootstrap/bootstrap.sh \
+             /repo/bootstrap/lib/install-op.sh \
+             /repo/bootstrap/lib/install-chezmoi.sh \
+             /repo/tests/docker/entrypoint-bootstrap.sh \
+             /repo/tests/stubs/op
+
+# Put the stub op binary on PATH
+ENV PATH="/repo/tests/stubs:${PATH}"
+
+WORKDIR /repo
+
+ENTRYPOINT ["/repo/tests/docker/entrypoint-bootstrap.sh"]

@@ -1,0 +1,23 @@
+meta:
+  profile: gaming
+
+# Applied in addition to common.yaml
+
+brew:
+  taps: []
+  formulae: []
+  casks:
+    - steam
+
+apt:
+  packages: []
+
+winget:
+  packages:
+    - id: Valve.Steam
+    - id: EpicGames.EpicGamesLauncher
+    - id: Ubisoft.Connect
+    - id: GOG.Galaxy
+    - id: Discord.Discord
+    - id: Nvidia.GeForceExperience
+  remove: []

@@ -1,0 +1,14 @@
+{{- $profile  := promptStringOnce . "profile"  "Machine profile (common/gaming/work)" -}}
+{{- $hostname := promptStringOnce . "hostname" "Hostname for this machine" -}}
+{{- $email    := promptStringOnce . "email"    "Git email address" -}}
+
+[data]
+  profile   = {{ $profile  | quote }}
+  hostname  = {{ $hostname | quote }}
+  email     = {{ $email    | quote }}
+  is_work   = {{ eq $profile "work" }}
+  is_gaming = {{ eq $profile "gaming" }}
+
+[onepassword]
+  prompt = false
+  mode   = "opapp"

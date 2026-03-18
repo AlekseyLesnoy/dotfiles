@@ -1,0 +1,15 @@
+# tests/stubs/chezmoi-ci.toml
+# chezmoi config override for CI — seeds all template variables,
+# overrides 1Password to use the stub op binary
+
+[data]
+  profile   = "common"
+  hostname  = "ci-runner"
+  email     = "ci@example.com"
+  is_work   = false
+  is_gaming = false
+
+[onepassword]
+  prompt  = false
+  mode    = "opapp"
+  command = "op"   # picks up stub from tests/stubs/ if that dir is first on $PATH

@@ -1,0 +1,117 @@
+#!/usr/bin/env bash
+# scripts/run_onchange_20-install-packages.sh.tmpl
+# chezmoi run_onchange_ script: install packages via brew/apt
+# Re-runs only when package YAML files change.
+#
+# Packages hash: {{ include "packages/common.yaml" | sha256sum }}
+# Profile hash:  {{ include (printf "packages/%s.yaml" .chezmoi.data.profile) | sha256sum }}
+
+set -euo pipefail
+
+PROFILE="{{ .chezmoi.data.profile }}"
+DOTFILES_DIR="{{ .chezmoi.sourceDir }}"
+PACKAGES_DIR="${DOTFILES_DIR}/packages"
+OS="$(uname -s)"
+
+log()     { echo "[packages] $*"; }
+log_skip(){ echo "[packages] SKIP: $1 (already installed)"; }
+
+# ─── brew helper ──────────────────────────────────────────────────────────────
+install_brew_formula() {
+    local pkg="$1"
+    if brew list --formula "$pkg" &>/dev/null; then
+        log_skip "$pkg"
+    else
+        log "brew install $pkg"
+        brew install "$pkg"
+    fi
+}
+
+install_brew_cask() {
+    local pkg="$1"
+    if brew list --cask "$pkg" &>/dev/null; then
+        log_skip "$pkg (cask)"
+    else
+        log "brew install --cask $pkg"
+        brew install --cask "$pkg" || log "WARN: cask $pkg failed (may need manual install)"
+    fi
+}
+
+# ─── apt helper ───────────────────────────────────────────────────────────────
+install_apt_pkg() {
+    local pkg="$1"
+    if dpkg -l "$pkg" 2>/dev/null | grep -q '^ii'; then
+        log_skip "$pkg"
+    else
+        log "apt install $pkg"
+        sudo apt-get install -y "$pkg"
+    fi
+}
+
+# ─── Install from a YAML file ────────────────────────────────────────────────
+install_from_yaml() {
+    local yaml_file="$1"
+    [[ -f "$yaml_file" ]] || { log "WARN: $yaml_file not found, skipping."; return; }
+
+    if [[ "$OS" == "Darwin" ]] || command -v brew &>/dev/null; then
+        # Add taps first
+        while IFS= read -r tap; do
+            [[ -z "$tap" ]] && continue
+            if ! brew tap | grep -q "$tap"; then
+                log "brew tap $tap"
+                brew tap "$tap"
+            fi
+        done < <(yq e '.brew.taps[]' "$yaml_file" 2>/dev/null || true)
+
+        # Formulae
+        while IFS= read -r formula; do
+            [[ -z "$formula" ]] && continue
+            install_brew_formula "$formula"
+        done < <(yq e '.brew.formulae[]' "$yaml_file" 2>/dev/null || true)
+
+        # Casks
+        while IFS= read -r cask; do
+            [[ -z "$cask" ]] && continue
+            install_brew_cask "$cask"
+        done < <(yq e '.brew.casks[]' "$yaml_file" 2>/dev/null || true)
+    fi
+
+    if [[ "$OS" == "Linux" ]] && command -v apt-get &>/dev/null; then
+        while IFS= read -r pkg; do
+            [[ -z "$pkg" ]] && continue
+            install_apt_pkg "$pkg"
+        done < <(yq e '.apt.packages[]' "$yaml_file" 2>/dev/null || true)
+    fi
+}
+
+# ─── Main ─────────────────────────────────────────────────────────────────────
+log "Installing packages for profile: ${PROFILE}"
+
+# Update package manager caches
+if [[ "$OS" == "Linux" ]] && command -v apt-get &>/dev/null; then
+    log "Updating apt cache..."
+    sudo apt-get update -qq
+fi
+
+if command -v brew &>/dev/null; then
+    log "Updating brew..."
+    brew update --quiet || true
+fi
+
+# Install common packages first
+install_from_yaml "${PACKAGES_DIR}/common.yaml"
+
+# Install profile-specific packages (if not common)
+if [[ "$PROFILE" != "common" ]]; then
+    install_from_yaml "${PACKAGES_DIR}/${PROFILE}.yaml"
+fi
+
+log "Package installation complete."
+
+# ─── Report flagged removals ──────────────────────────────────────────────────
+log ""
+log "═══ Flagged for removal (manual action required) ═══"
+while IFS= read -r pkg_id; do
+    [[ -z "$pkg_id" ]] && continue
+    log "  REMOVE: $pkg_id"
+done < <(yq e '.winget.remove[].id' "${PACKAGES_DIR}/common.yaml" 2>/dev/null || true)

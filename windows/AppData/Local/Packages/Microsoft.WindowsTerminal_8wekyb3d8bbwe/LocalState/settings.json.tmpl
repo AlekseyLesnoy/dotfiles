@@ -1,0 +1,80 @@
+{
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+    "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+    "copyOnSelect": false,
+    "copyFormatting": "none",
+
+    "profiles": {
+        "defaults": {
+            "font": {
+                "face": "JetBrainsMono Nerd Font",
+                "size": {{ if .is_work }}12{{ else }}13{{ end }}
+            },
+            "opacity": 95,
+            "useAcrylic": false,
+            "cursorShape": "bar",
+            "cursorColor": "#f5e0dc",
+            "colorScheme": "Catppuccin Mocha",
+            "padding": "8, 8, 8, 8",
+            "scrollbarState": "hidden"
+        },
+        "list": [
+            {
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "name": "Windows PowerShell",
+                "commandline": "pwsh.exe -NoLogo",
+                "hidden": false
+            },
+            {
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "name": "Command Prompt",
+                "commandline": "cmd.exe",
+                "hidden": false
+            },
+            {{ if .chezmoi.os | eq "windows" }}{
+                "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
+                "name": "Ubuntu (WSL)",
+                "source": "Windows.Terminal.Wsl",
+                "hidden": false,
+                "startingDirectory": "//wsl$/Ubuntu/home/{{ .chezmoi.username }}"
+            }{{ end }}
+        ]
+    },
+
+    "schemes": [
+        {
+            "name": "Catppuccin Mocha",
+            "background": "#1e1e2e",
+            "foreground": "#cdd6f4",
+            "cursorColor": "#f5e0dc",
+            "selectionBackground": "#585b70",
+            "black": "#45475a",
+            "blue": "#89b4fa",
+            "brightBlack": "#585b70",
+            "brightBlue": "#89b4fa",
+            "brightCyan": "#94e2d5",
+            "brightGreen": "#a6e3a1",
+            "brightPurple": "#f5c2e7",
+            "brightRed": "#f38ba8",
+            "brightWhite": "#a6adc8",
+            "brightYellow": "#f9e2af",
+            "cyan": "#94e2d5",
+            "green": "#a6e3a1",
+            "purple": "#f5c2e7",
+            "red": "#f38ba8",
+            "white": "#bac2de",
+            "yellow": "#f9e2af"
+        }
+    ],
+
+    "actions": [
+        { "command": { "action": "copy", "singleLine": false }, "keys": "ctrl+c" },
+        { "command": "paste", "keys": "ctrl+v" },
+        { "command": "find", "keys": "ctrl+shift+f" },
+        { "command": { "action": "splitPane", "split": "auto", "splitMode": "duplicate" }, "keys": "alt+shift+d" },
+        { "command": "nextTab", "keys": "ctrl+tab" },
+        { "command": "prevTab", "keys": "ctrl+shift+tab" },
+        { "command": { "action": "newTab" }, "keys": "ctrl+t" },
+        { "command": { "action": "closeTab" }, "keys": "ctrl+w" }
+    ]
+}

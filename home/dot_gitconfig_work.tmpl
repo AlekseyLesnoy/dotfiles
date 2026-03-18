@@ -1,0 +1,12 @@
+[user]
+    name  = Aleksey Lesnoy
+    email = {{ if not (env "CI") }}{{ onepasswordRead "op://Work/Work Email/username" }}{{ else }}work@example.com{{ end }}
+{{ if eq .chezmoi.os "darwin" "linux" }}
+    signingkey = {{ if not (env "CI") }}{{ onepasswordRead "op://Work/GPG Work Signing Key/fingerprint" }}{{ else }}ci-stub-work-gpg-key{{ end }}
+{{ end }}
+
+[core]
+    sshCommand = ssh -i ~/.ssh/id_work
+
+[url "git@github.com-work:"]
+    insteadOf = git@github.com:
