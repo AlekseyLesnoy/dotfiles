@@ -112,7 +112,7 @@ export GAMING_ENV=true
 {{ end }}
 
 # ─── WSL-specific ─────────────────────────────────────────────────────────────
-{{ if .chezmoi.kernel.osRelease.ID | eq "ubuntu" }}
+{{ if eq .chezmoi.os "linux" }}
 if grep -qi microsoft /proc/version 2>/dev/null; then
     # WSL: expose Windows host clipboard
     alias pbcopy='clip.exe'
