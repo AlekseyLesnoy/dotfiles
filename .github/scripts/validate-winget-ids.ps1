@@ -12,7 +12,7 @@ foreach ($file in $YamlFiles) {
     $ids = yq e '.winget.packages[].id' $file.FullName 2>$null
     foreach ($id in $ids) {
         if ([string]::IsNullOrWhiteSpace($id)) { continue }
-        winget show --id $id --exact 2>&1 | Out-Null
+        winget show --id $id --exact --accept-source-agreements 2>&1 | Out-Null
         if ($LASTEXITCODE -eq 0) {
             Write-Output "  OK: $id"
         }
