@@ -206,7 +206,7 @@ else
 fi
 
 # Ensure common binary locations are on PATH (unconditional — needed on every run)
-for _bindir in "$HOME/.local/bin" "/usr/local/bin"; do
+for _bindir in "$HOME/.local/bin" "/usr/local/bin" "/usr/bin"; do
     if [[ -d "$_bindir" ]] && [[ ":$PATH:" != *":$_bindir:"* ]]; then
         export PATH="$_bindir:$PATH"
     fi
@@ -216,10 +216,21 @@ unset _bindir
 # ─── Phase 7: chezmoi init + apply ───────────────────────────────────────────
 step "Phase 7: chezmoi init --apply"
 
-# Re-check PATH for chezmoi in case install placed it in a non-standard location
-CHEZMOI_BIN="$(command -v chezmoi 2>/dev/null \
-    || echo "${HOME}/.local/bin/chezmoi")"
-[[ -x "$CHEZMOI_BIN" ]] || { echo "ERROR: chezmoi not found. Cannot proceed." >&2; exit 1; }
+# Locate chezmoi — search common install locations in case PATH is minimal (e.g. Docker root)
+CHEZMOI_BIN=""
+for _candidate in \
+    "$(command -v chezmoi 2>/dev/null)" \
+    "${HOME}/.local/bin/chezmoi" \
+    "/usr/local/bin/chezmoi" \
+    "/usr/bin/chezmoi"; do
+    if [[ -x "$_candidate" ]]; then
+        CHEZMOI_BIN="$_candidate"
+        break
+    fi
+done
+unset _candidate
+[[ -n "$CHEZMOI_BIN" ]] || { echo "ERROR: chezmoi not found. Cannot proceed." >&2; exit 1; }
+log "Using chezmoi at: ${CHEZMOI_BIN}"
 
 if [[ "$DRY_RUN" == "true" ]]; then
     log "[dry-run] Would run: chezmoi init --apply --verbose ${DOTFILES_REPO}"

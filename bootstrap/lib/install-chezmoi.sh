@@ -12,6 +12,14 @@ install_chezmoi() {
 
     echo "[chezmoi] Installing chezmoi..."
 
+    # Install to /usr/local/bin when root (e.g. Docker), ~/.local/bin otherwise
+    if [[ "$(id -u)" -eq 0 ]]; then
+        local bin_dir="/usr/local/bin"
+    else
+        local bin_dir="$HOME/.local/bin"
+        mkdir -p "$bin_dir"
+    fi
+
     local os
     os="$(uname -s)"
 
@@ -20,21 +28,14 @@ install_chezmoi() {
             if command -v brew &>/dev/null; then
                 brew install chezmoi
             else
-                # Fallback: official install script
-                sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin"
-                export PATH="$HOME/.local/bin:$PATH"
+                sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$bin_dir"
             fi
             ;;
         Linux)
             if command -v brew &>/dev/null; then
                 brew install chezmoi
-            elif command -v apt-get &>/dev/null; then
-                # Use official install script to get latest version
-                sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin"
-                export PATH="$HOME/.local/bin:$PATH"
             else
-                sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin"
-                export PATH="$HOME/.local/bin:$PATH"
+                sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$bin_dir"
             fi
             ;;
         *)
@@ -42,6 +43,11 @@ install_chezmoi() {
             return 1
             ;;
     esac
+
+    # Ensure install dir is on PATH for the rest of this session
+    if [[ ":$PATH:" != *":${bin_dir}:"* ]]; then
+        export PATH="${bin_dir}:$PATH"
+    fi
 
     if command -v chezmoi &>/dev/null; then
         echo "[chezmoi] Installed successfully ($(chezmoi --version | head -1))."
