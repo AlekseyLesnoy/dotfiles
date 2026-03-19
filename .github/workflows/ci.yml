@@ -92,6 +92,7 @@ jobs:
           export PATH="$PWD/tests/stubs:$PATH"
           chezmoi apply \
             --dry-run \
+            --verbose \
             --source home/ \
             --config tests/stubs/chezmoi-ci.toml \
             --no-tty \
@@ -132,6 +133,7 @@ jobs:
           $env:PATH = "$(Resolve-Path tests/stubs);$env:PATH"
           chezmoi apply `
             --dry-run `
+            --verbose `
             --source home/ `
             --config tests/stubs/chezmoi-ci.toml `
             --no-tty `
