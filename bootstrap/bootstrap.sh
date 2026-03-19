@@ -219,17 +219,23 @@ step "Phase 7: chezmoi init --apply"
 # Locate chezmoi — search common install locations in case PATH is minimal (e.g. Docker root)
 CHEZMOI_BIN=""
 for _candidate in \
-    "$(command -v chezmoi 2>/dev/null)" \
     "${HOME}/.local/bin/chezmoi" \
     "/usr/local/bin/chezmoi" \
-    "/usr/bin/chezmoi"; do
+    "/usr/bin/chezmoi" \
+    "$(command -v chezmoi 2>/dev/null || true)"; do
+    [[ -z "$_candidate" ]] && continue
     if [[ -x "$_candidate" ]]; then
         CHEZMOI_BIN="$_candidate"
         break
     fi
 done
 unset _candidate
-[[ -n "$CHEZMOI_BIN" ]] || { echo "ERROR: chezmoi not found. Cannot proceed." >&2; exit 1; }
+if [[ -z "$CHEZMOI_BIN" ]]; then
+    echo "ERROR: chezmoi not found. Cannot proceed." >&2
+    echo "  Searched: ~/.local/bin, /usr/local/bin, /usr/bin, PATH" >&2
+    echo "  PATH=$PATH" >&2
+    exit 1
+fi
 log "Using chezmoi at: ${CHEZMOI_BIN}"
 
 if [[ "$DRY_RUN" == "true" ]]; then
