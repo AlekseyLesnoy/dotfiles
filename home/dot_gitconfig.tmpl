@@ -1,9 +1,7 @@
 [user]
     name  = Aleksey Lesnoy
     email = {{ .email }}
-{{ if eq .chezmoi.os "darwin" "linux" }}
     signingkey = {{ if not (env "CI") }}{{ onepasswordRead "op://Personal/GPG Signing Key/fingerprint" }}{{ else }}ci-stub-gpg-key{{ end }}
-{{ end }}
 
 [core]
     autocrlf = {{ if eq .chezmoi.os "windows" }}true{{ else }}input{{ end }}
@@ -54,6 +52,9 @@
 {{ if eq .chezmoi.os "darwin" "linux" }}
 [gpg]
     program = gpg
+{{ else if eq .chezmoi.os "windows" }}
+[gpg]
+    program = gpg
+{{ end }}
 [commit]
     gpgsign = true
-{{ end }}

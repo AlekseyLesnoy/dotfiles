@@ -1,11 +1,10 @@
-{{- $profile  := "common" -}}
-{{- $hostname := "localhost" -}}
-{{- $email    := "user@example.com" -}}
+{{- $profile := "common" -}}
+{{- $hostname := .chezmoi.hostname -}}
+{{- $email := "user@example.com" -}}
 
 {{- if not (env "CI") -}}
-{{-   $profile  = promptStringOnce . "profile"  "Machine profile (common/gaming/work)" -}}
-{{-   $hostname = promptStringOnce . "hostname" "Hostname for this machine" -}}
-{{-   $email    = promptStringOnce . "email"    "Git email address" -}}
+{{-   $profile = promptStringOnce . "profile" "Machine profile (common/gaming/work)" -}}
+{{-   $email   = onepasswordRead "op://Personal/github.com/login" -}}
 {{- end -}}
 
 [data]

@@ -1,9 +1,7 @@
 [user]
     name  = Aleksey Lesnoy
-    email = {{ if not (env "CI") }}{{ onepasswordRead "op://Work/Work Email/username" }}{{ else }}work@example.com{{ end }}
-{{ if eq .chezmoi.os "darwin" "linux" }}
-    signingkey = {{ if not (env "CI") }}{{ onepasswordRead "op://Work/GPG Work Signing Key/fingerprint" }}{{ else }}ci-stub-work-gpg-key{{ end }}
-{{ end }}
+    email = {{ if not (env "CI") }}{{ onepasswordRead "op://Kobo/GPG Signing Key Work/email" }}{{ else }}work@example.com{{ end }}
+    signingkey = {{ if not (env "CI") }}{{ onepasswordRead "op://Kobo/GPG Signing Key Work/fingerprint" }}{{ else }}ci-stub-work-gpg-key{{ end }}
 
 [core]
     sshCommand = ssh -i ~/.ssh/id_work
