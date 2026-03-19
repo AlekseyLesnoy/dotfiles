@@ -13,14 +13,14 @@ if (-not $isAdmin) {
     exit 0
 }
 
-function Write-Log { param([string]$Msg) Write-Host "[backup-settings] $Msg" }
+function Write-BackupLog { param([string]$Msg) Write-Host "[backup-settings] $Msg" }
 
 $BackupDir = Join-Path $env:USERPROFILE ".dotfiles-backups"
 $Timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
 $BackupFile = Join-Path $BackupDir "settings-backup-$Timestamp.json"
 
 New-Item -ItemType Directory -Path $BackupDir -Force | Out-Null
-Write-Log "Backing up original settings to $BackupFile"
+Write-BackupLog "Backing up original settings to $BackupFile"
 
 $backup = @{}
 
@@ -105,10 +105,10 @@ foreach ($file in $filesToBackup) {
         $rel = $file -replace [regex]::Escape($env:USERPROFILE), '' -replace '^\\', ''
         $dest = Join-Path $FilesBackupDir ($rel -replace '\\', '_')
         Copy-Item $file $dest -Force
-        Write-Log "Backed up: $file"
+        Write-BackupLog "Backed up: $file"
     }
 }
 
-Write-Log "Backup complete: $BackupFile"
-Write-Log "File backups: $FilesBackupDir"
-Write-Log "To restore, manually re-apply the registry values or copy files back."
+Write-BackupLog "Backup complete: $BackupFile"
+Write-BackupLog "File backups: $FilesBackupDir"
+Write-BackupLog "To restore, manually re-apply the registry values or copy files back."

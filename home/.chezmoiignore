@@ -27,4 +27,5 @@ dot_config/
 .chezmoiscripts/20-install-packages.sh
 .chezmoiscripts/30-configure-shell.sh
 .chezmoiscripts/99-report.sh
+.chezmoiscripts/00-backup-settings.sh
 {{ end }}
