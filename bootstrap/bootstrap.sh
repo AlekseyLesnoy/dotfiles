@@ -206,7 +206,7 @@ else
 fi
 
 # Ensure common binary locations are on PATH (unconditional — needed on every run)
-for _bindir in "$HOME/.local/bin" "/usr/local/bin" "/usr/bin"; do
+for _bindir in "$HOME/.local/bin" "/usr/local/bin" "/usr/bin" "/home/linuxbrew/.linuxbrew/bin"; do
     if [[ -d "$_bindir" ]] && [[ ":$PATH:" != *":$_bindir:"* ]]; then
         export PATH="$_bindir:$PATH"
     fi
@@ -222,6 +222,7 @@ for _candidate in \
     "${HOME}/.local/bin/chezmoi" \
     "/usr/local/bin/chezmoi" \
     "/usr/bin/chezmoi" \
+    "/home/linuxbrew/.linuxbrew/bin/chezmoi" \
     "$(command -v chezmoi 2>/dev/null || true)"; do
     [[ -z "$_candidate" ]] && continue
     if [[ -x "$_candidate" ]]; then
