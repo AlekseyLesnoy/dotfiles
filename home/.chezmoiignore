@@ -1,0 +1,19 @@
+# .chezmoiignore — Platform-specific file exclusions
+
+# Exclude macOS-specific files on non-macOS systems
+{{ if ne .chezmoi.os "darwin" }}
+dot_hushlogin
+dot_config/alacritty
+{{ end }}
+
+# Exclude Windows-specific files on non-Windows systems
+{{ if ne .chezmoi.os "windows" }}
+AppData/
+Documents/
+{{ end }}
+
+# Exclude Linux/macOS shell files on Windows
+{{ if eq .chezmoi.os "windows" }}
+dot_zshrc.tmpl
+dot_config/
+{{ end }}

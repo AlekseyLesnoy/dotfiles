@@ -1,16 +1,15 @@
 #!/usr/bin/env bash
-# scripts/run_onchange_20-install-packages.sh.tmpl
+# home/.chezmoiscripts/run_onchange_20-install-packages.sh.tmpl
 # chezmoi run_onchange_ script: install packages via brew/apt
 # Re-runs only when package YAML files change.
 #
-# Packages hash: {{ include "packages/common.yaml" | sha256sum }}
-# Profile hash:  {{ include (printf "packages/%s.yaml" .chezmoi.data.profile) | sha256sum }}
+# Packages hash: {{ include "../packages/common.yaml" | sha256sum }}
+# Profile hash:  {{ include (printf "../packages/%s.yaml" .chezmoi.data.profile) | sha256sum }}
 
 set -euo pipefail
 
 PROFILE="{{ .chezmoi.data.profile }}"
-DOTFILES_DIR="{{ .chezmoi.sourceDir }}"
-PACKAGES_DIR="${DOTFILES_DIR}/packages"
+PACKAGES_DIR="{{ .chezmoi.sourceDir }}/../packages"
 OS="$(uname -s)"
 
 log()     { echo "[packages] $*"; }

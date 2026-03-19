@@ -1,8 +1,8 @@
-# scripts/run_onchange_10-system-settings.ps1.tmpl
+# home/.chezmoiscripts/run_onchange_10-system-settings.ps1.tmpl
 # chezmoi run_onchange_ script: apply Windows system settings
 # Re-runs only when this file content changes (controlled by chezmoi)
 #
-# Packages hash: {{ include "packages/common.yaml" | sha256sum }}
+# Packages hash: {{ include "../packages/common.yaml" | sha256sum }}
 #Requires -Version 7.0
 
 $ErrorActionPreference = 'Stop'

@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
-# scripts/run_onchange_99-report.sh
+# home/.chezmoiscripts/run_onchange_99-report.sh.tmpl
 # chezmoi run_onchange_ script: post-apply summary + flagged removals
 
 set -euo pipefail
 
-DOTFILES_DIR="{{ .chezmoi.sourceDir }}"
-PACKAGES_DIR="${DOTFILES_DIR}/packages"
+PACKAGES_DIR="{{ .chezmoi.sourceDir }}/../packages"
 PROFILE="{{ .chezmoi.data.profile }}"
 HOSTNAME_VAL="{{ .chezmoi.data.hostname }}"
 

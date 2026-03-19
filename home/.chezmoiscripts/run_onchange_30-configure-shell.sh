@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# scripts/run_onchange_30-configure-shell.sh
+# home/.chezmoiscripts/run_onchange_30-configure-shell.sh
 # chezmoi run_once_ script: configure zsh as default shell and bootstrap zinit
 
 set -euo pipefail

@@ -1,16 +1,15 @@
-# scripts/run_onchange_20-install-packages.ps1.tmpl
+# home/.chezmoiscripts/run_onchange_20-install-packages.ps1.tmpl
 # chezmoi run_onchange_ script: install packages via winget
 # Re-runs only when package YAML files change.
 #
-# Packages hash: {{ include "packages/common.yaml" | sha256sum }}
-# Profile hash:  {{ include (printf "packages/%s.yaml" .chezmoi.data.profile) | sha256sum }}
+# Packages hash: {{ include "../packages/common.yaml" | sha256sum }}
+# Profile hash:  {{ include (printf "../packages/%s.yaml" .chezmoi.data.profile) | sha256sum }}
 #Requires -Version 7.0
 
 $ErrorActionPreference = 'Stop'
 
-$Profile_   = "{{ .chezmoi.data.profile }}"
-$SourceDir  = "{{ .chezmoi.sourceDir }}"
-$PackagesDir = Join-Path $SourceDir "packages"
+$Profile_    = "{{ .chezmoi.data.profile }}"
+$PackagesDir = Join-Path "{{ .chezmoi.sourceDir }}" "../packages"
 
 function Write-Log { param([string]$Msg) Write-Host "[packages] $Msg" }
 
