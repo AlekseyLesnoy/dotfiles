@@ -86,8 +86,29 @@ try {
     $backup['hibernate'] = @{ error = $_.ToString() }
 }
 
-# ─── Save to file ─────────────────────────────────────────────────────────────
+# ─── Save registry backup to file ────────────────────────────────────────────
 $backup | ConvertTo-Json -Depth 5 | Set-Content -Path $BackupFile -Encoding UTF8
 
+# ─── Back up managed config files ────────────────────────────────────────────
+$FilesBackupDir = Join-Path $BackupDir "files-$Timestamp"
+New-Item -ItemType Directory -Path $FilesBackupDir -Force | Out-Null
+
+$filesToBackup = @(
+    "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json",
+    "$env:APPDATA\Code\User\settings.json",
+    "$env:USERPROFILE\.gitconfig",
+    "$env:USERPROFILE\.config\starship.toml"
+)
+
+foreach ($file in $filesToBackup) {
+    if (Test-Path $file) {
+        $rel = $file -replace [regex]::Escape($env:USERPROFILE), '' -replace '^\\', ''
+        $dest = Join-Path $FilesBackupDir ($rel -replace '\\', '_')
+        Copy-Item $file $dest -Force
+        Write-Log "Backed up: $file"
+    }
+}
+
 Write-Log "Backup complete: $BackupFile"
-Write-Log "To restore, manually re-apply the registry values from that file."
+Write-Log "File backups: $FilesBackupDir"
+Write-Log "To restore, manually re-apply the registry values or copy files back."

@@ -3,12 +3,12 @@
 # Re-runs only when package YAML files change.
 #
 # Packages hash: {{ include "../packages/common.yaml" | sha256sum }}
-# Profile hash:  {{ include (printf "../packages/%s.yaml" .chezmoi.data.profile) | sha256sum }}
+# Profile hash:  {{ include (printf "../packages/%s.yaml" .profile) | sha256sum }}
 #Requires -Version 7.0
 
 $ErrorActionPreference = 'Stop'
 
-$Profile_    = "{{ .chezmoi.data.profile }}"
+$Profile_    = "{{ .profile }}"
 $PackagesDir = Join-Path "{{ .chezmoi.sourceDir }}" "../packages"
 
 function Write-Log { param([string]$Msg) Write-Host "[packages] $Msg" }

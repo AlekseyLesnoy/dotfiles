@@ -4,11 +4,11 @@
 # Re-runs only when package YAML files change.
 #
 # Packages hash: {{ include "../packages/common.yaml" | sha256sum }}
-# Profile hash:  {{ include (printf "../packages/%s.yaml" .chezmoi.data.profile) | sha256sum }}
+# Profile hash:  {{ include (printf "../packages/%s.yaml" .profile) | sha256sum }}
 
 set -euo pipefail
 
-PROFILE="{{ .chezmoi.data.profile }}"
+PROFILE="{{ .profile }}"
 PACKAGES_DIR="{{ .chezmoi.sourceDir }}/../packages"
 OS="$(uname -s)"
 

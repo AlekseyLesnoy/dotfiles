@@ -52,7 +52,8 @@ winget:
     - id: AgileBits.1Password.CLI
     - id: Microsoft.WindowsTerminal
     - id: twpayne.chezmoi
-    - id: mikefarah.yq
+    - id: MikeFarah.yq
+    - id: DEVCOM.JetBrainsMonoNerdFont
     - id: sharkdp.bat
     - id: eza-community.eza
     - id: junegunn.fzf

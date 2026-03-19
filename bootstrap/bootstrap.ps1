@@ -213,9 +213,17 @@ if (-not (Test-PhaseComplete 'wsl_install')) {
     if ($CI) {
         Write-BootstrapLog "[CI] Skipping WSL install."
     }
-    elseif (-not $DryRun) {
-        $choice = Read-Host "Install WSL 2 with Ubuntu? [y/N]"
-        $installWSL = ($choice -match '^[Yy]')
+    else {
+        # Check if any WSL distro is already installed
+        $wslDistros = wsl --list --quiet 2>$null
+        $hasDistro = $wslDistros | Where-Object { $_.Trim() -ne '' }
+        if ($hasDistro) {
+            Write-BootstrapLog "WSL distro already installed. Skipping."
+        }
+        elseif (-not $DryRun) {
+            $choice = Read-Host "Install WSL 2 with Ubuntu? [y/N]"
+            $installWSL = ($choice -match '^[Yy]')
+        }
     }
 
     if ($installWSL) {
@@ -259,6 +267,16 @@ else { Write-BootstrapLog "chezmoi already installed. Skipping." }
 # Refresh PATH
 $env:PATH = [System.Environment]::GetEnvironmentVariable('PATH', 'Machine') + ';' +
             [System.Environment]::GetEnvironmentVariable('PATH', 'User')
+
+# ─── Phase 8.5: Install yq (required by install-packages script) ─────────────
+Write-Step "Phase 8.5: Install yq"
+if (-not (Get-Command yq -ErrorAction SilentlyContinue)) {
+    Write-BootstrapLog "Installing yq via winget..."
+    winget install --id MikeFarah.yq --exact --silent --accept-package-agreements --accept-source-agreements
+    $env:PATH = [System.Environment]::GetEnvironmentVariable('PATH', 'Machine') + ';' +
+                [System.Environment]::GetEnvironmentVariable('PATH', 'User')
+}
+else { Write-BootstrapLog "yq already installed. Skipping." }
 
 # ─── Phase 9: chezmoi init --apply ───────────────────────────────────────────
 Write-Step "Phase 9: chezmoi init --apply"

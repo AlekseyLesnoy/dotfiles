@@ -5,8 +5,8 @@
 set -euo pipefail
 
 PACKAGES_DIR="{{ .chezmoi.sourceDir }}/../packages"
-PROFILE="{{ .chezmoi.data.profile }}"
-HOSTNAME_VAL="{{ .chezmoi.data.hostname }}"
+PROFILE="{{ .profile }}"
+HOSTNAME_VAL="{{ .hostname }}"
 
 echo ""
 echo "╔══════════════════════════════════════════════════════╗"
@@ -30,7 +30,7 @@ for tool in git nvim zsh starship fzf rg fd bat eza chezmoi; do
     fi
 done
 
-{{ if .chezmoi.data.is_work }}
+{{ if .is_work }}
 echo ""
 echo "── Work profile extras ────────────────────────────────"
 for tool in aws kubectl helm terraform; do

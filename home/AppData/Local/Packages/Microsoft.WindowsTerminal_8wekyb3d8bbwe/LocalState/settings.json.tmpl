@@ -23,6 +23,7 @@
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "name": "Windows PowerShell",
                 "commandline": "pwsh.exe -NoLogo",
+                "icon": "ms-appx:///ProfileIcons/pwsh.png",
                 "hidden": false
             },
             {
@@ -31,12 +32,15 @@
                 "commandline": "cmd.exe",
                 "hidden": false
             },
-            {{ if .chezmoi.os | eq "windows" }}{
-                "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
-                "name": "Ubuntu (WSL)",
-                "source": "Windows.Terminal.Wsl",
+            {{ if eq .chezmoi.os "windows" }}{
+                "guid": "{5265de91-ba16-45c9-92b4-13cd1a9d286a}",
+                "name": "Ubuntu",
+                "commandline": "C:/WINDOWS/system32/wsl.exe --distribution-id {56e8ea07-c2ac-47b4-b24f-c2c55d5dc59f}",
+                "icon": "{{ .chezmoi.homeDir | replace "\\" "/" }}/AppData/Local/wsl/{56e8ea07-c2ac-47b4-b24f-c2c55d5dc59f}/shortcut.ico",
                 "hidden": false,
-                "startingDirectory": "//wsl$/Ubuntu/home/{{ .chezmoi.username }}"
+                "pathTranslationStyle": "wsl",
+                "startingDirectory": "~",
+                "suppressApplicationTitle": true
             }{{ end }}
         ]
     },
