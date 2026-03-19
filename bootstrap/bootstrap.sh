@@ -205,27 +205,31 @@ else
     log "chezmoi already installed. Skipping."
 fi
 
-# Ensure ~/.local/bin is on PATH
-if [[ -d "$HOME/.local/bin" ]] && [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
-    export PATH="$HOME/.local/bin:$PATH"
-fi
+# Ensure common binary locations are on PATH (unconditional — needed on every run)
+for _bindir in "$HOME/.local/bin" "/usr/local/bin"; do
+    if [[ -d "$_bindir" ]] && [[ ":$PATH:" != *":$_bindir:"* ]]; then
+        export PATH="$_bindir:$PATH"
+    fi
+done
+unset _bindir
 
 # ─── Phase 7: chezmoi init + apply ───────────────────────────────────────────
 step "Phase 7: chezmoi init --apply"
+
+# Re-check PATH for chezmoi in case install placed it in a non-standard location
+CHEZMOI_BIN="$(command -v chezmoi 2>/dev/null \
+    || echo "${HOME}/.local/bin/chezmoi")"
+[[ -x "$CHEZMOI_BIN" ]] || { echo "ERROR: chezmoi not found. Cannot proceed." >&2; exit 1; }
+
 if [[ "$DRY_RUN" == "true" ]]; then
     log "[dry-run] Would run: chezmoi init --apply --verbose ${DOTFILES_REPO}"
 elif ! is_phase_done "chezmoi_apply"; then
-    if command -v chezmoi &>/dev/null; then
-        log "Handing off to chezmoi..."
-        run chezmoi init --apply --verbose "$DOTFILES_REPO"
-        mark_phase_done "chezmoi_apply"
-    else
-        echo "ERROR: chezmoi not found. Cannot proceed." >&2
-        exit 1
-    fi
+    log "Handing off to chezmoi..."
+    run "$CHEZMOI_BIN" init --apply --verbose "$DOTFILES_REPO"
+    mark_phase_done "chezmoi_apply"
 else
     log "chezmoi already applied. Running update..."
-    run chezmoi update --verbose
+    run "$CHEZMOI_BIN" update --verbose
 fi
 
 log ""
