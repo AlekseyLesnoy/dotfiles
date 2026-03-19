@@ -41,20 +41,12 @@
     undo = reset HEAD~1 --mixed
     wip  = commit -am "wip"
 
-[url "git@github.com:"]
-    insteadOf = https://github.com/
-
 {{ if .is_work }}
 [includeIf "gitdir:~/work/"]
     path = ~/.gitconfig_work
 {{ end }}
 
-{{ if eq .chezmoi.os "darwin" "linux" }}
 [gpg]
     program = gpg
-{{ else if eq .chezmoi.os "windows" }}
-[gpg]
-    program = gpg
-{{ end }}
 [commit]
     gpgsign = true
