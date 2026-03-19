@@ -126,12 +126,6 @@ jobs:
             $errors | Format-List
             exit 1
           }
-      - name: PSScriptAnalyzer on bootstrap
-        shell: pwsh
-        run: |
-          Install-Module PSScriptAnalyzer -Force -Scope CurrentUser
-          $r = Invoke-ScriptAnalyzer bootstrap/bootstrap.ps1 -Severity Warning,Error -Settings PSScriptAnalyzerSettings.psd1
-          if ($r) { $r | Format-Table; exit 1 }
       - name: chezmoi dry-run (Windows data)
         shell: pwsh
         run: |

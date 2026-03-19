@@ -2,8 +2,6 @@ meta:
   profile: common
 
 brew:
-  taps:
-    - homebrew/cask-fonts
   formulae:
     - git
     - chezmoi
