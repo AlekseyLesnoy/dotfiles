@@ -12,8 +12,19 @@ AppData/
 Documents/
 {{ end }}
 
+# Exclude Windows-specific scripts on non-Windows systems
+{{ if ne .chezmoi.os "windows" }}
+.chezmoiscripts/00-backup-settings.ps1
+.chezmoiscripts/10-system-settings.ps1
+.chezmoiscripts/20-install-packages.ps1
+{{ end }}
+
 # Exclude Linux/macOS shell files on Windows
 {{ if eq .chezmoi.os "windows" }}
 dot_zshrc.tmpl
 dot_config/
+.chezmoiscripts/10-system-settings.sh
+.chezmoiscripts/20-install-packages.sh
+.chezmoiscripts/30-configure-shell.sh
+.chezmoiscripts/99-report.sh
 {{ end }}

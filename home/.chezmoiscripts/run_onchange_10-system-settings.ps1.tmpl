@@ -7,6 +7,14 @@
 
 $ErrorActionPreference = 'Stop'
 
+# ─── Self-elevate if not running as Administrator ─────────────────────────────
+$isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if (-not $isAdmin) {
+    $argList = "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
+    Start-Process pwsh -Verb RunAs -ArgumentList $argList -Wait
+    exit 0
+}
+
 function Write-Log { param([string]$Msg) Write-Host "[system-settings] $Msg" }
 function Set-RegValue {
     param([string]$Path, [string]$Name, $Value, [string]$Type = 'DWord')

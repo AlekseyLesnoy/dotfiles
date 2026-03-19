@@ -142,10 +142,10 @@ Delete the state file and re-run:
 
 ```bash
 # macOS/Linux
-rm -f ~/.dotfile-bootstrap-state
+rm -f ~/.dotfiles-bootstrap-state
 bash bootstrap/bootstrap.sh
 
 # Windows
-Remove-Item $env:USERPROFILE\.dotfile-bootstrap-state.ini -Force
+Remove-Item $env:USERPROFILE\.dotfiles-bootstrap-state.ini -Force
 pwsh bootstrap/bootstrap.ps1
 ```

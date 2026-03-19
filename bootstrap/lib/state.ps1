@@ -1,7 +1,7 @@
 # bootstrap/lib/state.ps1 — State file + registry run-key helpers (Windows)
 # Requires -Version 7.0
 
-$StateFile = Join-Path $env:USERPROFILE '.dotfile-bootstrap-state.ini'
+$StateFile = Join-Path $env:USERPROFILE '.dotfiles-bootstrap-state.ini'
 
 function Set-BootstrapState {
     param(

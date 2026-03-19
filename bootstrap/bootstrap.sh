@@ -42,7 +42,7 @@ if [[ -f "${LIB_DIR}/state.sh" ]]; then
     source "${LIB_DIR}/state.sh"
 else
     # Minimal inline fallbacks when bootstrapping from pipe
-    STATE_FILE="${HOME}/.dotfile-bootstrap-state"
+    STATE_FILE="${HOME}/.dotfiles-bootstrap-state"
     mark_phase_done()  { echo "phase_$1=done" >> "$STATE_FILE"; }
     is_phase_done()    { grep -q "^phase_$1=done" "$STATE_FILE" 2>/dev/null; }
 fi

@@ -78,7 +78,7 @@ See [docs/new-machine.md](docs/new-machine.md).
 ## Repository Structure
 
 ```
-dotfile/
+dotfiles/
 ├── bootstrap/          # Entry-point scripts + install helpers
 ├── packages/           # YAML package lists (common / gaming / work)
 ├── scripts/            # chezmoi run_onchange_ scripts

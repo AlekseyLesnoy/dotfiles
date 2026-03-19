@@ -68,11 +68,11 @@ $env:GAMING_ENV = 'true'
 function which { Get-Command $args[0] | Select-Object -ExpandProperty Source }
 function touch { New-Item -ItemType File -Path $args[0] -Force | Out-Null }
 
-function Set-DotfileProfile {
+function Set-DotfilesProfile {
     param([ValidateSet('common','gaming','work')][string]$Profile)
     chezmoi edit-config
     Write-Host "Edit data.profile in the config file, then run: chezmoi apply"
 }
-Set-Alias -Name dotfile-set-profile -Value Set-DotfileProfile
+Set-Alias -Name dotfiles-set-profile -Value Set-DotfilesProfile
 
 Write-Host "pwsh $($PSVersionTable.PSVersion) | Profile: {{ .profile }} | Host: {{ .hostname }}" -ForegroundColor DarkGray

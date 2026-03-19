@@ -86,7 +86,7 @@ Write-BootstrapLog "Running under pwsh $($PSVersionTable.PSVersion). Continuing.
 
 # ─── Load lib scripts ─────────────────────────────────────────────────────────
 $LibDir    = Join-Path $PSScriptRoot 'lib'
-$StateFile = Join-Path $env:USERPROFILE '.dotfile-bootstrap-state.ini'
+$StateFile = Join-Path $env:USERPROFILE '.dotfiles-bootstrap-state.ini'
 
 # Source lib scripts if running from cloned repo
 if (Test-Path (Join-Path $LibDir 'state.ps1')) {
@@ -187,7 +187,7 @@ if (-not (Test-PhaseComplete 'op_install')) {
     }
     else {
         Write-BootstrapLog "Fetching install-op.ps1 from GitHub..."
-        $opTmp = Join-Path $env:TEMP 'dotfile-install-op.ps1'
+        $opTmp = Join-Path $env:TEMP 'dotfiles-install-op.ps1'
         (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/AlekseyLesnoy/dotfiles/main/bootstrap/lib/install-op.ps1' -UseBasicParsing).Content | Set-Content $opTmp -Encoding UTF8
         . $opTmp
     }
@@ -248,7 +248,7 @@ if (-not (Test-PhaseComplete 'chezmoi_install')) {
     }
     else {
         Write-BootstrapLog "Fetching install-chezmoi.ps1 from GitHub..."
-        $chezTmp = Join-Path $env:TEMP 'dotfile-install-chezmoi.ps1'
+        $chezTmp = Join-Path $env:TEMP 'dotfiles-install-chezmoi.ps1'
         (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/AlekseyLesnoy/dotfiles/main/bootstrap/lib/install-chezmoi.ps1' -UseBasicParsing).Content | Set-Content $chezTmp -Encoding UTF8
         . $chezTmp
     }

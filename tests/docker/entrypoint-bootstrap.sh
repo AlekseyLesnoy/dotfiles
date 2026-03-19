@@ -21,7 +21,7 @@ log "Snapshot filesystem after run 1..."
 mkdir -p "$SNAPSHOT_DIR"
 # Snapshot home directory state (excluding known volatile paths)
 find "$HOME" -type f \
-    ! -path "${HOME}/.dotfile-bootstrap-state" \
+    ! -path "${HOME}/.dotfiles-bootstrap-state" \
     ! -path "${HOME}/.local/share/zinit/*" \
     ! -path "${HOME}/.cache/*" \
     | sort > "${SNAPSHOT_DIR}/run1-files.txt"
@@ -32,7 +32,7 @@ bash bootstrap/bootstrap.sh --ci
 
 log "Snapshot filesystem after run 2..."
 find "$HOME" -type f \
-    ! -path "${HOME}/.dotfile-bootstrap-state" \
+    ! -path "${HOME}/.dotfiles-bootstrap-state" \
     ! -path "${HOME}/.local/share/zinit/*" \
     ! -path "${HOME}/.cache/*" \
     | sort > "${SNAPSHOT_DIR}/run2-files.txt"

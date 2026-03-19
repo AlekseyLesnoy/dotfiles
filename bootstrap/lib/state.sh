@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # bootstrap/lib/state.sh — State file read/write helpers for Unix bootstrap
 
-STATE_FILE="${HOME}/.dotfile-bootstrap-state"
+STATE_FILE="${HOME}/.dotfiles-bootstrap-state"
 
 set_bootstrap_state() {
     local key="$1"
