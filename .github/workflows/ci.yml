@@ -66,10 +66,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build and run ubuntu-bootstrap Docker test
+      - name: Build ubuntu-bootstrap Docker image
+        run: docker build -f tests/docker/Dockerfile.ubuntu-bootstrap -t dotfiles-ubuntu-bootstrap .
+      - name: Run ubuntu-bootstrap Docker test
         run: |
-          docker build -f tests/docker/Dockerfile.ubuntu-bootstrap -t dotfiles-ubuntu-bootstrap .
-          docker run --rm dotfiles-ubuntu-bootstrap
+          mkdir -p /tmp/snapshots
+          docker run --rm -v /tmp/snapshots:/tmp/snapshot dotfiles-ubuntu-bootstrap
+      - name: Upload idempotency snapshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: idempotency-snapshots
+          path: /tmp/snapshots/
       - name: Build and run chezmoi-template Docker test
         run: |
           docker build -f tests/docker/Dockerfile.chezmoi-template -t dotfiles-chezmoi-template .
