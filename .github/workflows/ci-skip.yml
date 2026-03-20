@@ -1,0 +1,36 @@
+name: CI skip
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.md'
+      - 'docs/**'
+      - '.gitignore'
+      - '.gitattributes'
+      - '.github/workflows/staleness.yml'
+      - '.github/workflows/dependabot-auto-merge.yml'
+      - '.github/workflows/claude.yml'
+      - '.github/workflows/claude-code-review.yml'
+      - '.github/workflows/ci-skip.yml'
+      - '.github/dependabot.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - '**.md'
+      - 'docs/**'
+      - '.gitignore'
+      - '.gitattributes'
+      - '.github/workflows/staleness.yml'
+      - '.github/workflows/dependabot-auto-merge.yml'
+      - '.github/workflows/claude.yml'
+      - '.github/workflows/claude-code-review.yml'
+      - '.github/workflows/ci-skip.yml'
+      - '.github/dependabot.yml'
+
+jobs:
+  report:
+    name: CI gate
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "No CI-relevant files changed. Skipping."

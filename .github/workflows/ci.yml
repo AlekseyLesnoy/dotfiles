@@ -12,6 +12,7 @@ on:
       - '.github/workflows/dependabot-auto-merge.yml'
       - '.github/workflows/claude.yml'
       - '.github/workflows/claude-code-review.yml'
+      - '.github/workflows/ci-skip.yml'
       - '.github/dependabot.yml'
   pull_request:
     branches: [main]
@@ -24,6 +25,7 @@ on:
       - '.github/workflows/dependabot-auto-merge.yml'
       - '.github/workflows/claude.yml'
       - '.github/workflows/claude-code-review.yml'
+      - '.github/workflows/ci-skip.yml'
       - '.github/dependabot.yml'
 
 concurrency:
