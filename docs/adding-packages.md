@@ -1,6 +1,13 @@
-# Adding Packages
+# Adding Packages <!-- omit in toc -->
 
 This guide explains how to add, update, or remove packages from the dotfiles setup.
+
+## Table of Contents <!-- omit in toc -->
+- [Package file locations](#package-file-locations)
+- [Adding a package](#adding-a-package)
+- [Removing a package (flagged removal)](#removing-a-package-flagged-removal)
+- [Profile-specific packages](#profile-specific-packages)
+- [Staleness checks](#staleness-checks)
 
 ## Package file locations
 
@@ -10,6 +17,10 @@ packages/
 ├── gaming.yaml   # Installed when profile = gaming (in addition to common)
 └── work.yaml     # Installed when profile = work (in addition to common)
 ```
+
+[↑ Back to top](#table-of-contents)
+
+---
 
 ## Adding a package
 
@@ -72,6 +83,10 @@ Or to preview first:
 chezmoi diff
 ```
 
+[↑ Back to top](#table-of-contents)
+
+---
+
 ## Removing a package (flagged removal)
 
 Packages are **never auto-removed**. Instead, add them to the `remove` list to flag them:
@@ -86,6 +101,10 @@ The `run_onchange_99-report.sh` script will print these as manual action items a
 
 To actually remove: uninstall manually, then delete the entry from the `remove` list.
 
+[↑ Back to top](#table-of-contents)
+
+---
+
 ## Profile-specific packages
 
 `gaming.yaml` and `work.yaml` are **additive** — they extend `common.yaml`, not replace it.
@@ -97,6 +116,10 @@ chezmoi edit-config   # Edit data.profile = "gaming"
 chezmoi apply         # gaming.yaml is now applied in addition to common.yaml
 ```
 
+[↑ Back to top](#table-of-contents)
+
+---
+
 ## Staleness checks
 
 The weekly GitHub Actions workflow (`.github/workflows/staleness.yml`) validates
@@ -107,3 +130,5 @@ Run manually:
 ```
 GitHub → Actions → Staleness Check → Run workflow
 ```
+
+[↑ Back to top](#table-of-contents)
