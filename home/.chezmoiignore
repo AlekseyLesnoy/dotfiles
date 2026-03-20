@@ -15,6 +15,7 @@ Documents/
 # Exclude Windows-specific scripts on non-Windows systems
 {{ if ne .chezmoi.os "windows" }}
 .chezmoiscripts/00-backup-settings.ps1
+.chezmoiscripts/05-backup-bitlocker-keys.ps1
 .chezmoiscripts/10-system-settings.ps1
 .chezmoiscripts/20-install-packages.ps1
 {{ end }}

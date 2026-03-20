@@ -23,6 +23,7 @@ brew:
     - visual-studio-code
     - font-jetbrains-mono-nerd-font
     - alacritty
+    - notion
 
 apt:
   packages:
@@ -57,5 +58,7 @@ winget:
     - id: junegunn.fzf
     - id: GitHub.cli
     - id: Microsoft.PowerShell
+    - id: Notion.Notion
+    - id: Ghisler.TotalCommander
   remove:
     - id: Microsoft.OneDrive   # Flagged (not auto-removed) on non-work machines

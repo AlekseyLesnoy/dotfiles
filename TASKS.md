@@ -33,6 +33,7 @@
 ## run_onchange_ Scripts
 - [x] .chezmoiscripts/run_once_00-backup-settings.ps1
 - [x] .chezmoiscripts/run_once_00-backup-settings.sh
+- [x] .chezmoiscripts/run_once_05-backup-bitlocker-keys.ps1.tmpl
 - [x] .chezmoiscripts/run_onchange_10-system-settings.sh.tmpl
 - [x] .chezmoiscripts/run_onchange_10-system-settings.ps1.tmpl
 - [x] .chezmoiscripts/run_onchange_20-install-packages.sh.tmpl
@@ -67,3 +68,4 @@
 - [ ] home/AppData/Local/Packages/.../wsl.conf
 - [ ] Work gitconfig full setup (dot_gitconfig_work.tmpl)
 - [ ] SSH key setup
+- [ ] Move Windows Terminal settings.json to run_once_ script (currently uses [apply] force = true as workaround)

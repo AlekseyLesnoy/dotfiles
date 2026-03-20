@@ -34,7 +34,8 @@ Set-RegValue -Path $devPath -Name 'AllowAllTrustedApps' -Value 1
 Write-Log "Enabling Windows sudo..."
 try {
     $sudoPath = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Sudo'
-    Set-RegValue -Path $sudoPath -Name 'Enabled' -Value 1
+    # Sudo modes: 0 = disabled, 1 = new window (elevated), 2 = disable input isolation, 3 = inline (same window)
+    Set-RegValue -Path $sudoPath -Name 'Enabled' -Value 3  # inline mode
 }
 catch {
     Write-Warning "Could not enable Windows sudo (may not be supported): $_"
