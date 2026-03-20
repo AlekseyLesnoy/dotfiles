@@ -13,6 +13,9 @@ Supports **Windows**, **WSL Ubuntu**, and **macOS** from a single repository.
   - [Windows (PowerShell — run as Administrator or let it self-elevate)](#windows-powershell--run-as-administrator-or-let-it-self-elevate)
 - [What Gets Installed](#what-gets-installed)
 - [Machine Profiles](#machine-profiles)
+  - [Editing managed files](#editing-managed-files)
+  - [Machine with local repo clone](#machine-with-local-repo-clone)
+  - [Machine without local repo clone](#machine-without-local-repo-clone)
 - [Secrets](#secrets)
 - [Adding Packages](#adding-packages)
 - [Setting Up a New Machine](#setting-up-a-new-machine)
@@ -39,18 +42,18 @@ irm https://raw.githubusercontent.com/AlekseyLesnoy/dotfiles/main/bootstrap/boot
 
 ## What Gets Installed
 
-| Component | macOS | Linux/WSL | Windows |
-|-----------|-------|-----------|---------|
-| Homebrew | ✓ | ✓ | — |
-| 1Password CLI | ✓ | ✓ | ✓ (winget) |
-| chezmoi | ✓ | ✓ | ✓ (winget) |
-| zsh + zinit | ✓ | ✓ | — |
-| Starship prompt | ✓ | ✓ | ✓ |
-| Neovim + lazy.nvim | ✓ | ✓ | ✓ |
-| Git | ✓ | ✓ | ✓ |
-| Alacritty | ✓ (cask) | — | — |
-| Windows Terminal | — | — | ✓ |
-| WSL 2 (Ubuntu) | — | — | ✓ (optional) |
+| Component            | macOS      | Linux/WSL | Windows      |
+|----------------------|------------|-----------|--------------|
+| Homebrew             | ✓          | ✓         | —            |
+| 1Password CLI        | ✓          | ✓         | ✓ (winget)  |
+| chezmoi              | ✓          | ✓         | ✓ (winget)  |
+| zsh + zinit          | ✓          | ✓         | —           |
+| Starship prompt      | ✓          | ✓         | ✓           |
+| Neovim + lazy.nvim   | ✓          | ✓         | ✓           |
+| Git                  | ✓          | ✓         | ✓           |
+| Alacritty            | ✓ (cask)   | —         | —            |
+| Windows Terminal     | —          | —         | ✓            |
+| WSL 2 (Ubuntu)       | —          | —         | ✓ (optional) |
 
 [↑ Back to top](#table-of-contents)
 
@@ -60,17 +63,59 @@ irm https://raw.githubusercontent.com/AlekseyLesnoy/dotfiles/main/bootstrap/boot
 
 Three profiles are available, selected at first run via `chezmoi init` prompt:
 
-| Profile | Description |
-|---------|-------------|
-| `common` | Developer baseline — all machines |
-| `gaming` | Common + gaming tools (Steam, game launchers) |
-| `work` | Common + work tools (corp VPN, extra git identity) |
+| Profile     | Description                                        |
+|------------|----------------------------------------------------|
+| `common`   | Developer baseline — all machines                  |
+| `gaming`   | Common + gaming tools (Steam, game launchers)      |
+| `work`     | Common + work tools (corp VPN, extra git identity) |
 
 To switch profile after initial setup:
 ```bash
 chezmoi edit-config   # Edit data.profile
 chezmoi apply
 ```
+
+### Editing managed files
+
+Always edit dotfiles through chezmoi, not directly in the destination:
+
+```bash
+chezmoi edit
+```
+
+This opens the source repo in VS Code and applies changes on save.
+
+### Machine with local repo clone
+
+During `chezmoi init` you'll be asked: **"Has local dotfiles repo clone?"** — answer **yes**.
+
+This skips `autoCommit`/`autoPush` and assumes you manage git yourself. Point chezmoi at your local clone so you never need `--source`:
+
+```bash
+# Replace the internal clone with a junction to your working repo (Windows)
+Remove-Item -Recurse -Force ~/.local/share/chezmoi
+New-Item -ItemType Junction -Path ~/.local/share/chezmoi -Target C:\_Projects\dotfiles
+
+# Or on Unix (symlink)
+rm -rf ~/.local/share/chezmoi
+ln -s ~/Projects/dotfiles ~/.local/share/chezmoi
+```
+
+After this, all chezmoi commands work without `--source`:
+
+```bash
+chezmoi apply
+chezmoi diff
+chezmoi edit
+```
+
+You can also use git directly in `C:/_Projects/dotfiles` to commit and push — no need for `chezmoi git`.
+
+### Machine without local repo clone
+
+During `chezmoi init` you'll be asked: **"Has local dotfiles repo clone?"** — answer **no**.
+
+This enables `autoCommit` and `autoPush` in the config, so chezmoi automatically commits and pushes any changes back to GitHub on every apply. Chezmoi manages its own source at `~/.local/share/chezmoi`.
 
 [↑ Back to top](#table-of-contents)
 

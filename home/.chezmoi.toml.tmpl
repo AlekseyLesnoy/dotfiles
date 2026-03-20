@@ -1,28 +1,39 @@
 {{- $profile := "common" -}}
 {{- $hostname := .chezmoi.hostname -}}
 {{- $email := "user@example.com" -}}
+{{- $hasLocalRepo := false -}}
 
 {{- if not (env "CI") -}}
-{{-   $profile = promptStringOnce . "profile" "Machine profile (common/gaming/work)" -}}
-{{-   $email   = onepasswordRead "op://Personal/github.com/login" -}}
+{{-   $profile       = promptStringOnce . "profile" "Machine profile (common/gaming/work)" -}}
+{{-   $email        = onepasswordRead "op://Personal/github.com/login" -}}
+{{-   $hasLocalRepo = promptBoolOnce . "has_local_repo" "Has local dotfiles repo clone? (skips autoCommit/autoPush)" -}}
 {{- end -}}
 
 [data]
-  profile   = {{ $profile  | quote }}
-  hostname  = {{ $hostname | quote }}
-  email     = {{ $email    | quote }}
-  is_work   = {{ eq $profile "work" }}
-  is_gaming = {{ eq $profile "gaming" }}
+  profile         = {{ $profile   | quote }}
+  hostname       = {{ $hostname | quote }}
+  email          = {{ $email    | quote }}
+  is_work        = {{ eq $profile "work" }}
+  is_gaming      = {{ eq $profile "gaming" }}
+  has_local_repo = {{ $hasLocalRepo }}
 
 [onepassword]
   prompt = false
   mode   = "opapp"
 
-[apply]
-  force = true
+[edit]
+  command = "code"
+  args = ["--wait"]
+
+{{ if not $hasLocalRepo }}
+[git]
+  autoCommit = true
+  autoPush   = true
+{{ end }}
 
 {{ if eq .chezmoi.os "windows" }}
 [interpreters.ps1]
   command = "pwsh"
   args    = ["-NoLogo", "-NoProfile", "-NonInteractive", "-File"]
 {{ end }}
+
