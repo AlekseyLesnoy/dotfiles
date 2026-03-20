@@ -10,6 +10,8 @@ on:
       - '.gitattributes'
       - '.github/workflows/staleness.yml'
       - '.github/workflows/dependabot-auto-merge.yml'
+      - '.github/workflows/claude.yml'
+      - '.github/workflows/claude-code-review.yml'
       - '.github/dependabot.yml'
   pull_request:
     branches: [main]
@@ -20,6 +22,8 @@ on:
       - '.gitattributes'
       - '.github/workflows/staleness.yml'
       - '.github/workflows/dependabot-auto-merge.yml'
+      - '.github/workflows/claude.yml'
+      - '.github/workflows/claude-code-review.yml'
       - '.github/dependabot.yml'
 
 concurrency:
