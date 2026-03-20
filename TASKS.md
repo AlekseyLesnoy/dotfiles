@@ -1,58 +1,69 @@
 # Implementation Tasks
 
 ## Foundation
-- [ ] Init repo, push to GitHub, create TASKS.md + README skeleton
-- [ ] Create packages/common.yaml, packages/gaming.yaml, packages/work.yaml
+- [x] Init repo, push to GitHub, create TASKS.md + README skeleton
+- [x] Create packages/common.yaml, packages/gaming.yaml, packages/work.yaml
 
 ## Bootstrap — Unix
-- [ ] bootstrap/bootstrap.sh (platform detect, build tools, brew, op, yq, chezmoi, handoff)
-- [ ] bootstrap/lib/install-op.sh
-- [ ] bootstrap/lib/install-chezmoi.sh
-- [ ] bootstrap/lib/state.sh
+- [x] bootstrap/bootstrap.sh (platform detect, build tools, brew, op, yq, chezmoi, handoff)
+- [x] bootstrap/lib/install-op.sh
+- [x] bootstrap/lib/install-chezmoi.sh
+- [x] bootstrap/lib/state.sh
 
 ## Bootstrap — Windows
-- [ ] bootstrap/bootstrap.ps1 (Phase 1: pwsh 7 install + re-launch; Phase 2: elevation + all phases)
-- [ ] bootstrap/lib/install-op.ps1
-- [ ] bootstrap/lib/install-chezmoi.ps1
-- [ ] bootstrap/lib/state.ps1
+- [x] bootstrap/bootstrap.ps1 (Phase 1: pwsh 7 install + re-launch; Phase 2: elevation + all phases)
+- [x] bootstrap/lib/install-op.ps1
+- [x] bootstrap/lib/install-chezmoi.ps1
+- [x] bootstrap/lib/state.ps1
 
 ## chezmoi Config
-- [ ] .chezmoi.toml.tmpl (profile/hostname/email prompts, 1Password integration)
-- [ ] .chezmoiignore (platform exclusions)
+- [x] .chezmoi.toml.tmpl (profile/hostname/email prompts, 1Password integration)
+- [x] .chezmoiignore (platform exclusions)
 
 ## Dotfiles
-- [ ] home/dot_zshrc.tmpl
-- [ ] home/dot_gitconfig.tmpl + dot_gitconfig_work.tmpl
-- [ ] home/dot_config/starship/starship.toml
+- [x] home/dot_zshrc.tmpl
+- [x] home/dot_gitconfig.tmpl + dot_gitconfig_work.tmpl
+- [x] home/dot_config/starship/starship.toml
 - [ ] home/dot_config/nvim/ (init.lua + lazy.nvim plugins)
-- [ ] home/dot_config/alacritty/alacritty.toml.tmpl
-- [ ] windows/Documents/PowerShell/Microsoft.PowerShell_profile.ps1.tmpl
-- [ ] windows/AppData/.../WindowsTerminal/settings.json.tmpl
-- [ ] windows/wsl/wsl.conf
+- [x] home/dot_config/alacritty/alacritty.toml.tmpl
+- [x] home/Documents/PowerShell/Microsoft.PowerShell_profile.ps1.tmpl
+- [x] home/AppData/.../WindowsTerminal/settings.json.tmpl
+- [ ] home/AppData/.../wsl/wsl.conf
 
 ## run_onchange_ Scripts
-- [ ] scripts/run_onchange_10-system-settings.sh.tmpl
-- [ ] scripts/run_onchange_10-system-settings.ps1.tmpl
-- [ ] scripts/run_onchange_20-install-packages.sh.tmpl
-- [ ] scripts/run_onchange_20-install-packages.ps1.tmpl
-- [ ] scripts/run_onchange_30-configure-shell.sh
-- [ ] scripts/run_onchange_99-report.sh
+- [x] .chezmoiscripts/run_once_00-backup-settings.ps1
+- [x] .chezmoiscripts/run_once_00-backup-settings.sh
+- [x] .chezmoiscripts/run_onchange_10-system-settings.sh.tmpl
+- [x] .chezmoiscripts/run_onchange_10-system-settings.ps1.tmpl
+- [x] .chezmoiscripts/run_onchange_20-install-packages.sh.tmpl
+- [x] .chezmoiscripts/run_onchange_20-install-packages.ps1.tmpl
+- [x] .chezmoiscripts/run_onchange_30-configure-shell.sh
+- [x] .chezmoiscripts/run_onchange_99-report.sh.tmpl
 
 ## Testing
-- [ ] tests/stubs/op (fake op binary)
-- [ ] tests/stubs/chezmoi-ci.toml
-- [ ] tests/docker/Dockerfile.ubuntu-bootstrap + entrypoint
-- [ ] tests/docker/Dockerfile.chezmoi-template + entrypoint
+- [x] tests/stubs/op (fake op binary)
+- [x] tests/stubs/chezmoi-ci.toml
+- [x] tests/docker/Dockerfile.ubuntu-bootstrap + entrypoint
+- [x] tests/docker/Dockerfile.chezmoi-template + entrypoint
 
 ## CI / Automation
-- [ ] .github/workflows/ci.yml
-- [ ] .github/workflows/staleness.yml
-- [ ] .github/scripts/validate-winget-ids.ps1
-- [ ] .github/scripts/validate-brew-ids.sh
-- [ ] .github/scripts/validate-apt-ids.sh
+- [x] .github/workflows/ci.yml
+- [x] .github/workflows/ci-skip.yml
+- [x] .github/workflows/staleness.yml
+- [x] .github/workflows/dependabot-auto-merge.yml
+- [x] .github/dependabot.yml
+- [x] .github/scripts/validate-winget-ids.ps1
+- [x] .github/scripts/validate-brew-ids.sh
+- [x] .github/scripts/validate-apt-ids.sh
 
 ## Docs
-- [ ] docs/adding-packages.md
-- [ ] docs/secrets.md
-- [ ] docs/new-machine.md
-- [ ] README.md (finalize with one-liner install commands)
+- [x] docs/adding-packages.md
+- [x] docs/secrets.md
+- [x] docs/new-machine.md
+- [x] README.md (finalize with one-liner install commands)
+
+## Pending
+- [ ] home/dot_config/nvim/ (init.lua + lazy.nvim plugins)
+- [ ] home/AppData/Local/Packages/.../wsl.conf
+- [ ] Work gitconfig full setup (dot_gitconfig_work.tmpl)
+- [ ] SSH key setup
