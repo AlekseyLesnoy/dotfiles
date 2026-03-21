@@ -5,12 +5,23 @@ This guide walks through bootstrapping a new machine from scratch.
 ## Table of Contents <!-- omit in toc -->
 - [Prerequisites](#prerequisites)
 - [macOS](#macos)
+  - [One-liner (recommended)](#one-liner-recommended)
+  - [What happens](#what-happens)
+  - [After bootstrap](#after-bootstrap)
 - [Linux / WSL](#linux--wsl)
+  - [One-liner (same as macOS)](#one-liner-same-as-macos)
+  - [WSL-specific notes](#wsl-specific-notes)
 - [Windows](#windows)
+  - [One-liner (run in PowerShell — self-elevates automatically)](#one-liner-run-in-powershell--self-elevates-automatically)
+  - [What happens](#what-happens-1)
+  - [After bootstrap](#after-bootstrap-1)
 - [Profile selection](#profile-selection)
 - [Switching profiles later](#switching-profiles-later)
 - [Keeping dotfiles up to date](#keeping-dotfiles-up-to-date)
 - [Troubleshooting](#troubleshooting)
+  - [chezmoi template errors](#chezmoi-template-errors)
+  - [1Password auth issues](#1password-auth-issues)
+  - [Re-run bootstrap from scratch](#re-run-bootstrap-from-scratch)
 
 ## Prerequisites
 
@@ -82,18 +93,18 @@ irm https://raw.githubusercontent.com/AlekseyLesnoy/dotfiles/main/bootstrap/boot
 
 ### What happens
 
-| Phase | Action |
-|-------|--------|
-| 1 | Installs PowerShell 7, re-launches under it |
-| 2 | Self-elevates to Administrator |
-| 3 | Sets execution policy to RemoteSigned |
-| 4 | Enables Developer Mode, Windows sudo, telemetry opt-out |
-| 5 | Installs Git via winget |
-| 6 | Installs 1Password CLI via winget, prompts for account |
-| 7 | Checks for WSL distro — installs WSL 2 with Ubuntu if none found (requires restart, resumes automatically) |
-| 8 | Installs chezmoi via winget |
-| 8.5 | Installs yq (required by package install scripts) |
-| 9 | Runs `chezmoi init --apply` — prompts for profile, pulls email from 1Password |
+| Phase | Action                                                                                                      |
+|-------|-------------------------------------------------------------------------------------------------------------|
+| 1     | Installs PowerShell 7, re-launches under it                                                                 |
+| 2     | Self-elevates to Administrator                                                                              |
+| 3     | Sets execution policy to RemoteSigned                                                                       |
+| 4     | Enables Developer Mode, Windows sudo, telemetry opt-out                                                     |
+| 5     | Installs Git via winget                                                                                     |
+| 6     | Installs 1Password CLI via winget, prompts for account                                                      |
+| 7     | Checks for WSL distro — installs WSL 2 with Ubuntu if none found (requires restart, resumes automatically)  |
+| 8     | Installs chezmoi via winget                                                                                 |
+| 8.5   | Installs yq (required by package install scripts)                                                           |
+| 9     | Runs `chezmoi init --apply` — prompts for profile, pulls email from 1Password                               |
 
 ### After bootstrap
 

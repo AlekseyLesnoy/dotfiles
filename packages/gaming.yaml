@@ -15,9 +15,6 @@ apt:
 winget:
   packages:
     - id: Valve.Steam
-    - id: EpicGames.EpicGamesLauncher
-    - id: Ubisoft.Connect
-    - id: GOG.Galaxy
     - id: Discord.Discord
     - id: Nvidia.GeForceExperience
   remove: []

@@ -10,7 +10,7 @@
 {{- end -}}
 
 [data]
-  profile         = {{ $profile   | quote }}
+  profile        = {{ $profile  | quote }}
   hostname       = {{ $hostname | quote }}
   email          = {{ $email    | quote }}
   is_work        = {{ eq $profile "work" }}

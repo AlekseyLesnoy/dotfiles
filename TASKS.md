@@ -69,3 +69,4 @@
 - [ ] Work gitconfig full setup (dot_gitconfig_work.tmpl)
 - [ ] SSH key setup
 - [ ] Move Windows Terminal settings.json to run_once_ script (currently uses [apply] force = true as workaround)
+- [x] MonaspiceNE Nerd Font Windows install (GitHub release download in install script)

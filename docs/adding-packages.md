@@ -1,11 +1,15 @@
 # Adding Packages <!-- omit in toc -->
 
-This guide explains how to add, update, or remove packages from the dotfiles setup.
+This guide explains how to add, update, remove, and upgrade packages from the dotfiles setup.
 
 ## Table of Contents <!-- omit in toc -->
 - [Package file locations](#package-file-locations)
 - [Adding a package](#adding-a-package)
+  - [1. Find the correct package ID](#1-find-the-correct-package-id)
+  - [2. Add to the appropriate YAML file](#2-add-to-the-appropriate-yaml-file)
+  - [3. Apply the change](#3-apply-the-change)
 - [Removing a package (flagged removal)](#removing-a-package-flagged-removal)
+- [Upgrading packages](#upgrading-packages)
 - [Profile-specific packages](#profile-specific-packages)
 - [Staleness checks](#staleness-checks)
 
@@ -100,6 +104,26 @@ winget:
 The `run_onchange_99-report.sh` script will print these as manual action items after every apply.
 
 To actually remove: uninstall manually, then delete the entry from the `remove` list.
+
+[↑ Back to top](#table-of-contents)
+
+---
+
+## Upgrading packages
+
+`chezmoi apply` only installs missing packages — it does not upgrade existing ones.
+
+To upgrade all packages manually:
+
+```powershell
+# Windows
+winget upgrade --all --accept-package-agreements --accept-source-agreements
+```
+
+```bash
+# macOS / Linux
+brew upgrade
+```
 
 [↑ Back to top](#table-of-contents)
 

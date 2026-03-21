@@ -22,6 +22,10 @@ brew:
     - 1password
     - visual-studio-code
     - font-jetbrains-mono-nerd-font
+    - font-monaspace-nerd-font
+    - font-caskaydia-cove-nerd-font
+    - font-fira-code-nerd-font
+    - font-ia-writer-mono-nerd-font
     - alacritty
     - notion
 

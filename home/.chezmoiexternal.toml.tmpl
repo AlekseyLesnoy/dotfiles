@@ -1,0 +1,72 @@
+{{- $fontDir := "" -}}
+{{- if eq .chezmoi.os "windows" -}}
+{{-   $fontDir = "AppData/Local/Microsoft/Windows/Fonts" -}}
+{{- else if eq .chezmoi.os "linux" -}}
+{{-   $fontDir = ".local/share/fonts" -}}
+{{- end -}}
+
+{{- if $fontDir -}}
+
+{{- /* ── Monaspace Neon NF (from githubnext/monaspace) ── */ -}}
+{{-   $monaspaceBase := "https://github.com/githubnext/monaspace/raw/main/fonts/NerdFonts/Monaspace%20Neon" -}}
+{{-   range list
+        "MonaspaceNeonNF-Regular.otf"
+        "MonaspaceNeonNF-Italic.otf"
+        "MonaspaceNeonNF-Bold.otf"
+        "MonaspaceNeonNF-BoldItalic.otf"
+        "MonaspaceNeonNF-Medium.otf"
+        "MonaspaceNeonNF-MediumItalic.otf"
+        "MonaspaceNeonNF-Light.otf"
+        "MonaspaceNeonNF-LightItalic.otf"
+-}}
+["{{ $fontDir }}/{{ . }}"]
+    type = "file"
+    url = "{{ $monaspaceBase }}/{{ . }}"
+    refreshPeriod = "720h"
+{{ end -}}
+
+{{- /* ── CaskaydiaCove NF (from ryanoasis/nerd-fonts) ── */ -}}
+{{-   $cascadiaBase := "https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/CascadiaCode" -}}
+{{-   range list
+        "CaskaydiaCoveNerdFont-Regular.ttf"
+        "CaskaydiaCoveNerdFont-Italic.ttf"
+        "CaskaydiaCoveNerdFont-Bold.ttf"
+        "CaskaydiaCoveNerdFont-BoldItalic.ttf"
+-}}
+["{{ $fontDir }}/{{ . }}"]
+    type = "file"
+    url = "{{ $cascadiaBase }}/{{ . }}"
+    refreshPeriod = "720h"
+{{ end -}}
+
+{{- /* ── FiraCode NF (from ryanoasis/nerd-fonts) ── */ -}}
+{{-   $firaBase := "https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode" -}}
+{{-   range list
+        "Regular/FiraCodeNerdFont-Regular.ttf"
+        "Bold/FiraCodeNerdFont-Bold.ttf"
+        "Medium/FiraCodeNerdFont-Medium.ttf"
+        "Light/FiraCodeNerdFont-Light.ttf"
+        "SemiBold/FiraCodeNerdFont-SemiBold.ttf"
+        "Retina/FiraCodeNerdFont-Retina.ttf"
+-}}
+["{{ $fontDir }}/{{ base . }}"]
+    type = "file"
+    url = "{{ $firaBase }}/{{ . }}"
+    refreshPeriod = "720h"
+{{ end -}}
+
+{{- /* ── iA Writer Mono NF (from ryanoasis/nerd-fonts) ── */ -}}
+{{-   $iaBase := "https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/iA-Writer/Mono" -}}
+{{-   range list
+        "Regular/iMWritingMonoNerdFont-Regular.ttf"
+        "Italic/iMWritingMonoNerdFont-Italic.ttf"
+        "Bold/iMWritingMonoNerdFont-Bold.ttf"
+        "BoldItalic/iMWritingMonoNerdFont-BoldItalic.ttf"
+-}}
+["{{ $fontDir }}/{{ base . }}"]
+    type = "file"
+    url = "{{ $iaBase }}/{{ . }}"
+    refreshPeriod = "720h"
+{{ end -}}
+
+{{- end }}

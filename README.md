@@ -45,12 +45,12 @@ irm https://raw.githubusercontent.com/AlekseyLesnoy/dotfiles/main/bootstrap/boot
 | Component            | macOS      | Linux/WSL | Windows      |
 |----------------------|------------|-----------|--------------|
 | Homebrew             | ✓          | ✓         | —            |
-| 1Password CLI        | ✓          | ✓         | ✓ (winget)  |
-| chezmoi              | ✓          | ✓         | ✓ (winget)  |
-| zsh + zinit          | ✓          | ✓         | —           |
-| Starship prompt      | ✓          | ✓         | ✓           |
-| Neovim + lazy.nvim   | ✓          | ✓         | ✓           |
-| Git                  | ✓          | ✓         | ✓           |
+| 1Password CLI        | ✓          | ✓         | ✓ (winget)   |
+| chezmoi              | ✓          | ✓         | ✓ (winget)   |
+| zsh + zinit          | ✓          | ✓         | —            |
+| Starship prompt      | ✓          | ✓         | ✓            |
+| Neovim + lazy.nvim   | ✓          | ✓         | ✓            |
+| Git                  | ✓          | ✓         | ✓            |
 | Alacritty            | ✓ (cask)   | —         | —            |
 | Windows Terminal     | —          | —         | ✓            |
 | WSL 2 (Ubuntu)       | —          | —         | ✓ (optional) |
@@ -63,7 +63,7 @@ irm https://raw.githubusercontent.com/AlekseyLesnoy/dotfiles/main/bootstrap/boot
 
 Three profiles are available, selected at first run via `chezmoi init` prompt:
 
-| Profile     | Description                                        |
+| Profile    | Description                                        |
 |------------|----------------------------------------------------|
 | `common`   | Developer baseline — all machines                  |
 | `gaming`   | Common + gaming tools (Steam, game launchers)      |
@@ -131,7 +131,7 @@ All secrets are fetched at apply-time from 1Password via `onepasswordRead`. Noth
 
 ## Adding Packages
 
-See [docs/adding-packages.md](docs/adding-packages.md).
+See [docs/adding-packages.md](docs/adding-packages.md) for adding, removing, and upgrading packages.
 
 [↑ Back to top](#table-of-contents)
 
