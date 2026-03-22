@@ -13,14 +13,14 @@ if (-not $isAdmin) {
     exit 0
 }
 
-function Write-BackupLog { param([string]$Msg) Write-Host "[backup-settings] $Msg" }
+function Write-Log { param([string]$Msg) Write-Host "[backup-settings] $Msg" }
 
 $BackupDir = Join-Path $env:USERPROFILE ".dotfiles-backups"
 $Timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
 $BackupFile = Join-Path $BackupDir "settings-backup-$Timestamp.json"
 
 New-Item -ItemType Directory -Path $BackupDir -Force | Out-Null
-Write-BackupLog "Backing up original settings to $BackupFile"
+Write-Log "Backing up original settings to $BackupFile"
 
 $backup = @{}
 
@@ -97,7 +97,10 @@ $filesToBackup = @(
     "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json",
     "$env:APPDATA\Code\User\settings.json",
     "$env:USERPROFILE\.gitconfig",
-    "$env:USERPROFILE\.config\starship.toml"
+    "$env:USERPROFILE\.config\starship.toml",
+    "$env:APPDATA\GHISLER\wincmd.ini",
+    "$env:APPDATA\GHISLER\DEFAULT.BAR",
+    "$env:APPDATA\GHISLER\lsplugin.ini"
 )
 
 foreach ($file in $filesToBackup) {
@@ -105,10 +108,10 @@ foreach ($file in $filesToBackup) {
         $rel = $file -replace [regex]::Escape($env:USERPROFILE), '' -replace '^\\', ''
         $dest = Join-Path $FilesBackupDir ($rel -replace '\\', '_')
         Copy-Item $file $dest -Force
-        Write-BackupLog "Backed up: $file"
+        Write-Log "Backed up: $file"
     }
 }
 
-Write-BackupLog "Backup complete: $BackupFile"
-Write-BackupLog "File backups: $FilesBackupDir"
-Write-BackupLog "To restore, manually re-apply the registry values or copy files back."
+Write-Log "Backup complete: $BackupFile"
+Write-Log "File backups: $FilesBackupDir"
+Write-Log "To restore, manually re-apply the registry values or copy files back."

@@ -10,9 +10,9 @@
 {{- end -}}
 
 [data]
-  profile        = {{ $profile  | quote }}
-  hostname       = {{ $hostname | quote }}
-  email          = {{ $email    | quote }}
+  profile        = {{ $profile    | quote }}
+  hostname       = {{ $hostname   | quote }}
+  email          = {{ $email      | quote }}
   is_work        = {{ eq $profile "work" }}
   is_gaming      = {{ eq $profile "gaming" }}
   has_local_repo = {{ $hasLocalRepo }}

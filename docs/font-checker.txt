@@ -5,7 +5,6 @@ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n 
 -- --- == === != !== =!= =:= =/= <= >= && &&& &= ++ +++ *** ;; !! ?? ??? ?: ?. ?= <: :< :> >: <:< <> <<< >>> << >> || -| _|_ |- ||- |= ||= ## ### #### #{ #[ ]# #( #? #_ #_( #: #! #= ^= <$> <$ $> <+> <+ +> <*> <* *> </ </> /> <!-- <#-- --> -> ->> <<- <- <=< =<< <<= <== <=> <==> ==> => =>> >=> >>= >>- >- -< -<< >-> <-< <-| <=| |=> |-> <-> <~~ <~ <~> ~~ ~~> ~> ~- -~ ~@ [||] |] [| |} {| [< >] |> <| ||> <|| |||> <||| <|> ... .. .= ..< .? :: ::: := ::= :? :?> //* */ /= //= /== @_ __ ??? <:< ;;;
 
 # Diacritics
-
 Á Ă Ắ Ặ Ằ Ẳ Ẵ Ǎ Â Ấ Ậ Ầ Ẩ Ẫ Ä Ạ À Ả Ā Ą Å Ã Æ Ǽ Ć Č Ç Ĉ Ċ Ð Ď Đ É Ĕ Ě Ê Ế Ệ Ề Ể Ễ Ë Ė Ẹ È Ẻ Ē Ę Ɛ Ẽ Ǵ Ğ Ǧ Ĝ Ģ Ġ Ħ Ĥ Í Ĭ Î Ï İ Ị Ì Ỉ Ī Į Ĩ Ĵ Ķ Ĺ Ľ Ļ Ŀ Ł Ń Ň Ņ Ŋ Ñ Ó Ŏ Ô Ố Ộ Ồ Ổ Ỗ Ö Ọ Ò Ỏ Ơ Ớ Ợ Ờ Ở Ỡ Ő Ō Ǫ Ø Ǿ Õ Œ Þ Ŕ Ř Ŗ Ś Š Ş Ŝ Ș ẞ Ə Ŧ Ť Ţ Ț Ú Ŭ Û Ü Ụ Ù Ủ Ư Ứ Ự Ừ Ử Ữ Ű Ū Ų Ů Ũ Ẃ Ŵ Ẅ Ẁ Ý Ŷ Ÿ Ỵ Ỳ Ỷ Ȳ Ỹ Ź Ž Ż á ă â ä à ā ą å ã æ ǽ ć č ç ĉ ċ ð ď đ é ĕ ě ê ë ė è ē ę ə ğ ǧ ĝ ġ ħ ĥ i ı í ĭ î ï ì ī į ĩ j ȷ ĵ ĸ l ĺ ľ ŀ ł m n ń ŉ ň ŋ ñ ó ŏ ô ö ò ơ ő ō ø ǿ õ œ þ ŕ ř s ś š ş ŝ ß ſ ŧ ť ú ŭ û ü ù ư ű ū ģ ķ ļ ņ ŗ ţ ǫ ǵ ș ț ạ ả ấ ầ ẩ ẫ ậ ắ ằ ẳ ẵ ặ ẹ ẻ ẽ ế ề ể ễ ệ ỉ ị ọ ỏ ố ồ ổ ỗ ộ ớ ờ ở ỡ ợ ụ ủ ứ ừ ử ữ ự ỵ ỷ ỹ ų ů ũ ẃ ŵ ẅ ẁ ý ŷ ÿ ỳ z ź ž ż
 
 # Numbers
@@ -39,7 +38,6 @@ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n 
 
 
 # The quick brown fox jumps over the lazy dog.
-
 ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789
 ! @ # $ % ^ & * ( ) _ + - = [ ] { } | ; : ' " , . / < > ?
 => -> != == === !== >= <= && || ++ -- :: /** */ <!-- -->✓ ✗  ⚠  ⚡
@@ -50,7 +48,8 @@ TODO: fix this /* block comment */ <tag attr="val"/>
 0 O o  1 l I  S 5  B 8  Z 2  G 6
 [] [x] @_
 
-
+# Code
+## C#
 /// <summary>
 ///   summary
 /// </summary>
@@ -68,3 +67,62 @@ class GolombSequence
         Console.WriteLine("https://jb.gg/correctNumberIs" + sum);
     }
 }
+
+## Kotlin
+fun <T : Comparable<T>> List<T>.quickSort(): List<T> =
+    when {
+        size < 2 -> this
+        else -> {
+            val pivot = first()
+            val (smaller, greater) = drop(1).partition { it <= pivot }
+            smaller.quickSort() + pivot + greater.quickSort()
+        }
+    }
+
+fun main() {
+    print(listOf(5, 0, 1, 5, 3, 7, 4, 2).quickSort())
+}
+
+## Java
+public static void bubbleSort(int[] arr) {
+    int len = arr.length;
+    for (int i = 0; i < len; i++) {
+        for (int j = 1; j < len - i; j++) {
+            if (arr[j - 1] > arr[j]) {
+                int tmp = arr[j - 1];
+                arr[j - 1] = arr[j];
+                arr[j] = tmp;
+            }
+        }
+    }
+}
+
+## Go
+func main() {
+    http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
+        message := strings.Join([]string{"Hello", "world!"}, " ")
+        _, err := writer.Write([]byte(message))
+        if err != nil {
+            panic(err)
+        }
+    })
+    if err := http.ListenAndServe(":8080", nil); err != nil {
+        panic(err)
+    }
+}
+
+## Python
+def merge(x1, x2):
+    if isinstance(x1, dict) and isinstance(x2, dict):
+        res = x1.copy()
+        for k, v in x2.items():
+            res[k] = merge(res[k], v) if k in res else v
+        return res
+    elif isinstance(x1, list) and isinstance(x2, list):
+        res = list(x1)
+        res.extend(x2)
+        return res
+    elif x1 == x2:
+        return x1
+    else:
+        raise ValueError(f"Cannot merge '{x1!r}' and '{x2!r}'")

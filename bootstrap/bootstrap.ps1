@@ -210,6 +210,7 @@ else { Write-BootstrapLog "1Password CLI already installed. Skipping." }
 Write-Step "Phase 7: Install WSL (optional)"
 if (-not (Test-PhaseComplete 'wsl_install')) {
     $installWSL = $false
+    $wslDistroName = 'Ubuntu'
     if ($CI) {
         Write-BootstrapLog "[CI] Skipping WSL install."
     }
@@ -221,14 +222,21 @@ if (-not (Test-PhaseComplete 'wsl_install')) {
             Write-BootstrapLog "WSL distro already installed. Skipping."
         }
         elseif (-not $DryRun) {
-            $choice = Read-Host "Install WSL 2 with Ubuntu? [y/N]"
-            $installWSL = ($choice -match '^[Yy]')
+            $choice = Read-Host "Install WSL 2? [y/N]"
+            if ($choice -match '^[Yy]') {
+                $installWSL = $true
+                # Show available distros
+                Write-BootstrapLog "Available WSL distros:"
+                wsl --list --online 2>&1 | Where-Object { $_ -match '\S' } | ForEach-Object { Write-Host "  $_" }
+                $distroInput = Read-Host "WSL distro name [Ubuntu]"
+                if ($distroInput.Trim() -ne '') { $wslDistroName = $distroInput.Trim() }
+            }
         }
     }
 
     if ($installWSL) {
-        Write-BootstrapLog "Installing WSL 2 with Ubuntu (requires restart)..."
-        wsl --install --distribution Ubuntu
+        Write-BootstrapLog "Installing WSL 2 with '$wslDistroName' (requires restart)..."
+        wsl --install --distribution $wslDistroName
 
         # Register resume key and save phase
         Set-PhaseComplete 'wsl_install'

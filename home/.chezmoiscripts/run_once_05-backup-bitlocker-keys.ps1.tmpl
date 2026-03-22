@@ -13,28 +13,28 @@ if (-not $isAdmin) {
     exit 0
 }
 
-function Write-BackupLog { param([string]$Msg) Write-Host "[bitlocker-backup] $Msg" }
+function Write-Log { param([string]$Msg) Write-Host "[bitlocker-backup] $Msg" }
 
 # ─── Skip in CI ───────────────────────────────────────────────────────────────
 if ($env:CI) {
-    Write-BackupLog "[CI] Skipping BitLocker key backup."
+    Write-Log "[CI] Skipping BitLocker key backup."
     exit 0
 }
 
 # ─── Vault selection based on profile ────────────────────────────────────────
 $profile_ = "{{ .profile }}"
 $vault = if ($profile_ -eq 'work') { 'Kobo' } else { 'Personal' }
-Write-BackupLog "Profile: $profile_ — storing keys in vault: $vault"
+Write-Log "Profile: $profile_ — storing keys in vault: $vault"
 
 # ─── Check if BitLocker is available ─────────────────────────────────────────
 if (-not (Get-Command Get-BitLockerVolume -ErrorAction SilentlyContinue)) {
-    Write-BackupLog "BitLocker cmdlets not available. Skipping."
+    Write-Log "BitLocker cmdlets not available. Skipping."
     exit 0
 }
 
 # ─── Check if op CLI is available ─────────────────────────────────────────────
 if (-not (Get-Command op -ErrorAction SilentlyContinue)) {
-    Write-BackupLog "1Password CLI (op) not found. Skipping."
+    Write-Log "1Password CLI (op) not found. Skipping."
     exit 0
 }
 
@@ -42,7 +42,7 @@ if (-not (Get-Command op -ErrorAction SilentlyContinue)) {
 $volumes = Get-BitLockerVolume | Where-Object { $_.ProtectionStatus -eq 'On' }
 
 if (-not $volumes) {
-    Write-BackupLog "No BitLocker-protected volumes found. Skipping."
+    Write-Log "No BitLocker-protected volumes found. Skipping."
     exit 0
 }
 
@@ -55,7 +55,7 @@ foreach ($volume in $volumes) {
         Select-Object -First 1
 
     if (-not $recoveryKey) {
-        Write-BackupLog "No recovery key found for $drive. Skipping."
+        Write-Log "No recovery key found for $drive. Skipping."
         continue
     }
 
@@ -65,18 +65,18 @@ foreach ($volume in $volumes) {
     # Check if item already exists in 1Password
     $existing = op item get $itemTitle --vault $vault 2>$null
     if ($existing) {
-        Write-BackupLog "1Password item already exists for $drive. Skipping."
+        Write-Log "1Password item already exists for $drive. Skipping."
         continue
     }
 
-    Write-BackupLog "Storing recovery key for $drive in 1Password vault '$vault'..."
+    Write-Log "Storing recovery key for $drive in 1Password vault '$vault'..."
     op item create `
         --category "Secure Note" `
         --title $itemTitle `
         --vault $vault `
         "notesPlain=$keyValue"
 
-    Write-BackupLog "Recovery key for $drive stored successfully."
+    Write-Log "Recovery key for $drive stored successfully."
 }
 
-Write-BackupLog "BitLocker key backup complete."
+Write-Log "BitLocker key backup complete."
