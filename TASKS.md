@@ -71,4 +71,4 @@
 - [ ] SSH key setup
 - [ ] Move Windows Terminal settings.json to run_once_ script (currently uses [apply] force = true as workaround)
 - [x] MonaspiceNE Nerd Font Windows install (GitHub release download in install script)
-- [ ] Total Commander: fix CompareTool and Editor to use VS Code (code CLI doesn't work directly in TC, %LOCALAPPDATA% path didn't work either — needs investigation)
+- [x] Total Commander: fix CompareTool and Editor to use VS Code (code CLI doesn't work directly in TC, %LOCALAPPDATA% path didn't work either — needs investigation)

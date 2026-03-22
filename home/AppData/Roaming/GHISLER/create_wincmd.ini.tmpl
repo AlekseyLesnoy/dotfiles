@@ -1,6 +1,6 @@
 {{- $home := .chezmoi.homeDir | replace "/" "\\" -}}
 [Configuration]
-CompareTool=code --diff
+CompareTool="%LOCALAPPDATA%\Programs\Microsoft VS Code\Code.exe" --diff
 InstallDir=C:\Program Files\totalcmd
 UseNewDefFont=1
 SetEncoding=^^.do.not.remove
@@ -28,7 +28,7 @@ PanelsVertical=0
 FirstTimeUnpack=0
 FirstTimeZIP=0
 Viewer=none
-Editor=code "%1"
+Editor="%LOCALAPPDATA%\Programs\Microsoft VS Code\Code.exe" "%1"
 Viewertype=1
 pluginbasedir=C:\Program Files\totalcmd\plugins
 CompareCaseSensitive=0
