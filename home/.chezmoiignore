@@ -6,36 +6,17 @@ dot_hushlogin
 dot_config/alacritty
 {{ end }}
 
-# Exclude Windows-specific files on non-Windows systems
+# Exclude Windows-specific files and scripts on non-Windows systems
 {{ if ne .chezmoi.os "windows" }}
 AppData/
 Documents/
-{{ end }}
-
-# Exclude Windows-specific scripts on non-Windows systems
-{{ if ne .chezmoi.os "windows" }}
-.chezmoiscripts/00-backup-settings.ps1
-.chezmoiscripts/21-remove-existing-totalcmd-config.ps1
-.chezmoiscripts/05-backup-bitlocker-keys.ps1
-.chezmoiscripts/10-system-settings.ps1
-.chezmoiscripts/20-install-packages.ps1
-.chezmoiscripts/25-install-totalcmd-plugins.ps1
+.chezmoiscripts/*.ps1
+.chezmoiscripts/*.ps1.tmpl
 {{ end }}
 
 # Exclude Linux/macOS shell files on Windows
 {{ if eq .chezmoi.os "windows" }}
 dot_zshrc.tmpl
-dot_config/
-.chezmoiscripts/10-system-settings.sh
-.chezmoiscripts/20-install-packages.sh
-.chezmoiscripts/30-configure-shell.sh
-.chezmoiscripts/99-report.sh
-.chezmoiscripts/00-backup-settings.sh
-
-# Exclude Total Commander binary/cache/sensitive files (never commit)
-AppData/Roaming/GHISLER/*.br2
-AppData/Roaming/GHISLER/tcthumbs.db
-AppData/Roaming/GHISLER/treeinfo.wc
-AppData/Roaming/GHISLER/wincmd.key
-AppData/Roaming/GHISLER/wcx_ftp.ini
+.chezmoiscripts/*.sh
+.chezmoiscripts/*.sh.tmpl
 {{ end }}
