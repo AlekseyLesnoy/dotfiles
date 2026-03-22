@@ -47,6 +47,7 @@ if ($installed -eq $latest) {
         Invoke-WebRequest -Uri $asset.browser_download_url -OutFile $tmp -UseBasicParsing
         New-Item -ItemType Directory -Path "$tcDir\plugins\wlx" -Force | Out-Null
         Expand-Archive -Path $tmp -DestinationPath "$tcDir\plugins\wlx" -Force
+        New-Item -ItemType Directory -Path $cudaInstallDir -Force | Out-Null
         Set-Content -Path $cudaMarker -Value $latest -Encoding UTF8
         Write-Log "CudaLister $latest installed to $cudaInstallDir"
     } finally {
