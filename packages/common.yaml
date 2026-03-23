@@ -65,5 +65,7 @@ winget:
     - id: Notion.Notion
     - id: Ghisler.TotalCommander
     - id: Microsoft.PowerToys
+    - id: 15722UsefulApp.WorkspaceLauncherForVSCode
+    - id: davidegiacometti.EdgeFavoritesForCmdPal
   remove:
     - id: Microsoft.OneDrive   # Flagged (not auto-removed) on non-work machines

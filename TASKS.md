@@ -75,7 +75,7 @@
 - [x] run_once_22-remove-existing-powertoys-config.ps1 (stops PowerToys, clears managed files)
 - [x] 14 create_ settings files for non-default modules (AdvancedPaste, AlwaysOnTop, FancyZones, FindMyMouse, Measure Tool, MouseJump, Peek, PowerToys Run, QuickAccent, Shortcut Guide)
 - [x] CmdPal settings (Packages/Microsoft.CommandPalette_8wekyb3d8bbwe/LocalState) with Shift+Backspace hotkey
-- [ ] CmdPal plugins
+- [x] CmdPal plugins: WorkspaceLauncherForVSCode + EdgeFavorites (common), VisualStudio (work)
 
 ## Pending
 - [ ] Install and integrate mise (runtime version manager)

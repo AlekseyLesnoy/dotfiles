@@ -33,4 +33,5 @@ winget:
     - id: Zoom.Zoom
     - id: Notion.Notion
     - id: Docker.DockerDesktop
+    - id: davidegiacometti.VisualStudioForCmdPal
   remove: []
