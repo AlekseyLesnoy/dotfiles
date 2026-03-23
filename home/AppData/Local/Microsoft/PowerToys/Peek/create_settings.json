@@ -1,0 +1,28 @@
+{
+  "name": "Peek",
+  "properties": {
+    "DefaultActivationShortcut": {
+      "win": false,
+      "ctrl": true,
+      "alt": false,
+      "shift": false,
+      "code": 32,
+      "key": ""
+    },
+    "ActivationShortcut": {
+      "win": false,
+      "ctrl": true,
+      "alt": false,
+      "shift": false,
+      "code": 32,
+      "key": ""
+    },
+    "AlwaysRunNotElevated": {
+      "value": true
+    },
+    "CloseAfterLosingFocus": {
+      "value": false
+    }
+  },
+  "version": "0.0.1"
+}

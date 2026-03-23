@@ -1,0 +1,97 @@
+{
+  "custom-layouts": [
+    {
+      "uuid": "{8B79597E-DEF2-42D5-901E-153AA36FAC7B}",
+      "name": "2 Rows",
+      "type": "grid",
+      "info": {
+        "rows": 2,
+        "columns": 1,
+        "rows-percentage": [
+          4278,
+          5722
+        ],
+        "columns-percentage": [
+          10000
+        ],
+        "cell-child-map": [
+          [
+            0
+          ],
+          [
+            1
+          ]
+        ],
+        "show-spacing": false,
+        "spacing": 16,
+        "sensitivity-radius": 0
+      }
+    },
+    {
+      "uuid": "{4A4D64D9-1CF1-4FE0-94C1-67B0A3CCE033}",
+      "name": "2 Columns",
+      "type": "grid",
+      "info": {
+        "rows": 1,
+        "columns": 2,
+        "rows-percentage": [
+          10000
+        ],
+        "columns-percentage": [
+          4990,
+          5010
+        ],
+        "cell-child-map": [
+          [
+            0,
+            1
+          ]
+        ],
+        "show-spacing": false,
+        "spacing": 16,
+        "sensitivity-radius": 20
+      }
+    },
+    {
+      "uuid": "{66CFE452-4D22-4A32-9DB2-D1B19A90A0FE}",
+      "name": "Full",
+      "type": "grid",
+      "info": {
+        "rows": 1,
+        "columns": 1,
+        "rows-percentage": [
+          10000
+        ],
+        "columns-percentage": [
+          10000
+        ],
+        "cell-child-map": [
+          [
+            0
+          ]
+        ],
+        "show-spacing": false,
+        "spacing": 16,
+        "sensitivity-radius": 625
+      }
+    },
+    {
+      "uuid": "{23169A45-73E1-48D8-B391-9EA4BE1A1D91}",
+      "name": "Center",
+      "type": "canvas",
+      "info": {
+        "ref-width": 2560,
+        "ref-height": 1400,
+        "zones": [
+          {
+            "X": 354,
+            "Y": 132,
+            "width": 1842,
+            "height": 1119
+          }
+        ],
+        "sensitivity-radius": 20
+      }
+    }
+  ]
+}

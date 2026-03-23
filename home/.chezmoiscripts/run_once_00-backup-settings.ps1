@@ -112,6 +112,14 @@ foreach ($file in $filesToBackup) {
     }
 }
 
+# ─── Back up PowerToys settings directory ────────────────────────────────────
+$ptDir = "$env:LOCALAPPDATA\Microsoft\PowerToys"
+if (Test-Path $ptDir) {
+    $ptBackupDir = Join-Path $FilesBackupDir "PowerToys"
+    Copy-Item $ptDir $ptBackupDir -Recurse -Force
+    Write-Log "Backed up: $ptDir"
+}
+
 Write-Log "Backup complete: $BackupFile"
 Write-Log "File backups: $FilesBackupDir"
 Write-Log "To restore, manually re-apply the registry values or copy files back."

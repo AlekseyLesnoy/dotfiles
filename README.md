@@ -53,6 +53,8 @@ irm https://raw.githubusercontent.com/AlekseyLesnoy/dotfiles/main/bootstrap/boot
 | Git                  | ✓          | ✓         | ✓            |
 | Alacritty            | ✓ (cask)   | —         | —            |
 | Windows Terminal     | —          | —         | ✓            |
+| Total Commander      | —          | —         | ✓            |
+| PowerToys            | —          | —         | ✓            |
 | WSL 2 (Ubuntu)       | —          | —         | ✓ (optional) |
 
 [↑ Back to top](#table-of-contents)

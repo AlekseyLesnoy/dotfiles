@@ -63,6 +63,20 @@
 - [x] docs/new-machine.md
 - [x] README.md (finalize with one-liner install commands)
 
+## Total Commander
+- [x] create_wincmd.ini.tmpl (Dracula colors, VS Code editor, profile-conditional DirMenu)
+- [x] create_DEFAULT.BAR (VS Code diff button)
+- [x] create_lsplugin.ini (CudaLister plugin settings)
+- [x] run_once_21-remove-existing-totalcmd-config.ps1
+- [x] run_once_25-install-totalcmd-plugins.ps1 (CudaLister from GitHub releases)
+
+## PowerToys
+- [x] Add Microsoft.PowerToys to packages/common.yaml
+- [x] run_once_22-remove-existing-powertoys-config.ps1 (stops PowerToys, clears managed files)
+- [x] 14 create_ settings files for non-default modules (AdvancedPaste, AlwaysOnTop, FancyZones, FindMyMouse, Measure Tool, MouseJump, Peek, PowerToys Run, QuickAccent, Shortcut Guide)
+- [x] CmdPal settings (Packages/Microsoft.CommandPalette_8wekyb3d8bbwe/LocalState) with Shift+Backspace hotkey
+- [ ] CmdPal plugins
+
 ## Pending
 - [ ] Install and integrate mise (runtime version manager)
 - [ ] home/dot_config/nvim/ (init.lua + lazy.nvim plugins)

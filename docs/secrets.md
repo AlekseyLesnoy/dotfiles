@@ -31,12 +31,12 @@ and injects it into the rendered file. The rendered file lives only on disk — 
 
 ## Required 1Password items
 
-| Item path | Used in | Description |
-|-----------|---------|-------------|
-| `op://Personal/github.com/login` | `.chezmoi.toml.tmpl` | GitHub email address |
-| `op://Personal/GPG Signing Key/fingerprint` | `dot_gitconfig.tmpl` | GPG key fingerprint for commit signing |
-| `op://Kobo/GPG Signing Key Work/fingerprint` | `dot_gitconfig_work.tmpl` | Work GPG key fingerprint |
-| `op://Kobo/GPG Signing Key Work/email` | `dot_gitconfig_work.tmpl` | Work email address |
+| Item path                                       | Used in                   | Description                          |
+|-------------------------------------------------|---------------------------|--------------------------------------|
+| `op://Personal/github.com/login`                | `.chezmoi.toml.tmpl`      | GitHub email address                 |
+| `op://Personal/GPG Signing Key/fingerprint`     | `dot_gitconfig.tmpl`      | GPG key fingerprint for commit signing |
+| `op://Kobo/GPG Signing Key Work/fingerprint`    | `dot_gitconfig_work.tmpl` | Work GPG key fingerprint             |
+| `op://Kobo/GPG Signing Key Work/email`          | `dot_gitconfig_work.tmpl` | Work email address                   |
 
 [↑ Back to top](#table-of-contents)
 
