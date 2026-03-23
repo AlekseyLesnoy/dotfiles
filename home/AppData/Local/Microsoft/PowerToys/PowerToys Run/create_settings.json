@@ -11,8 +11,8 @@
       "IsGlobal": true,
       "ActionKeyword": "=",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\Calculator\\Images\\calculator.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\Calculator\\Images\\calculator.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": [
         {
           "PluginOptionType": 0,
@@ -53,8 +53,8 @@
       "IsGlobal": true,
       "ActionKeyword": "",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\Folder\\Images\\folder.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\Folder\\Images\\folder.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": []
     },
     {
@@ -67,8 +67,8 @@
       "IsGlobal": false,
       "ActionKeyword": "h",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\History\\Images\\history.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\History\\Images\\history.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": []
     },
     {
@@ -81,8 +81,8 @@
       "IsGlobal": true,
       "ActionKeyword": "find",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\Indexer\\Images\\indexer.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\Indexer\\Images\\indexer.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": [
         {
           "PluginOptionType": 0,
@@ -115,8 +115,8 @@
       "IsGlobal": true,
       "ActionKeyword": "o:",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\OneNote\\Images\\oneNote.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\OneNote\\Images\\oneNote.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": []
     },
     {
@@ -129,8 +129,8 @@
       "IsGlobal": true,
       "ActionKeyword": "@",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\PowerToys\\Images\\PowerToys.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\PowerToys\\Images\\PowerToys.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": []
     },
     {
@@ -143,8 +143,8 @@
       "IsGlobal": true,
       "ActionKeyword": ".",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\Program\\Images\\app.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\Program\\Images\\app.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": []
     },
     {
@@ -157,8 +157,8 @@
       "IsGlobal": false,
       "ActionKeyword": "reg",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\Registry\\Images\\reg.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\Registry\\Images\\reg.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": []
     },
     {
@@ -171,8 +171,8 @@
       "IsGlobal": false,
       "ActionKeyword": "svc",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\Service\\Images\\service.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\Service\\Images\\service.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": []
     },
     {
@@ -185,8 +185,8 @@
       "IsGlobal": false,
       "ActionKeyword": ">",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\Shell\\Images\\shell.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\Shell\\Images\\shell.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": [
         {
           "PluginOptionType": 1,
@@ -247,8 +247,8 @@
       "IsGlobal": true,
       "ActionKeyword": "",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\System\\Images\\lock.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\System\\Images\\lock.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": [
         {
           "PluginOptionType": 0,
@@ -302,8 +302,8 @@
       "IsGlobal": true,
       "ActionKeyword": "(",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\TimeDate\\Images\\timeDate.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\TimeDate\\Images\\timeDate.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": [
         {
           "PluginOptionType": 1,
@@ -421,8 +421,8 @@
       "IsGlobal": false,
       "ActionKeyword": "%%",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\UnitConverter\\Images\\unitconverter.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\UnitConverter\\Images\\unitconverter.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": []
     },
     {
@@ -435,8 +435,8 @@
       "IsGlobal": true,
       "ActionKeyword": "//",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\Uri\\Images\\uri.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\Uri\\Images\\uri.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": []
     },
     {
@@ -449,8 +449,8 @@
       "IsGlobal": false,
       "ActionKeyword": "#",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\ValueGenerator\\Images\\ValueGenerator.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\ValueGenerator\\Images\\ValueGenerator.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": []
     },
     {
@@ -475,8 +475,8 @@
       "IsGlobal": true,
       "ActionKeyword": "??",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\WebSearch\\Images\\WebSearch.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\WebSearch\\Images\\WebSearch.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": [
         {
           "PluginOptionType": 0,
@@ -498,8 +498,8 @@
       "IsGlobal": false,
       "ActionKeyword": "$",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\WindowsSettings\\Images\\WindowsSettings.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\WindowsSettings\\Images\\WindowsSettings.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": []
     },
     {
@@ -512,8 +512,8 @@
       "IsGlobal": true,
       "ActionKeyword": "_",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\WindowsTerminal\\Images\\WindowsTerminal.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\WindowsTerminal\\Images\\WindowsTerminal.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": [
         {
           "PluginOptionType": 0,
@@ -552,8 +552,8 @@
       "IsGlobal": true,
       "ActionKeyword": "<",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\WindowWalker\\Images\\windowwalker.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\PowerToys\\RunPlugins\\WindowWalker\\Images\\windowwalker.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": [
         {
           "PluginOptionType": 0,
@@ -635,8 +635,8 @@
       "IsGlobal": false,
       "ActionKeyword": "op",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\Microsoft\\PowerToys\\PowerToys Run\\Plugins\\1Password\\Images\\_1PasswordPlugin.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\Microsoft\\PowerToys\\PowerToys Run\\Plugins\\1Password\\Images\\_1PasswordPlugin.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": [
         {
           "PluginOptionType": 2,
@@ -645,7 +645,7 @@
           "DisplayDescription": "Path to the 1Password CLI executable (op.exe).",
           "Value": false,
           "ComboBoxValue": 0,
-          "TextValue": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\Microsoft\\WinGet\\Links\\",
+          "TextValue": "",
           "NumberValue": 0
         },
         {
@@ -716,8 +716,8 @@
       "IsGlobal": false,
       "ActionKeyword": "cb",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\Microsoft\\PowerToys\\PowerToys Run\\Plugins\\ClipboardManager\\Images\\ClipboardManager.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\Microsoft\\PowerToys\\PowerToys Run\\Plugins\\ClipboardManager\\Images\\ClipboardManager.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": [
         {
           "PluginOptionType": 3,
@@ -769,8 +769,8 @@
       "IsGlobal": false,
       "ActionKeyword": "$$",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\Microsoft\\PowerToys\\PowerToys Run\\Plugins\\CurrencyConverter\\images\\icon-white.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\Microsoft\\PowerToys\\PowerToys Run\\Plugins\\CurrencyConverter\\images\\icon-black.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": [
         {
           "PluginOptionType": 0,
@@ -883,8 +883,8 @@
       "IsGlobal": false,
       "ActionKeyword": "gh",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\Microsoft\\PowerToys\\PowerToys Run\\Plugins\\GitHubRepo\\Images\\dark\\GitHub.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\Microsoft\\PowerToys\\PowerToys Run\\Plugins\\GitHubRepo\\Images\\light\\GitHub.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": [
         {
           "PluginOptionType": 2,
@@ -918,8 +918,8 @@
       "IsGlobal": false,
       "ActionKeyword": "gk",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\Microsoft\\PowerToys\\PowerToys Run\\Plugins\\GitKraken\\Images\\GitKraken.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\Microsoft\\PowerToys\\PowerToys Run\\Plugins\\GitKraken\\Images\\GitKraken.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": []
     },
     {
@@ -932,8 +932,8 @@
       "IsGlobal": false,
       "ActionKeyword": "vs",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\Microsoft\\PowerToys\\PowerToys Run\\Plugins\\VisualStudio\\Images\\VisualStudio.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\Microsoft\\PowerToys\\PowerToys Run\\Plugins\\VisualStudio\\Images\\VisualStudio.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": [
         {
           "PluginOptionType": 0,
@@ -966,14 +966,14 @@
       "IsGlobal": false,
       "ActionKeyword": "??",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\Microsoft\\PowerToys\\PowerToys Run\\Plugins\\WebSearchShortcut\\Images\\Search.dark.png",
-      "IconPathLight": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\Microsoft\\PowerToys\\PowerToys Run\\Plugins\\WebSearchShortcut\\Images\\Search.light.png",
+      "IconPathDark": "",
+      "IconPathLight": "",
       "AdditionalOptions": [
         {
           "PluginOptionType": 2,
           "Key": "StorageFileName",
           "DisplayLabel": "Storage File Name",
-          "DisplayDescription": "C:\\Users\\aleksey.lesnoy\\AppData\\Local\\Microsoft\\PowerToys\\PowerToys Run\\Settings\\Plugins\\Community.PowerToys.Run.Plugin.WebSearchShortcut",
+          "DisplayDescription": "C:\\Users\\%USERNAME%\\AppData\\Local\\Microsoft\\PowerToys\\PowerToys Run\\Settings\\Plugins\\Community.PowerToys.Run.Plugin.WebSearchShortcut",
           "Value": false,
           "ComboBoxValue": 0,
           "TextValue": "WebSearchShortcutStorage.json",
