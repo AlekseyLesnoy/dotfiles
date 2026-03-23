@@ -1,4 +1,8 @@
 name: CI skip
+# This workflow exists to satisfy the required "CI gate" status check on main.
+# When only docs/markdown/config files change, ci.yml is skipped via paths-ignore
+# but GitHub still requires the "CI gate" check to pass. This workflow provides
+# a lightweight pass for those cases.
 
 on:
   push:
