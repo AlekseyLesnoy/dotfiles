@@ -21,6 +21,7 @@ This guide walks through bootstrapping a new machine from scratch.
 - [Troubleshooting](#troubleshooting)
   - [chezmoi template errors](#chezmoi-template-errors)
   - [1Password auth issues](#1password-auth-issues)
+  - [Re-running run\_once\_ scripts (local development)](#re-running-run_once_-scripts-local-development)
   - [Re-run bootstrap from scratch](#re-run-bootstrap-from-scratch)
 
 ## Prerequisites
@@ -171,6 +172,24 @@ op account list           # Check accounts
 eval $(op signin)         # Re-authenticate (macOS/Linux)
 op signin                 # Re-authenticate (Windows)
 ```
+
+### Re-running run_once_ scripts (local development)
+
+chezmoi tracks `run_once_` scripts in a state database and skips them after the first run.
+Useful when iterating locally on new scripts:
+
+```powershell
+# See what scripts have run
+chezmoi state dump
+
+# Reset a specific script (will re-run on next apply)
+chezmoi state delete --bucket=scriptState --key=<script-hash>
+
+# Reset ALL run_once_ scripts (simulates a fresh machine)
+chezmoi state delete-bucket --bucket=scriptState
+```
+
+After resetting, `chezmoi apply` will re-run all `run_once_` scripts as if on a new machine.
 
 ### Re-run bootstrap from scratch
 
