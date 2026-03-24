@@ -2,6 +2,13 @@ name: Prompt benchmark
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'home/dot_config/starship/**'
+      - 'home/Documents/PowerShell/Microsoft.PowerShell_profile.ps1.tmpl'
+      - 'home/dot_zshrc.tmpl'
+      - 'tests/benchmark/**'
 
 jobs:
   bench-linux:
