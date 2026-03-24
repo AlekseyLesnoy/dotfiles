@@ -9,12 +9,13 @@ $git_branch\
 $git_status\
 $git_state\
 $fill\
+$dotnet\
+$kubernetes\
 $nodejs\
 $python\
 $rust\
 $golang\
 $terraform\
-$kubernetes\
 $cmd_duration\
 $line_break\
 $character"""
@@ -22,6 +23,15 @@ $character"""
 [character]
 success_symbol = "[❯](bold green)"
 error_symbol   = "[❯](bold red)"
+
+[username]
+show_always = false
+style_user  = "bold yellow"
+style_root  = "bold red"
+
+[hostname]
+ssh_only = true
+style    = "bold green"
 
 [directory]
 style            = "bold cyan"
@@ -34,7 +44,7 @@ symbol = " "
 style  = "bold purple"
 
 [git_status]
-format     = '($ahead_behind$conflicted$staged$modified$renamed$deleted$untracked )'
+format     = '($ahead_behind$untracked$staged$modified$renamed$deleted$conflicted )'
 style      = "bold yellow"
 ahead      = "⇡${count} "
 behind     = "⇣${count} "
@@ -49,6 +59,17 @@ conflicted = "= "
 
 [fill]
 symbol = " "
+
+[dotnet]
+symbol = "\ue70c "
+style  = "white"
+format = "[$symbol$version]($style) "
+
+[kubernetes]
+symbol   = "\ufd31 "
+style    = "bold #326CE5"
+format   = "[$symbol$context( \\($namespace\\))]($style) "
+disabled = false
 
 [nodejs]
 symbol = " "
@@ -70,20 +91,6 @@ style  = "bold cyan"
 symbol = "󱁢 "
 style  = "bold purple"
 
-[kubernetes]
-symbol   = "󱃾 "
-style    = "bold blue"
-disabled = false
-
 [cmd_duration]
 min_time = 500
 format   = "[$duration](bold yellow)"
-
-[hostname]
-ssh_only = true
-style    = "bold green"
-
-[username]
-show_always = false
-style_user  = "bold yellow"
-style_root  = "bold red"

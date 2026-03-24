@@ -6,19 +6,25 @@
 format = """
 $env_var\
 $username\
+$hostname\
 $directory\
 $git_branch\
 $git_status\
+$git_state\
 $fill\
 $dotnet\
 $kubernetes\
+$nodejs\
+$python\
+$rust\
+$golang\
+$terraform\
+$cmd_duration\
 $line_break\
 $character"""
 
-right_format = """$cmd_duration"""
-
 [character]
-success_symbol = "[❯](bold #00BBFF)"
+success_symbol = "[❯](bold #57BAFB)"
 error_symbol   = "[❯](bold red)"
 
 [username]
@@ -26,6 +32,10 @@ show_always   = false
 style_user    = "bold #E5C07B"
 style_root    = "bold #E5C07B"
 format        = "[$user]($style) [in](white) "
+
+[hostname]
+ssh_only = true
+style    = "bold green"
 
 [directory]
 style             = "bold #56B6C2"
@@ -41,7 +51,7 @@ format = "[on](white) [$symbol$branch]($style) "
 
 [git_status]
 style      = "white"
-format     = '($ahead_behind$conflicted$staged$modified$renamed$deleted$untracked )'
+format     = '($ahead_behind$untracked$staged$modified$renamed$deleted$conflicted )'
 ahead      = "[⇡${count}]($style) "
 behind     = "[⇣${count}]($style) "
 diverged   = "[⇕⇡${ahead_count}⇣${behind_count}]($style) "
@@ -53,8 +63,23 @@ renamed    = "[»${count}]($style) "
 deleted    = "[✘${count}]($style) "
 conflicted = "[=]($style) "
 
+[status]
+symbol     = "\uf00d"
+success_symbol = "\uf42e"
+style      = "white"
+format     = "[$symbol]($style) "
+disabled   = false
+
 [fill]
 symbol = " "
+
+[sudo]
+disabled = true
+
+[env_var.IS_ADMIN]
+symbol   = "\uf0e7 "
+style    = "bold #E5C07B"
+format   = "[$symbol]($style)"
 
 [dotnet]
 symbol = "\ue70c "
@@ -67,41 +92,26 @@ style    = "bold #326CE5"
 format   = "[$symbol$context( \\($namespace\\))]($style) "
 disabled = false
 
-[status]
-symbol     = "\uf00d"
-success_symbol = "\uf42e"
-style      = "white"
-format     = "[$symbol]($style) "
-disabled   = false
-
-[sudo]
-disabled = true
-
-[env_var.IS_ADMIN]
-symbol   = "\uf0e7 "
-style    = "bold #E5C07B"
-format   = "[$symbol]($style)"
-
-[cmd_duration]
-min_time = 3000
-style    = "white"
-format   = "[$duration]($style)"
-
 [nodejs]
-disabled = true
+symbol = " "
+style  = "bold green"
 
 [python]
-disabled = true
+symbol = " "
+style  = "bold yellow"
 
 [rust]
-disabled = true
+symbol = " "
+style  = "bold red"
 
 [golang]
-disabled = true
+symbol = " "
+style  = "bold cyan"
 
 [terraform]
-disabled = true
+symbol = "󱁢 "
+style  = "bold purple"
 
-[hostname]
-ssh_only = true
-style    = "bold green"
+[cmd_duration]
+min_time = 500
+format   = "[$duration](bold yellow)"
