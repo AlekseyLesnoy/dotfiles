@@ -47,6 +47,7 @@ slow_prompt  = thr.get("prompt_render_slow_ms",       50)
 
 platform  = result["platform"]
 shell     = result["shell"]
+profile   = result.get("profile", "default")
 shell_ver = result.get("pwsh_version" if shell == "pwsh" else "zsh_version", "?")
 star_ver  = result.get("starship_version", "?")
 
@@ -79,7 +80,7 @@ rows.append(("Prompt — git dir", f"{git_ms} ms ±{git_std}", icon(git_ms, exc_
 rows.append(("Git overhead", f"{result.get('git_overhead_ms', 0)} ms", "—"))
 
 lines = [
-    f"## {platform.capitalize()} ({shell} {shell_ver} · starship {star_ver})",
+    f"## {platform.capitalize()} · {profile} profile ({shell} {shell_ver} · starship {star_ver})",
     "",
     "| Metric | Value | Status |",
     "|--------|------:|--------|",

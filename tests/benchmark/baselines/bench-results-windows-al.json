@@ -1,0 +1,23 @@
+{
+  "platform": "windows",
+  "profile": "al",
+  "shell": "pwsh",
+  "pwsh_version": "7.5.4",
+  "starship_version": "1.24.2",
+  "startup_noprofile_ms": 502.2,
+  "startup_noprofile_stddev_ms": 10.9,
+  "startup_ms": 883.5,
+  "startup_stddev_ms": 26.4,
+  "prompt_plain_ms": 30.4,
+  "prompt_plain_stddev_ms": 2.1,
+  "prompt_git_ms": 78.4,
+  "prompt_git_stddev_ms": 1.0,
+  "git_overhead_ms": 48.0,
+  "starship_timings": "Here are the timings of modules in your prompt (>=1ms or output):\r\n git_branch  -  27ms  -   \"\u001b[37mon\u001b[0m \u001b[1;38;2;255;148;223mεéámain\u001b[0m \"\r\n git_status  -  21ms  -   \"?2 \u001b[31m!6\u001b[0m Γ£ÿ1  \"\r\n character   -  <1ms  -   \"\u001b[1;38;2;87;186;251mΓ¥»\u001b[0m \"\r\n directory   -  <1ms  -   \"\u001b[1;38;2;86;182;194mC:\\_Projects\\dotfiles\u001b[0m \"\r\n fill        -  <1ms  -   \"\u001b[1;30m \u001b[0m\"\r\n line_break  -  <1ms  -   \"\\n\"",
+  "thresholds": {
+    "startup_excellent_ms": 400,
+    "startup_slow_ms": 1000,
+    "prompt_render_excellent_ms": 20,
+    "prompt_render_slow_ms": 100
+  }
+}

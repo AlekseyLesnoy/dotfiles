@@ -3,19 +3,28 @@
 # Measures pwsh startup time and starship prompt render time in two scenarios:
 # plain home directory vs. inside a git repository.
 #
-# Usage: bench-prompt.ps1 [-GitDir PATH]
-#   -GitDir  Path to a git repo for the git scenario (default: script directory)
+# Usage: bench-prompt.ps1 [-GitDir PATH] [-Profile minimal|al]
+#   -GitDir   Path to a git repo for the git scenario (default: script directory)
+#   -Profile  Starship profile to benchmark (default: default)
 #
-# Output: bench-results-windows.json in current directory
+# Output: bench-results-windows-<profile>.json in current directory
 # Requires: hyperfine, starship
 
 param(
-    [string]$GitDir = (Resolve-Path "$PSScriptRoot/../..").Path
+    [string]$GitDir   = (Resolve-Path "$PSScriptRoot/../..").Path,
+    [ValidateSet('minimal','al')]
+    [string]$Profile  = 'minimal'
 )
 
 $ErrorActionPreference = 'Stop'
 $PlainDir = $env:USERPROFILE
-$Output   = "bench-results-windows.json"
+$Output   = "bench-results-windows-$Profile.json"
+
+$StarshipConfigDir = "$HOME/.config/starship"
+switch ($Profile) {
+    'al'      { $env:STARSHIP_CONFIG = "$StarshipConfigDir/starship-al.toml" }
+    'minimal' { Remove-Item Env:STARSHIP_CONFIG -ErrorAction SilentlyContinue }
+}
 
 function Write-Log { param([string]$Msg) Write-Host "[bench] $Msg" -ForegroundColor Cyan }
 function Get-Mean  { param([string]$JsonPath)
@@ -31,6 +40,7 @@ foreach ($cmd in 'hyperfine', 'starship') {
 }
 
 Write-Log "Platform:  Windows"
+Write-Log "Profile:   $Profile"
 Write-Log "Plain dir: $PlainDir"
 Write-Log "Git dir:   $GitDir"
 
@@ -49,12 +59,12 @@ hyperfine --warmup 3 --runs 20 `
 # ─── 3. Prompt render — plain dir ────────────────────────────────────────────
 Write-Log "Measuring prompt render in plain dir..."
 Set-Location $PlainDir
-$plainSamples = 1..20 | ForEach-Object { (Measure-Command { prompt }).TotalMilliseconds }
+$plainSamples = 1..20 | ForEach-Object { (Measure-Command { starship prompt }).TotalMilliseconds }
 
 # ─── 4. Prompt render — git dir ──────────────────────────────────────────────
 Write-Log "Measuring prompt render in git dir..."
 Set-Location $GitDir
-$gitSamples = 1..20 | ForEach-Object { (Measure-Command { prompt }).TotalMilliseconds }
+$gitSamples = 1..20 | ForEach-Object { (Measure-Command { starship prompt }).TotalMilliseconds }
 
 # ─── 5. starship module timings ──────────────────────────────────────────────
 Write-Log "Capturing starship module timings..."
@@ -77,6 +87,7 @@ $starVer    = (& starship --version).Split()[1]
 
 $result = [ordered]@{
     platform                    = "windows"
+    profile                     = $Profile
     shell                       = "pwsh"
     pwsh_version                = $pwshVer
     starship_version            = $starVer
@@ -102,6 +113,7 @@ $result | ConvertTo-Json -Depth 5 | Set-Content $Output -Encoding UTF8
 
 Write-Host ""
 Write-Host ("─" * 52) -ForegroundColor DarkGray
+Write-Host ("  Profile:                    $Profile")
 Write-Host ("  pwsh startup (no profile): {0} ms  (±{1})" -f $startupNoProfile[0], $startupNoProfile[1])
 Write-Host ("  pwsh startup (w/ profile): {0} ms  (±{1})" -f $startupProfile[0], $startupProfile[1])
 Write-Host ("  prompt (plain dir):        {0} ms  (±{1})" -f $plainAvg, $plainStd)

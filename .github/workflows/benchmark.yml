@@ -21,21 +21,27 @@ jobs:
           # zsh
           sudo apt-get install -y zsh
 
-      - name: Run benchmark
-        run: bash tests/benchmark/bench-prompt.sh "$GITHUB_WORKSPACE"
+      - name: Run benchmark (minimal profile)
+        run: bash tests/benchmark/bench-prompt.sh "$GITHUB_WORKSPACE" --profile=minimal
+
+      - name: Run benchmark (al profile)
+        run: bash tests/benchmark/bench-prompt.sh "$GITHUB_WORKSPACE" --profile=al
 
       - name: Summarize
         run: |
-          python3 tests/benchmark/summarize.py \
-            bench-results-Linux.json \
-            tests/benchmark/baselines/bench-results-linux.json \
-            >> "$GITHUB_STEP_SUMMARY" || echo "regression=true" >> "$GITHUB_ENV"
+          for profile in minimal al; do
+            python3 tests/benchmark/summarize.py \
+              "bench-results-Linux-${profile}.json" \
+              "tests/benchmark/baselines/bench-results-linux-${profile}.json" \
+              >> "$GITHUB_STEP_SUMMARY" || echo "regression=true" >> "$GITHUB_ENV"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+          done
 
       - name: Upload results
         uses: actions/upload-artifact@v4
         with:
           name: bench-linux
-          path: bench-results-Linux.json
+          path: bench-results-Linux-*.json
 
   bench-macos:
     name: Benchmark (macOS)
@@ -46,21 +52,27 @@ jobs:
       - name: Install dependencies
         run: brew install hyperfine starship
 
-      - name: Run benchmark
-        run: bash tests/benchmark/bench-prompt.sh "$GITHUB_WORKSPACE"
+      - name: Run benchmark (minimal profile)
+        run: bash tests/benchmark/bench-prompt.sh "$GITHUB_WORKSPACE" --profile=minimal
+
+      - name: Run benchmark (al profile)
+        run: bash tests/benchmark/bench-prompt.sh "$GITHUB_WORKSPACE" --profile=al
 
       - name: Summarize
         run: |
-          python3 tests/benchmark/summarize.py \
-            bench-results-Darwin.json \
-            tests/benchmark/baselines/bench-results-darwin.json \
-            >> "$GITHUB_STEP_SUMMARY" || echo "regression=true" >> "$GITHUB_ENV"
+          for profile in minimal al; do
+            python3 tests/benchmark/summarize.py \
+              "bench-results-Darwin-${profile}.json" \
+              "tests/benchmark/baselines/bench-results-darwin-${profile}.json" \
+              >> "$GITHUB_STEP_SUMMARY" || echo "regression=true" >> "$GITHUB_ENV"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+          done
 
       - name: Upload results
         uses: actions/upload-artifact@v4
         with:
           name: bench-macos
-          path: bench-results-Darwin.json
+          path: bench-results-Darwin-*.json
 
   bench-windows:
     name: Benchmark (Windows)
@@ -77,24 +89,31 @@ jobs:
                       [System.Environment]::GetEnvironmentVariable('PATH','User')
           echo "PATH=$env:PATH" >> $env:GITHUB_ENV
 
-      - name: Run benchmark
+      - name: Run benchmark (minimal profile)
         shell: pwsh
-        run: pwsh tests/benchmark/bench-prompt.ps1 -GitDir "$env:GITHUB_WORKSPACE"
+        run: pwsh tests/benchmark/bench-prompt.ps1 -GitDir "$env:GITHUB_WORKSPACE" -Profile minimal
+
+      - name: Run benchmark (al profile)
+        shell: pwsh
+        run: pwsh tests/benchmark/bench-prompt.ps1 -GitDir "$env:GITHUB_WORKSPACE" -Profile al
 
       - name: Summarize
         shell: pwsh
         run: |
-          $result = python3 tests/benchmark/summarize.py `
-            bench-results-windows.json `
-            tests/benchmark/baselines/bench-results-windows.json
-          $result | Out-File -Append $env:GITHUB_STEP_SUMMARY
-          if ($LASTEXITCODE -ne 0) { echo "regression=true" >> $env:GITHUB_ENV }
+          foreach ($profile in @('minimal', 'al')) {
+            $result = python3 tests/benchmark/summarize.py `
+              "bench-results-windows-${profile}.json" `
+              "tests/benchmark/baselines/bench-results-windows-${profile}.json"
+            $result | Out-File -Append $env:GITHUB_STEP_SUMMARY
+            "" | Out-File -Append $env:GITHUB_STEP_SUMMARY
+            if ($LASTEXITCODE -ne 0) { echo "regression=true" >> $env:GITHUB_ENV }
+          }
 
       - name: Upload results
         uses: actions/upload-artifact@v4
         with:
           name: bench-windows
-          path: bench-results-windows.json
+          path: bench-results-windows-*.json
 
   open-issue:
     name: Open regression issue
@@ -116,7 +135,6 @@ jobs:
           path: bench-results
 
       - name: Build issue body
-        id: issue
         run: |
           echo "## Prompt performance regression detected" > /tmp/issue-body.md
           echo "" >> /tmp/issue-body.md

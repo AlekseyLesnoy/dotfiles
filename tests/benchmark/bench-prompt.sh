@@ -3,18 +3,35 @@
 # Measures zsh startup time and starship prompt render time in two scenarios:
 # plain home directory vs. inside a git repository.
 #
-# Usage: bench-prompt.sh [GIT_DIR]
-#   GIT_DIR  Path to a git repo for the git scenario (default: current dir)
+# Usage: bench-prompt.sh [GIT_DIR] [--profile minimal|al]
+#   GIT_DIR    Path to a git repo for the git scenario (default: current dir)
+#   --profile  Starship profile to benchmark (default: default)
 #
-# Output: bench-results-<OS>.json in current directory
+# Output: bench-results-<OS>-<profile>.json in current directory
 # Requires: hyperfine, starship, zsh, python3
 
 set -euo pipefail
 
 GIT_DIR="${1:-$PWD}"
+PROFILE="minimal"
+# parse --profile flag
+for arg in "$@"; do
+    case $arg in
+        --profile=*) PROFILE="${arg#*=}" ;;
+        --profile)   shift; PROFILE="$1" ;;
+    esac
+done
+
 PLAIN_DIR="$HOME"
 OS="$(uname -s)"
-OUTPUT="bench-results-${OS}.json"
+OUTPUT="bench-results-${OS}-${PROFILE}.json"
+STARSHIP_CONF_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/starship"
+
+case "$PROFILE" in
+    al)      export STARSHIP_CONFIG="$STARSHIP_CONF_DIR/starship-al.toml" ;;
+    minimal) unset STARSHIP_CONFIG 2>/dev/null || true ;;
+    *)       echo "ERROR: unknown profile '$PROFILE' (use minimal|al)" >&2; exit 1 ;;
+esac
 
 log() { echo "[bench] $*" >&2; }
 
@@ -26,6 +43,7 @@ for cmd in hyperfine starship zsh python3; do
 done
 
 log "Platform:  $OS"
+log "Profile:   $PROFILE"
 log "Plain dir: $PLAIN_DIR"
 log "Git dir:   $GIT_DIR"
 
@@ -37,17 +55,18 @@ hyperfine --warmup 3 --runs 20 \
 
 # ─── 2. Prompt render — plain dir ────────────────────────────────────────────
 log "Measuring prompt render in plain dir..."
+STARSHIP_ENV="${STARSHIP_CONFIG:+STARSHIP_CONFIG=$STARSHIP_CONFIG}"
 hyperfine --warmup 3 --runs 20 \
     --export-json /tmp/bench-prompt-plain.json \
     --shell zsh \
-    "cd ${PLAIN_DIR} && starship prompt" 2>/dev/null
+    "cd ${PLAIN_DIR} && ${STARSHIP_ENV} starship prompt" 2>/dev/null
 
 # ─── 3. Prompt render — git dir ──────────────────────────────────────────────
 log "Measuring prompt render in git dir..."
 hyperfine --warmup 3 --runs 20 \
     --export-json /tmp/bench-prompt-git.json \
     --shell zsh \
-    "cd ${GIT_DIR} && starship prompt" 2>/dev/null
+    "cd ${GIT_DIR} && ${STARSHIP_ENV} starship prompt" 2>/dev/null
 
 # ─── 4. starship module timings ──────────────────────────────────────────────
 log "Capturing starship module timings..."
@@ -71,6 +90,7 @@ star_ver = subprocess.check_output(['starship', '--version']).decode().split()[1
 
 result = {
     "platform":                  "${OS}",
+    "profile":                   "${PROFILE}",
     "shell":                     "zsh",
     "zsh_version":               zsh_ver,
     "starship_version":          star_ver,
@@ -95,6 +115,7 @@ with open('${OUTPUT}', 'w') as f:
 
 print()
 print('─' * 52)
+print(f"  Profile:            ${PROFILE}")
 print(f"  zsh startup:        {result['startup_ms']} ms  (±{result['startup_stddev_ms']})")
 print(f"  prompt (plain dir): {result['prompt_plain_ms']} ms  (±{result['prompt_plain_stddev_ms']})")
 print(f"  prompt (git dir):   {result['prompt_git_ms']} ms  (±{result['prompt_git_stddev_ms']})")

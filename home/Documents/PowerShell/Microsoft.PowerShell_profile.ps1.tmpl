@@ -8,6 +8,7 @@ $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIden
 if ($isAdmin) { $env:IS_ADMIN = "1" } else { Remove-Item Env:IS_ADMIN -ErrorAction SilentlyContinue }
 
 if (Get-Command starship -ErrorAction SilentlyContinue) {
+    $env:STARSHIP_CONFIG = "$HOME/.config/starship/starship-al.toml"
     Invoke-Expression (&starship init powershell)
 }
 
@@ -16,7 +17,7 @@ function prompt-al {
     Invoke-Expression (&starship init powershell)
 }
 function prompt-minimal {
-    Remove-Item Env:STARSHIP_CONFIG -ErrorAction SilentlyContinue
+    $env:STARSHIP_CONFIG = "$HOME/.config/starship/starship-minimal.toml"
     Invoke-Expression (&starship init powershell)
 }
 
