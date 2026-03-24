@@ -36,6 +36,13 @@ jobs:
 
       - name: Summarize
         run: |
+          python3 tests/benchmark/summarize.py \
+            --compare \
+            bench-results-Linux-minimal.json \
+            bench-results-Linux-al.json \
+            --no-regression \
+            >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
           for profile in minimal al; do
             python3 tests/benchmark/summarize.py \
               "bench-results-Linux-${profile}.json" \
@@ -68,6 +75,13 @@ jobs:
 
       - name: Summarize
         run: |
+          python3 tests/benchmark/summarize.py \
+            --compare \
+            bench-results-Darwin-minimal.json \
+            bench-results-Darwin-al.json \
+            --no-regression \
+            >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
           for profile in minimal al; do
             python3 tests/benchmark/summarize.py \
               "bench-results-Darwin-${profile}.json" \
@@ -109,6 +123,13 @@ jobs:
       - name: Summarize
         shell: pwsh
         run: |
+          python3 tests/benchmark/summarize.py `
+            --compare `
+            bench-results-windows-minimal.json `
+            bench-results-windows-al.json `
+            --no-regression `
+            | Out-File -Append $env:GITHUB_STEP_SUMMARY
+          "" | Out-File -Append $env:GITHUB_STEP_SUMMARY
           foreach ($profile in @('minimal', 'al')) {
             python3 tests/benchmark/summarize.py `
               "bench-results-windows-${profile}.json" `
