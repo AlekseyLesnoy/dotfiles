@@ -1,0 +1,22 @@
+{
+  "platform": "windows",
+  "shell": "pwsh",
+  "pwsh_version": "7.5.4",
+  "starship_version": "1.24.2",
+  "startup_noprofile_ms": 444.6,
+  "startup_noprofile_stddev_ms": 10.3,
+  "startup_ms": 812.1,
+  "startup_stddev_ms": 20.3,
+  "prompt_plain_ms": 37.1,
+  "prompt_plain_stddev_ms": 6.6,
+  "prompt_git_ms": 82.9,
+  "prompt_git_stddev_ms": 2.2,
+  "git_overhead_ms": 45.8,
+  "starship_timings": "Here are the timings of modules in your prompt (>=1ms or output):\r\n directory   -  26ms  -   \"\u001b[1;36mdotfiles\u001b[0m \"\r\n git_status  -  21ms  -   \"\u001b[1;31m[!?]\u001b[0m \"\r\n battery     -   1ms  -   \"\"\r\n git_branch  -  <1ms  -   \"on \u001b[1;35mεéá main\u001b[0m \"\r\n line_break  -  <1ms  -   \"\\n\"\r\n character   -  <1ms  -   \"\u001b[1;32mΓ¥»\u001b[0m \"",
+  "thresholds": {
+    "startup_excellent_ms": 400,
+    "startup_slow_ms": 1000,
+    "prompt_render_excellent_ms": 20,
+    "prompt_render_slow_ms": 100
+  }
+}

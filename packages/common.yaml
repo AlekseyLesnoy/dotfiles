@@ -18,6 +18,7 @@ brew:
     - direnv
     - gh
     - zinit
+    - hyperfine
   casks:
     - 1password
     - visual-studio-code
@@ -67,5 +68,6 @@ winget:
     - id: Microsoft.PowerToys
     - id: 15722UsefulApp.WorkspaceLauncherForVSCode
     - id: davidegiacometti.EdgeFavoritesForCmdPal
+    - id: sharkdp.hyperfine
   remove:
     - id: Microsoft.OneDrive   # Flagged (not auto-removed) on non-work machines
