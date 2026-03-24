@@ -3,6 +3,7 @@
     "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
     "copyOnSelect": false,
     "copyFormatting": "none",
+    "disableAnimations": true,
 
     "profiles": {
         "defaults": {
@@ -111,6 +112,17 @@
         { "command": "nextTab", "keys": "ctrl+tab" },
         { "command": "prevTab", "keys": "ctrl+shift+tab" },
         { "command": { "action": "newTab" }, "keys": "ctrl+t" },
-        { "command": { "action": "closeTab" }, "keys": "ctrl+w" }
+        { "command": { "action": "closeTab" }, "keys": "ctrl+w" },
+        {
+            "command": {
+                "action": "globalSummon",
+                "name": "_quake",
+                "dropdownDuration": 1,
+                "toggleVisibility": true,
+                "monitor": "toMouse",
+                "desktop": "toCurrent"
+            },
+            "keys": "win+`"
+        }
     ]
 }
