@@ -3,3 +3,6 @@
 *.local
 .DS_Store
 Thumbs.db
+
+# Benchmark output (results go to baselines/ when promoted)
+bench-results-*.json
