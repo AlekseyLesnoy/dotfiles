@@ -89,3 +89,14 @@
 
 ## PowerShell Profile
 - [ ] Review and improve PowerShell profile (`home/Documents/PowerShell/Microsoft.PowerShell_profile.ps1.tmpl`)
+
+## Benchmark CI baselines
+- [ ] Set up CI-captured baselines for regression detection
+  - Currently: local baselines committed to repo, but CI runners are faster so thresholds never fire
+  - Currently: `--no-regression` flag disables issue creation from CI
+  - Plan:
+    1. Add `update-baselines` job (manual `workflow_dispatch` only) that downloads artifacts
+       from a completed bench run and commits them to `tests/benchmark/baselines/ci/`
+    2. Change CI summarize steps to compare against `ci/` baselines (without `--no-regression`)
+    3. `open-issue` job fires when summarize exits 1 (regression vs CI baseline detected)
+  - Local baselines in `tests/benchmark/baselines/` stay for local `prompt-al`/`prompt-minimal` comparison
