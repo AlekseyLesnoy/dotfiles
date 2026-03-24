@@ -51,7 +51,7 @@ log "Git dir:   $GIT_DIR"
 log "Measuring zsh startup time..."
 hyperfine --warmup 3 --runs 20 \
     --export-json /tmp/bench-startup.json \
-    'zsh -i -c exit' 2>/dev/null
+    'zsh --no-rcs -c exit' 2>/dev/null
 
 # ─── 2. Prompt render — plain dir ────────────────────────────────────────────
 log "Measuring prompt render in plain dir..."

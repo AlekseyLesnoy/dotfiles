@@ -36,8 +36,8 @@ def delta_str(current, b_val):
     return f" ({sign}{pct:.0f}%)"
 
 
-result   = json.loads(Path(sys.argv[1]).read_text())
-baseline = json.loads(Path(sys.argv[2]).read_text()) if len(sys.argv) > 2 and Path(sys.argv[2]).exists() else None
+result   = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+baseline = json.loads(Path(sys.argv[2]).read_text(encoding="utf-8")) if len(sys.argv) > 2 and Path(sys.argv[2]).exists() else None
 
 thr          = result.get("thresholds", {})
 exc_startup  = thr.get("startup_excellent_ms",       150)

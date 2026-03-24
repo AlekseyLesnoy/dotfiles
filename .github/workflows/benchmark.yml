@@ -150,6 +150,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          gh label create "performance" --color "e4e669" --description "Performance regression" --force
           gh issue create \
             --title "⚠️ Prompt performance regression ($(date -u +%Y-%m-%d))" \
             --label "performance" \
