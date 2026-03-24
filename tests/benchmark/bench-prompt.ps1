@@ -3,25 +3,25 @@
 # Measures pwsh startup time and starship prompt render time in two scenarios:
 # plain home directory vs. inside a git repository.
 #
-# Usage: bench-prompt.ps1 [-GitDir PATH] [-Profile minimal|al]
-#   -GitDir   Path to a git repo for the git scenario (default: script directory)
-#   -Profile  Starship profile to benchmark (default: default)
+# Usage: bench-prompt.ps1 [-GitDir PATH] [-StarshipProfile minimal|al]
+#   -GitDir           Path to a git repo for the git scenario (default: script directory)
+#   -StarshipProfile  Starship profile to benchmark (default: minimal)
 #
 # Output: bench-results-windows-<profile>.json in current directory
 # Requires: hyperfine, starship
 
 param(
-    [string]$GitDir   = (Resolve-Path "$PSScriptRoot/../..").Path,
+    [string]$GitDir          = (Resolve-Path "$PSScriptRoot/../..").Path,
     [ValidateSet('minimal','al')]
-    [string]$Profile  = 'minimal'
+    [string]$StarshipProfile = 'minimal'
 )
 
 $ErrorActionPreference = 'Stop'
 $PlainDir = $env:USERPROFILE
-$Output   = "bench-results-windows-$Profile.json"
+$Output   = "bench-results-windows-$StarshipProfile.json"
 
 $StarshipConfigDir = "$HOME/.config/starship"
-switch ($Profile) {
+switch ($StarshipProfile) {
     'al'      { $env:STARSHIP_CONFIG = "$StarshipConfigDir/starship-al.toml" }
     'minimal' { Remove-Item Env:STARSHIP_CONFIG -ErrorAction SilentlyContinue }
 }
@@ -40,7 +40,7 @@ foreach ($cmd in 'hyperfine', 'starship') {
 }
 
 Write-Log "Platform:  Windows"
-Write-Log "Profile:   $Profile"
+Write-Log "Profile:   $StarshipProfile"
 Write-Log "Plain dir: $PlainDir"
 Write-Log "Git dir:   $GitDir"
 
@@ -87,7 +87,7 @@ $starVer    = (& starship --version).Split()[1]
 
 $result = [ordered]@{
     platform                    = "windows"
-    profile                     = $Profile
+    profile                     = $StarshipProfile
     shell                       = "pwsh"
     pwsh_version                = $pwshVer
     starship_version            = $starVer
@@ -113,7 +113,7 @@ $result | ConvertTo-Json -Depth 5 | Set-Content $Output -Encoding UTF8
 
 Write-Host ""
 Write-Host ("─" * 52) -ForegroundColor DarkGray
-Write-Host ("  Profile:                    $Profile")
+Write-Host ("  Profile:                    $StarshipProfile")
 Write-Host ("  pwsh startup (no profile): {0} ms  (±{1})" -f $startupNoProfile[0], $startupNoProfile[1])
 Write-Host ("  pwsh startup (w/ profile): {0} ms  (±{1})" -f $startupProfile[0], $startupProfile[1])
 Write-Host ("  prompt (plain dir):        {0} ms  (±{1})" -f $plainAvg, $plainStd)

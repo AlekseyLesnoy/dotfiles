@@ -42,15 +42,6 @@ jobs:
             bench-results-Linux-al.json \
             --no-regression \
             >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          for profile in minimal al; do
-            python3 tests/benchmark/summarize.py \
-              "bench-results-Linux-${profile}.json" \
-              --no-regression \
-              "tests/benchmark/baselines/bench-results-linux-${profile}.json" \
-              >> "$GITHUB_STEP_SUMMARY"
-            echo "" >> "$GITHUB_STEP_SUMMARY"
-          done
 
       - name: Upload results
         uses: actions/upload-artifact@v4
@@ -81,15 +72,6 @@ jobs:
             bench-results-Darwin-al.json \
             --no-regression \
             >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          for profile in minimal al; do
-            python3 tests/benchmark/summarize.py \
-              "bench-results-Darwin-${profile}.json" \
-              --no-regression \
-              "tests/benchmark/baselines/bench-results-darwin-${profile}.json" \
-              >> "$GITHUB_STEP_SUMMARY"
-            echo "" >> "$GITHUB_STEP_SUMMARY"
-          done
 
       - name: Upload results
         uses: actions/upload-artifact@v4
@@ -114,11 +96,11 @@ jobs:
 
       - name: Run benchmark (minimal profile)
         shell: pwsh
-        run: pwsh tests/benchmark/bench-prompt.ps1 -GitDir "$env:GITHUB_WORKSPACE" -Profile minimal
+        run: pwsh tests/benchmark/bench-prompt.ps1 -GitDir "$env:GITHUB_WORKSPACE" -StarshipProfile minimal
 
       - name: Run benchmark (al profile)
         shell: pwsh
-        run: pwsh tests/benchmark/bench-prompt.ps1 -GitDir "$env:GITHUB_WORKSPACE" -Profile al
+        run: pwsh tests/benchmark/bench-prompt.ps1 -GitDir "$env:GITHUB_WORKSPACE" -StarshipProfile al
 
       - name: Summarize
         shell: pwsh
@@ -129,15 +111,6 @@ jobs:
             bench-results-windows-al.json `
             --no-regression `
             | Out-File -Append $env:GITHUB_STEP_SUMMARY
-          "" | Out-File -Append $env:GITHUB_STEP_SUMMARY
-          foreach ($profile in @('minimal', 'al')) {
-            python3 tests/benchmark/summarize.py `
-              "bench-results-windows-${profile}.json" `
-              --no-regression `
-              "tests/benchmark/baselines/bench-results-windows-${profile}.json" `
-              | Out-File -Append $env:GITHUB_STEP_SUMMARY
-            "" | Out-File -Append $env:GITHUB_STEP_SUMMARY
-          }
 
       - name: Upload results
         uses: actions/upload-artifact@v4
