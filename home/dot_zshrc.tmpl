@@ -126,3 +126,6 @@ fi
 if command -v starship &>/dev/null; then
     eval "$(starship init zsh)"
 fi
+
+function prompt-al      { export STARSHIP_CONFIG=~/.config/starship/starship-al.toml; eval "$(starship init zsh)"; }
+function prompt-minimal { unset STARSHIP_CONFIG; eval "$(starship init zsh)"; }

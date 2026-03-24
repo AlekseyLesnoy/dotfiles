@@ -3,7 +3,20 @@
 #Requires -Version 7.0
 
 # ─── Starship ──────────────────────────────────────────────────────────────
+# Expose elevation status so starship env_var module can show lightning icon
+$isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if ($isAdmin) { $env:IS_ADMIN = "1" } else { Remove-Item Env:IS_ADMIN -ErrorAction SilentlyContinue }
+
 if (Get-Command starship -ErrorAction SilentlyContinue) {
+    Invoke-Expression (&starship init powershell)
+}
+
+function prompt-al {
+    $env:STARSHIP_CONFIG = "$HOME/.config/starship/starship-al.toml"
+    Invoke-Expression (&starship init powershell)
+}
+function prompt-minimal {
+    Remove-Item Env:STARSHIP_CONFIG -ErrorAction SilentlyContinue
     Invoke-Expression (&starship init powershell)
 }
 
