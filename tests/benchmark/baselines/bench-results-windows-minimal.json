@@ -1,5 +1,6 @@
 {
   "platform": "windows",
+  "profile": "minimal",
   "shell": "pwsh",
   "pwsh_version": "7.5.4",
   "starship_version": "1.24.2",
