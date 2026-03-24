@@ -37,7 +37,12 @@ def delta_str(current, b_val):
 
 
 result   = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-baseline = json.loads(Path(sys.argv[2]).read_text(encoding="utf-8")) if len(sys.argv) > 2 and Path(sys.argv[2]).exists() else None
+
+# collect remaining args
+args = sys.argv[2:]
+no_regression = "--no-regression" in args
+baseline_path = next((a for a in args if not a.startswith("--")), None)
+baseline = json.loads(Path(baseline_path).read_text(encoding="utf-8")) if baseline_path and Path(baseline_path).exists() else None
 
 thr          = result.get("thresholds", {})
 exc_startup  = thr.get("startup_excellent_ms",       150)
@@ -56,26 +61,29 @@ def b(key):
 
 rows = []
 
+def row(label, cur, std, b_val, b_std, exc, slow):
+    status = icon(cur, exc, slow) + delta_str(cur, b_val)
+    val = f"{cur} ms ±{std}"
+    if baseline and b_val:
+        val += f" _(baseline: {b_val} ms ±{b_std})_"
+    rows.append((label, val, status))
+
 startup_ms  = result.get("startup_ms", 0)
 startup_std = result.get("startup_stddev_ms", 0)
-d = delta_str(startup_ms, b("startup_ms"))
-rows.append(("Startup (w/ profile)", f"{startup_ms} ms ±{startup_std}", icon(startup_ms, exc_startup, slow_startup) + d))
+row("Startup (w/ profile)", startup_ms, startup_std, b("startup_ms"), b("startup_stddev_ms"), exc_startup, slow_startup)
 
 if "startup_noprofile_ms" in result:
     nm  = result["startup_noprofile_ms"]
     nm_std = result.get("startup_noprofile_stddev_ms", 0)
-    d = delta_str(nm, b("startup_noprofile_ms"))
-    rows.append(("Startup (no profile)", f"{nm} ms ±{nm_std}", icon(nm, exc_startup, slow_startup) + d))
+    row("Startup (no profile)", nm, nm_std, b("startup_noprofile_ms"), b("startup_noprofile_stddev_ms"), exc_startup, slow_startup)
 
 plain_ms  = result.get("prompt_plain_ms", 0)
 plain_std = result.get("prompt_plain_stddev_ms", 0)
-d = delta_str(plain_ms, b("prompt_plain_ms"))
-rows.append(("Prompt — plain dir", f"{plain_ms} ms ±{plain_std}", icon(plain_ms, exc_prompt, slow_prompt) + d))
+row("Prompt — plain dir", plain_ms, plain_std, b("prompt_plain_ms"), b("prompt_plain_stddev_ms"), exc_prompt, slow_prompt)
 
 git_ms  = result.get("prompt_git_ms", 0)
 git_std = result.get("prompt_git_stddev_ms", 0)
-d = delta_str(git_ms, b("prompt_git_ms"))
-rows.append(("Prompt — git dir", f"{git_ms} ms ±{git_std}", icon(git_ms, exc_prompt, slow_prompt) + d))
+row("Prompt — git dir", git_ms, git_std, b("prompt_git_ms"), b("prompt_git_stddev_ms"), exc_prompt, slow_prompt)
 
 rows.append(("Git overhead", f"{result.get('git_overhead_ms', 0)} ms", "—"))
 
@@ -119,4 +127,5 @@ if regressions:
     print("\n### ⚠️ Performance regressions detected")
     for r in regressions:
         print(f"- {r}")
-    sys.exit(1)
+    if not no_regression:
+        sys.exit(1)

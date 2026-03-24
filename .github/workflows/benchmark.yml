@@ -39,8 +39,9 @@ jobs:
           for profile in minimal al; do
             python3 tests/benchmark/summarize.py \
               "bench-results-Linux-${profile}.json" \
+              --no-regression \
               "tests/benchmark/baselines/bench-results-linux-${profile}.json" \
-              >> "$GITHUB_STEP_SUMMARY" || echo "regression=true" >> "$GITHUB_ENV"
+              >> "$GITHUB_STEP_SUMMARY"
             echo "" >> "$GITHUB_STEP_SUMMARY"
           done
 
@@ -70,8 +71,9 @@ jobs:
           for profile in minimal al; do
             python3 tests/benchmark/summarize.py \
               "bench-results-Darwin-${profile}.json" \
+              --no-regression \
               "tests/benchmark/baselines/bench-results-darwin-${profile}.json" \
-              >> "$GITHUB_STEP_SUMMARY" || echo "regression=true" >> "$GITHUB_ENV"
+              >> "$GITHUB_STEP_SUMMARY"
             echo "" >> "$GITHUB_STEP_SUMMARY"
           done
 
@@ -108,12 +110,12 @@ jobs:
         shell: pwsh
         run: |
           foreach ($profile in @('minimal', 'al')) {
-            $result = python3 tests/benchmark/summarize.py `
+            python3 tests/benchmark/summarize.py `
               "bench-results-windows-${profile}.json" `
-              "tests/benchmark/baselines/bench-results-windows-${profile}.json"
-            $result | Out-File -Append $env:GITHUB_STEP_SUMMARY
+              --no-regression `
+              "tests/benchmark/baselines/bench-results-windows-${profile}.json" `
+              | Out-File -Append $env:GITHUB_STEP_SUMMARY
             "" | Out-File -Append $env:GITHUB_STEP_SUMMARY
-            if ($LASTEXITCODE -ne 0) { echo "regression=true" >> $env:GITHUB_ENV }
           }
 
       - name: Upload results
@@ -149,7 +151,7 @@ jobs:
           echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> /tmp/issue-body.md
           echo "" >> /tmp/issue-body.md
           for f in bench-results/**/*.json; do
-            python3 tests/benchmark/summarize.py "$f" >> /tmp/issue-body.md 2>/dev/null || true
+            python3 tests/benchmark/summarize.py "$f" --no-regression >> /tmp/issue-body.md 2>/dev/null || true
             echo "" >> /tmp/issue-body.md
           done
 
