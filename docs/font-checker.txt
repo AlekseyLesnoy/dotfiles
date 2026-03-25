@@ -126,3 +126,4 @@ def merge(x1, x2):
         return x1
     else:
         raise ValueError(f"Cannot merge '{x1!r}' and '{x2!r}'")
+
