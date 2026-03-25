@@ -1,0 +1,171 @@
+# Starship prompt — al theme
+# Replicates al-05-2022.omp.json (Oh My Posh → Starship)
+# Switch to this theme: prompt-al
+# Switch back:          prompt-minimal
+# To change color scheme: edit colorscheme variable below
+{{- $colorscheme := "one_dark" }}
+
+format = """
+$env_var\
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$git_state\
+$fill\
+$dotnet\
+$kubernetes\
+$nodejs\
+$python\
+$rust\
+$golang\
+$terraform\
+$cmd_duration\
+$line_break\
+$character"""
+
+palette = "{{ $colorscheme }}"
+
+[palettes.{{ $colorscheme }}]
+# custom
+#cursor        = "#FF6AC1"
+cursor        = "#57BAFB"
+k8s           = "#326CE5"
+{{- if eq $colorscheme "ocean_dark" }}
+# Ocean Dark (Base16)
+black         = "#2B303B"
+blue          = "#8FA1B3"
+cyan          = "#96B5B4"
+green         = "#A3BE8C"
+magenta       = "#B48EAD"
+red           = "#BF616A"
+white         = "#C0C5CE"
+yellow        = "#EBCB8B"
+brightBlack   = "#65737E"
+brightBlue    = "#8FA1B3"
+brightCyan    = "#96B5B4"
+brightGreen   = "#A3BE8C"
+brightMagenta = "#B48EAD"
+brightRed     = "#BF616A"
+brightWhite   = "#EFF1F5"
+brightYellow  = "#EBCB8B"
+{{- else }}
+# One Dark (default)
+black         = "#282C34"
+blue          = "#61AFEF"
+cyan          = "#56B6C2"
+green         = "#98C379"
+magenta       = "#C678DD"
+red           = "#E06C75"
+white         = "#ABB2BF"
+yellow        = "#E5C07B"
+brightBlack   = "#545862"
+brightBlue    = "#61AFEF"
+brightCyan    = "#56B6C2"
+brightGreen   = "#98C379"
+brightMagenta = "#C678DD"
+brightRed     = "#E06C75"
+brightWhite   = "#C8CCD4"
+brightYellow  = "#E5C07B"
+{{- end }}
+
+[character]
+success_symbol = "[❯](bold cursor)"
+error_symbol   = "[❯](bold red)"
+
+[username]
+show_always   = false
+style_user    = "bold yellow"
+style_root    = "bold yellow"
+format        = "[$user]($style) [in](white) "
+
+[hostname]
+ssh_only = true
+style    = "bold green"
+
+[directory]
+style             = "bold cyan"
+format            = "[$path]($style) "
+truncation_length = 4
+truncation_symbol = "…/"
+truncate_to_repo  = false
+read_only         = " 󰌾"
+
+[git_branch]
+symbol = "\ue0a0"
+style  = "bold magenta"
+format = "[on](white) [$symbol$branch]($style) "
+
+[git_status]
+style      = "white"
+format     = '($ahead_behind$untracked$staged$modified$renamed$deleted$conflicted )'
+ahead      = "[⇡${count}]($style) "
+behind     = "[⇣${count}]($style) "
+diverged   = "[⇕⇡${ahead_count}⇣${behind_count}]($style) "
+up_to_date = ""
+untracked  = "[?${count}]($style) "
+modified   = "[!${count}](red) "
+staged     = "[+${count}](green) "
+renamed    = "[»${count}]($style) "
+deleted    = "[✘${count}]($style) "
+conflicted = "[=]($style) "
+
+[status]
+symbol         = "\uf00d"
+success_symbol = "\uf42e"
+style          = "white"
+format         = "[$symbol]($style) "
+disabled       = false
+
+[fill]
+symbol = " "
+
+[sudo]
+disabled = true
+
+[env_var.IS_ADMIN]
+symbol   = "\uf0e7 "
+style    = "bold yellow"
+format   = "[$symbol]($style)"
+
+[dotnet]
+symbol = "\ue70c "
+style  = "white"
+format = "[$symbol$version]($style) "
+
+[kubernetes]
+symbol   = "\ufd31 "
+style    = "bold k8s"
+format   = "[$symbol$context( \\($namespace\\))]($style) "
+disabled = false
+
+[nodejs]
+symbol = " "
+style  = "bold green"
+
+[python]
+symbol = " "
+style  = "bold yellow"
+
+[rust]
+symbol = " "
+style  = "bold red"
+
+[golang]
+symbol = " "
+style  = "bold cyan"
+
+[terraform]
+symbol = "󱁢 "
+style  = "bold magenta"
+
+[cmd_duration]
+min_time = 500
+format   = "[$duration](bold yellow)"
+
+[custom.transient_character]
+when   = true
+symbol = "❯❯❯"
+style  = "bold magenta"
+format = "[$symbol]($style) "
