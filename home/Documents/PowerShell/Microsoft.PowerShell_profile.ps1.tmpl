@@ -93,4 +93,11 @@ function Set-DotfilesProfile {
 }
 Set-Alias -Name dotfiles-set-profile -Value Set-DotfilesProfile
 
+# ─── Starting directory ────────────────────────────────────────────────────
+# If no launcher set a directory (fell back to System32), go home.
+# Launchers like Total Commander pass their panel directory, which is preserved.
+# Configure Windows Terminal's default startingDirectory to "~" so normal
+# terminal opens also start at home without relying on this fallback.
+if ($PWD.Path -eq "$env:SystemRoot\System32") { Set-Location ~ }
+
 Write-Host "pwsh $($PSVersionTable.PSVersion) | Profile: {{ .profile }} | Host: {{ .hostname }}" -ForegroundColor DarkGray

@@ -40,22 +40,23 @@ truncate_to_repo  = true
 read_only        = " 󰌾"
 
 [git_branch]
-symbol = " "
+symbol = "\ue0a0"
 style  = "bold purple"
+format = "[on](white) [$symbol$branch]($style) "
 
 [git_status]
-format     = '($ahead_behind$untracked$staged$modified$renamed$deleted$conflicted )'
-style      = "bold yellow"
-ahead      = "⇡${count} "
-behind     = "⇣${count} "
-diverged   = "⇕⇡${ahead_count}⇣${behind_count} "
+format     = '([\[$ahead_behind$untracked$staged$modified$renamed$deleted$conflicted\]]($style) )'
+style      = "bold #F96D6F"
+ahead      = "⇡"
+behind     = "⇣"
+diverged   = "⇕⇡${ahead_count}⇣${behind_count}"
 up_to_date = ""
-untracked  = "?${count} "
-modified   = "!${count} "
-staged     = "+${count} "
-renamed    = "»${count} "
-deleted    = "✘${count} "
-conflicted = "= "
+untracked  = "?"
+modified   = "!"
+staged     = "+"
+renamed    = "»"
+deleted    = "✘"
+conflicted = "="
 
 [fill]
 symbol = " "
@@ -94,3 +95,9 @@ style  = "bold purple"
 [cmd_duration]
 min_time = 500
 format   = "[$duration](bold yellow)"
+
+[custom.transient_character]
+when   = true
+symbol = "❯❯❯"
+style  = "bold purple"
+format = "[$symbol]($style) "
