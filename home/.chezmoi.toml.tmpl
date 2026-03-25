@@ -25,15 +25,15 @@
   command = "code"
   args = ["--wait"]
 
-{{- if not $hasLocalRepo -}}
+{{ if not $hasLocalRepo }}
 [git]
   autoCommit = true
   autoPush   = true
-{{- end -}}
+{{ end }}
 
-{{- if eq .chezmoi.os "windows" -}}
+{{ if eq .chezmoi.os "windows" }}
 [interpreters.ps1]
   command = "pwsh"
   args    = ["-NoLogo", "-NoProfile", "-NonInteractive", "-File"]
-{{- end -}}
+{{ end }}
 
