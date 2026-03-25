@@ -43,6 +43,7 @@ format            = "[$path]($style) "
 truncation_length = 4
 truncation_symbol = "…/"
 truncate_to_repo  = false
+read_only         = " 󰌾"
 
 [git_branch]
 symbol = "\ue0a0"
@@ -115,3 +116,9 @@ style  = "bold purple"
 [cmd_duration]
 min_time = 500
 format   = "[$duration](bold yellow)"
+
+[custom.transient_character]
+when     = true
+symbol     = "❯❯❯"
+style      = "bold purple"
+format     = "[$symbol]($style) "

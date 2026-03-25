@@ -90,6 +90,17 @@
 ## PowerShell Profile
 - [ ] Review and improve PowerShell profile (`home/Documents/PowerShell/Microsoft.PowerShell_profile.ps1.tmpl`)
 
+## Starship Transient Prompt
+- [x] Implement transient prompt for Starship in both profiles
+  - Transient prompt replaces the previous prompt line with a minimal version after a command runs,
+    keeping scrollback clean (only the current prompt is full-featured)
+  - Starship supports this via `[transient_prompt]` in the TOML config
+  - Needs to be enabled in the shell init too:
+    - zsh: `enable-starship-transience` function or `starship init zsh --print-full-init` with transience flag
+    - pwsh: `Enable-TransientPrompt` after `Invoke-Expression (&starship init powershell)`
+  - Add to both `starship-al.toml` and `starship-minimal.toml`
+  - Test that `prompt-al` / `prompt-minimal` switcher functions re-enable transience after switching
+
 ## Benchmark CI baselines
 - [ ] Set up CI-captured baselines for regression detection
   - Currently: local baselines committed to repo, but CI runners are faster so thresholds never fire

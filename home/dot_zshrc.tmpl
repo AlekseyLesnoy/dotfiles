@@ -126,7 +126,8 @@ fi
 if command -v starship &>/dev/null; then
     export STARSHIP_CONFIG=~/.config/starship/starship-al.toml
     eval "$(starship init zsh)"
+    enable-starship-transience
 fi
 
-function prompt-al      { export STARSHIP_CONFIG=~/.config/starship/starship-al.toml; eval "$(starship init zsh)"; }
-function prompt-minimal { export STARSHIP_CONFIG=~/.config/starship/starship-minimal.toml; eval "$(starship init zsh)"; }
+function prompt-al      { export STARSHIP_CONFIG=~/.config/starship/starship-al.toml; eval "$(starship init zsh)"; enable-starship-transience; }
+function prompt-minimal { export STARSHIP_CONFIG=~/.config/starship/starship-minimal.toml; eval "$(starship init zsh)"; enable-starship-transience; }

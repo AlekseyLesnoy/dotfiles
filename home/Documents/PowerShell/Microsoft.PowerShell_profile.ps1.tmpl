@@ -2,29 +2,10 @@
 # Target: $HOME/Documents/PowerShell/Microsoft.PowerShell_profile.ps1
 #Requires -Version 7.0
 
-# ─── Starship ──────────────────────────────────────────────────────────────
-# Expose elevation status so starship env_var module can show lightning icon
-$isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
-if ($isAdmin) { $env:IS_ADMIN = "1" } else { Remove-Item Env:IS_ADMIN -ErrorAction SilentlyContinue }
-
-if (Get-Command starship -ErrorAction SilentlyContinue) {
-    $env:STARSHIP_CONFIG = "$HOME/.config/starship/starship-al.toml"
-    Invoke-Expression (&starship init powershell)
-}
-
-function prompt-al {
-    $env:STARSHIP_CONFIG = "$HOME/.config/starship/starship-al.toml"
-    Invoke-Expression (&starship init powershell)
-}
-function prompt-minimal {
-    $env:STARSHIP_CONFIG = "$HOME/.config/starship/starship-minimal.toml"
-    Invoke-Expression (&starship init powershell)
-}
-
 # ─── PSReadLine ────────────────────────────────────────────────────────────
 Import-Module PSReadLine -ErrorAction SilentlyContinue
 
-Set-PSReadLineOption -EditMode Emacs
+#Set-PSReadLineOption -EditMode Windows
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle ListView
 Set-PSReadLineOption -BellStyle None
@@ -33,6 +14,29 @@ Set-PSReadLineKeyHandler -Key UpArrow   -Function HistorySearchBackward
 Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 Set-PSReadLineKeyHandler -Chord 'Ctrl+p' -Function HistorySearchBackward
 Set-PSReadLineKeyHandler -Chord 'Ctrl+n' -Function HistorySearchForward
+
+# ─── Starship ──────────────────────────────────────────────────────────────
+# Expose elevation status so starship env_var module can show lightning icon
+$isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if ($isAdmin) { $env:IS_ADMIN = "1" } else { Remove-Item Env:IS_ADMIN -ErrorAction SilentlyContinue }
+
+if (Get-Command starship -ErrorAction SilentlyContinue) {
+    $env:STARSHIP_CONFIG = "$HOME/.config/starship/starship-al.toml"
+    function Invoke-Starship-TransientFunction { &starship module custom.transient_character }
+    Invoke-Expression (&starship init powershell)
+    Enable-TransientPrompt
+}
+
+function prompt-al {
+    $env:STARSHIP_CONFIG = "$HOME/.config/starship/starship-al.toml"
+    Invoke-Expression (&starship init powershell)
+    Enable-TransientPrompt
+}
+function prompt-minimal {
+    $env:STARSHIP_CONFIG = "$HOME/.config/starship/starship-minimal.toml"
+    Invoke-Expression (&starship init powershell)
+    Enable-TransientPrompt
+}
 
 # ─── Aliases ───────────────────────────────────────────────────────────────
 Set-Alias -Name g   -Value git
