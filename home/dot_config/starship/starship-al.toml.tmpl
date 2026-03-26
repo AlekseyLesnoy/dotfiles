@@ -99,17 +99,17 @@ format = "[on](white) [$symbol$branch]($style) "
 
 [git_status]
 style      = "white"
-format     = '($ahead_behind$untracked$staged$modified$renamed$deleted$conflicted )'
+format     = '($ahead_behind$untracked$modified$renamed$staged$deleted$conflicted )'
 ahead      = "[⇡${count}]($style) "
 behind     = "[⇣${count}]($style) "
 diverged   = "[⇕⇡${ahead_count}⇣${behind_count}]($style) "
 up_to_date = ""
 untracked  = "[?${count}]($style) "
-modified   = "[!${count}](red) "
+modified   = "[!${count}]($style) "
 staged     = "[+${count}](green) "
 renamed    = "[»${count}]($style) "
-deleted    = "[✘${count}]($style) "
-conflicted = "[=]($style) "
+deleted    = "[-${count}](red) "
+conflicted = "[=](red) "
 
 [status]
 symbol         = "\uf00d"

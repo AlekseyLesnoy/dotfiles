@@ -26,13 +26,9 @@ $filesToRemove = @(
     "FancyZones\custom-layouts.json",
     "FancyZones\layout-hotkeys.json",
     "FancyZones\layout-templates.json",
-    "FindMyMouse\settings.json",
-    "Measure Tool\settings.json",
-    "MouseJump\settings.json",
     "Peek\settings.json",
     "PowerToys Run\settings.json",
-    "QuickAccent\settings.json",
-    "Shortcut Guide\settings.json"
+    "QuickAccent\settings.json"
 )
 
 foreach ($f in $filesToRemove) {

@@ -13,7 +13,7 @@
   "SingleClickActivates": false,
   "HighlightSearchOnActivate": true,
   "KeepPreviousQuery": false,
-  "ShowSystemTrayIcon": true,
+  "ShowSystemTrayIcon": false,
   "IgnoreShortcutWhenFullscreen": false,
   "AllowExternalReload": false,
   "ProviderSettings": {

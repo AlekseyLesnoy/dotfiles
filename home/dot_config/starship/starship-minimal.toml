@@ -45,7 +45,7 @@ style  = "bold purple"
 format = "[on](white) [$symbol$branch]($style) "
 
 [git_status]
-format     = '([\[$ahead_behind$untracked$staged$modified$renamed$deleted$conflicted\]]($style) )'
+format     = '([\[$ahead_behind$untracked$modified$renamed$staged$deleted$conflicted\]]($style) )'
 style      = "bold #F96D6F"
 ahead      = "⇡"
 behind     = "⇣"
@@ -55,7 +55,7 @@ untracked  = "?"
 modified   = "!"
 staged     = "+"
 renamed    = "»"
-deleted    = "✘"
+deleted    = "-"
 conflicted = "="
 
 [fill]

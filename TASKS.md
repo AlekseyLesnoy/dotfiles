@@ -76,6 +76,7 @@
 - [x] 14 create_ settings files for non-default modules (AdvancedPaste, AlwaysOnTop, FancyZones, FindMyMouse, Measure Tool, MouseJump, Peek, PowerToys Run, QuickAccent, Shortcut Guide)
 - [x] CmdPal settings (Packages/Microsoft.CommandPalette_8wekyb3d8bbwe/LocalState) with Shift+Backspace hotkey
 - [x] CmdPal plugins: WorkspaceLauncherForVSCode + EdgeFavorites (common), VisualStudio (work)
+- [ ] Add ZoomIt configuration (`home/AppData/Local/Microsoft/PowerToys/ZoomIt/create_settings.json`)
 
 ## Pending
 - [ ] Install and integrate mise (runtime version manager)
@@ -100,6 +101,23 @@
     - pwsh: `Enable-TransientPrompt` after `Invoke-Expression (&starship init powershell)`
   - Add to both `starship-al.toml` and `starship-minimal.toml`
   - Test that `prompt-al` / `prompt-minimal` switcher functions re-enable transience after switching
+
+## GitHub Repo Command Palette Extension
+- [x] Scaffold `CmdPal-GitHubRepoSearch` project at `C:/_Projects/CmdPal-GitHubRepoSearch`
+  - Based on [PowerToysRun-GitHubRepo](https://github.com/8LWXpg/PowerToysRun-GitHubRepo) by 8LWXpg (MIT) — credited in every file header + README
+  - Three projects: `GitHubRepoSearch` (MSIX app), `GitHubRepoSearch.Core` (testable logic), `GitHubRepoSearch.Tests` (xUnit)
+- [x] Implement `GitHubService` — per-user HttpClient, auth tokens, `RepoQueryAsync` + `UserReposAsync`
+- [x] Implement `SettingsService` — local JSON at `%LOCALAPPDATA%\CmdPal-GitHubRepoSearch\settings.json`
+- [x] Implement `GitHubSearchPage` — `DynamicListPage`, 4 search modes, context commands
+- [x] Implement `GitHubRepoCommandsProvider` + `GitHubRepoSearchExtension` + `Program.cs` COM server
+- [x] `Package.appxmanifest` — `internetClient` + `runFullTrust`, `com.microsoft.commandpalette`
+- [x] xUnit tests for `GitHubService` and `SettingsService` (using MockHttp, no network)
+- [x] GitHub Actions CI — build Core + run tests + build MSIX artifact
+- [ ] Add Dependabot config (`.github/dependabot.yml`) — **defer until extension is working**
+- [ ] Generate/copy placeholder MSIX assets PNGs into `GitHubRepoSearch/Assets/`
+- [ ] First sideload + smoke test on local machine
+- [ ] Create GitHub remote repo and push
+- [ ] Remove PowerToys Run config from dotfiles once migration is complete (delete `home/AppData/Local/Microsoft/PowerToys/PowerToys Run/create_settings.json`, remove from cleanup script)
 
 ## Benchmark CI baselines
 - [ ] Set up CI-captured baselines for regression detection

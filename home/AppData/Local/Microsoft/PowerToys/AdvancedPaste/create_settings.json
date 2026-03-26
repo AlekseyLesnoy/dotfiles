@@ -11,11 +11,11 @@
       "value": false
     },
     "advanced-paste-ui-hotkey": {
-      "win": true,
+      "win": false,
       "ctrl": false,
       "alt": false,
-      "shift": true,
-      "code": 86,
+      "shift": false,
+      "code": 0,
       "key": ""
     },
     "paste-as-plain-hotkey": {

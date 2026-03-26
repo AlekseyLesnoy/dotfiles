@@ -58,6 +58,14 @@ if ($Profile_ -ne "common") {
 $env:PATH = [System.Environment]::GetEnvironmentVariable('PATH', 'Machine') + ';' +
             [System.Environment]::GetEnvironmentVariable('PATH', 'User')
 
+# ─── PowerShell modules ───────────────────────────────────────────────────────
+if (-not (Get-Module -ListAvailable -Name Microsoft.WinGet.Client)) {
+    Write-Log "Installing Microsoft.WinGet.Client PowerShell module..."
+    Install-Module Microsoft.WinGet.Client -Scope CurrentUser -Force -Repository PSGallery
+} else {
+    Write-Log "SKIP: Microsoft.WinGet.Client already installed"
+}
+
 Write-Log "Package installation complete."
 
 # ─── Report flagged removals ──────────────────────────────────────────────────
