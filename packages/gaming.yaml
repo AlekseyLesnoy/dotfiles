@@ -16,5 +16,4 @@ winget:
   packages:
     - id: Valve.Steam
     - id: Discord.Discord
-    - id: Nvidia.GeForceExperience
   remove: []
