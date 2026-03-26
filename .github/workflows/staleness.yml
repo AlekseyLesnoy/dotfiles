@@ -15,6 +15,12 @@ jobs:
       - name: Install yq
         shell: pwsh
         run: winget install --id MikeFarah.yq --exact --silent --accept-package-agreements --accept-source-agreements
+      - name: Refresh PATH
+        shell: pwsh
+        run: |
+          $env:PATH = [System.Environment]::GetEnvironmentVariable('PATH', 'Machine') + ';' +
+                      [System.Environment]::GetEnvironmentVariable('PATH', 'User')
+          echo "PATH=$env:PATH" >> $env:GITHUB_ENV
       - name: Validate winget IDs
         shell: pwsh
         run: .github/scripts/validate-winget-ids.ps1
