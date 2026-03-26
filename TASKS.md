@@ -76,6 +76,7 @@
 - [x] 14 create_ settings files for non-default modules (AdvancedPaste, AlwaysOnTop, FancyZones, FindMyMouse, Measure Tool, MouseJump, Peek, PowerToys Run, QuickAccent, Shortcut Guide)
 - [x] CmdPal settings (Packages/Microsoft.CommandPalette_8wekyb3d8bbwe/LocalState) with Shift+Backspace hotkey
 - [x] CmdPal plugins: WorkspaceLauncherForVSCode + EdgeFavorites (common), VisualStudio (work)
+- [ ] Review CmdPal "Include in global results" for all extension fallback commands
 - [ ] Add ZoomIt configuration (`home/AppData/Local/Microsoft/PowerToys/ZoomIt/create_settings.json`)
 
 ## Pending

@@ -29,7 +29,7 @@
     "QuickAccent": false,
     "RegistryPreview": true,
     "Shortcut Guide": false,
-    "TextExtractor": true,
+    "TextExtractor": false,
     "Video Conference": false,
     "Workspaces": true,
     "CmdPal": true

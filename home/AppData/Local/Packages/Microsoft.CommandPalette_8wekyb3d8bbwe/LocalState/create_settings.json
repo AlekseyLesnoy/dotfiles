@@ -543,15 +543,25 @@
       "Alias": "??",
       "IsDirect": true
     },
-    "file ": {
+    "find": {
       "CommandId": "com.microsoft.indexer.fileSearch",
-      "Alias": "file",
+      "Alias": "find",
       "IsDirect": false
     },
     ")": {
       "CommandId": "com.microsoft.cmdpal.timedate",
       "Alias": ")",
       "IsDirect": true
+    },
+    "cb": {
+      "CommandId": "com.microsoft.cmdpal.clipboardHistory",
+      "Alias": "cb",
+      "IsDirect": false
+    },
+    "vsc": {
+      "CommandId": "VisualStudioCodePage",
+      "Alias": "vsc",
+      "IsDirect": false
     }
   },
   "CommandHotkeys": [],
