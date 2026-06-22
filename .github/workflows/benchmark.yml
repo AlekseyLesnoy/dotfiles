@@ -15,7 +15,7 @@ jobs:
     name: Benchmark (Linux)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install dependencies
         run: |
@@ -53,7 +53,7 @@ jobs:
     name: Benchmark (macOS)
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install dependencies
         run: brew install hyperfine starship
@@ -83,7 +83,7 @@ jobs:
     name: Benchmark (Windows)
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install dependencies
         shell: pwsh
@@ -130,7 +130,7 @@ jobs:
     permissions:
       issues: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Download all results
         uses: actions/download-artifact@v4
