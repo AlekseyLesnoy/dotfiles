@@ -80,9 +80,14 @@ import json, subprocess, sys
 
 def ms(val): return round(val * 1000, 1)
 
-startup = json.load(open('/tmp/bench-startup.json'))['results'][0]
-plain   = json.load(open('/tmp/bench-prompt-plain.json'))['results'][0]
-git_    = json.load(open('/tmp/bench-prompt-git.json'))['results'][0]
+# hyperfine 2.x (schema_version 2) nests stats under summary.time_wall_clock
+def stats(path):
+    r = json.load(open(path))['results'][0]
+    return r.get('summary', {}).get('time_wall_clock', r)
+
+startup = stats('/tmp/bench-startup.json')
+plain   = stats('/tmp/bench-prompt-plain.json')
+git_    = stats('/tmp/bench-prompt-git.json')
 timings = open('/tmp/bench-timings.txt').read().strip()
 
 zsh_ver  = subprocess.check_output(['zsh', '--version']).decode().split()[1]

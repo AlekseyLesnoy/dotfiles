@@ -29,6 +29,8 @@ switch ($StarshipProfile) {
 function Write-Log { param([string]$Msg) Write-Host "[bench] $Msg" -ForegroundColor Cyan }
 function Get-Mean  { param([string]$JsonPath)
     $r = (Get-Content $JsonPath | ConvertFrom-Json).results[0]
+    # hyperfine 2.x (schema_version 2) nests stats under summary.time_wall_clock
+    if ($r.summary) { $r = $r.summary.time_wall_clock }
     return [math]::Round($r.mean * 1000, 1), [math]::Round($r.stddev * 1000, 1)
 }
 
