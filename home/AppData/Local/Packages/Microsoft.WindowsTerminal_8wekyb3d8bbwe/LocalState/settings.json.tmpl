@@ -1,93 +1,134 @@
 {
+    "$help": "https://aka.ms/terminal-documentation",
     "$schema": "https://aka.ms/terminal-profiles-schema",
-    "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-    "copyOnSelect": false,
-    "copyFormatting": "none",
-    "disableAnimations": true,
+    "actions": 
+    [
+        {
+            "command": 
+            {
+                "action": "closeTab"
+            },
+            "id": "User.closeTab.0"
+        },
+        {
+            "command": 
+            {
+                "action": "globalSummon",
+                "desktop": "toCurrent",
+                "dropdownDuration": 1,
+                "monitor": "toMouse",
+                "name": "_quake",
+                "toggleVisibility": true
+            },
+            "id": "User.globalSummon.2BB56DE6"
+        }
+    ],
     "compatibility.allowHeadless": true,
-    "useAcrylicInTabRow": true,
-    "windowingBehavior": "useAnyExisting",
-
-    "profiles": {
-        "defaults": {
-            "font": {
+    "copyFormatting": "none",
+    "copyOnSelect": false,
+    "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+    "disableAnimations": true,
+    "keybindings": 
+    [
+        {
+            "id": "Terminal.OpenNewTab",
+            "keys": "ctrl+t"
+        },
+        {
+            "id": "Terminal.CopyToClipboard",
+            "keys": "ctrl+c"
+        },
+        {
+            "id": "Terminal.PrevTab",
+            "keys": "ctrl+shift+tab"
+        },
+        {
+            "id": "Terminal.NextTab",
+            "keys": "ctrl+tab"
+        },
+        {
+            "id": "Terminal.PasteFromClipboard",
+            "keys": "ctrl+v"
+        },
+        {
+            "id": "Terminal.FindText",
+            "keys": "ctrl+shift+f"
+        },
+        {
+            "id": "Terminal.DuplicatePaneAuto",
+            "keys": "alt+shift+d"
+        },
+        {
+            "id": "User.closeTab.0",
+            "keys": "ctrl+w"
+        },
+        {
+            "id": "User.globalSummon.2BB56DE6",
+            "keys": "win+`"
+        }
+    ],
+    "newTabMenu": 
+    [
+        {
+            "type": "remainingProfiles"
+        }
+    ],
+    "profiles": 
+    {
+        "defaults": 
+        {
+            "colorScheme": "One Half Dark",
+            "cursorColor": "#57BAFB",
+            "cursorShape": "bar",
+            "font": 
+            {
                 "face": "JetBrainsMono Nerd Font",
                 "size": {{ if .is_work }}12{{ else }}13{{ end }}
             },
-            "opacity": 50,
-            "useAcrylic": true,
             "historySize": 99999,
-            "cursorShape": "bar",
-            "cursorColor": "#57BAFB",
-            "colorScheme": "One Half Dark",
+            "opacity": 50,
             "padding": "8, 8, 8, 8",
-            "scrollbarState": "hidden"
+            "scrollbarState": "hidden",
+            "useAcrylic": true
         },
-        "list": [
+        "list": 
+        [
             {
-                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-                "name": "PowerShell",
                 "commandline": "pwsh.exe -NoLogo",
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "hidden": false,
                 "icon": "ms-appx:///ProfileIcons/pwsh.png",
-                "hidden": false
+                "name": "PowerShell"
             },
             {
-                "guid": "{a1b2c3d4-e5f6-7890-abcd-ef1234567890}",
-                "name": "PowerShell (Admin)",
+                "colorScheme": "One Half Dark (Admin)",
                 "commandline": "pwsh.exe -NoLogo",
-                "icon": "ms-appx:///ProfileIcons/pwsh.png",
-                "hidden": false,
                 "elevate": true,
-                "colorScheme": "One Half Dark (Admin)"
+                "guid": "{a1b2c3d4-e5f6-7890-abcd-ef1234567890}",
+                "hidden": false,
+                "icon": "ms-appx:///ProfileIcons/pwsh.png",
+                "name": "PowerShell (Admin)"
             },
             {
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
-                "name": "Command Prompt",
-                "commandline": "cmd.exe",
-                "hidden": false
-            },
-            {{ if eq .chezmoi.os "windows" }}{
-                "guid": "{5265de91-ba16-45c9-92b4-13cd1a9d286a}",
-                "name": "Ubuntu",
-                "commandline": "wsl.exe -d Ubuntu",
-                "icon": "{{ .chezmoi.homeDir | replace "\\" "/" }}/.config/terminal-icons/ubuntu.png",
                 "hidden": false,
+                "name": "Command Prompt"
+            }{{ if eq .chezmoi.os "windows" }},
+            {
+                "commandline": "wsl.exe -d Ubuntu",
+                "guid": "{5265de91-ba16-45c9-92b4-13cd1a9d286a}",
+                "hidden": false,
+                "icon": "{{ .chezmoi.homeDir | replace "\\" "/" }}/.config/terminal-icons/ubuntu.png",
+                "name": "Ubuntu",
                 "startingDirectory": "~",
                 "suppressApplicationTitle": true
             }{{ end }}
         ]
     },
-
-    "schemes": [
+    "schemes": 
+    [
         {
-            "name": "One Half Dark",
-            "background": "#282C34",
-            "foreground": "#DCDFE4",
-            "cursorColor": "#FFFFFF",
-            "selectionBackground": "#FFFFFF",
-            "black": "#282C34",
-            "blue": "#61AFEF",
-            "brightBlack": "#5A6374",
-            "brightBlue": "#61AFEF",
-            "brightCyan": "#56B6C2",
-            "brightGreen": "#98C379",
-            "brightPurple": "#C678DD",
-            "brightRed": "#E06C75",
-            "brightWhite": "#DCDFE4",
-            "brightYellow": "#E5C07B",
-            "cyan": "#56B6C2",
-            "green": "#98C379",
-            "purple": "#C678DD",
-            "red": "#E06C75",
-            "white": "#DCDFE4",
-            "yellow": "#E5C07B"
-        },
-        {
-            "name": "One Half Dark (Admin)",
             "background": "#001B26",
-            "foreground": "#DCDFE4",
-            "cursorColor": "#E06C75",
-            "selectionBackground": "#FFFFFF",
             "black": "#282C34",
             "blue": "#61AFEF",
             "brightBlack": "#5A6374",
@@ -98,34 +139,19 @@
             "brightRed": "#E06C75",
             "brightWhite": "#DCDFE4",
             "brightYellow": "#E5C07B",
+            "cursorColor": "#E06C75",
             "cyan": "#56B6C2",
+            "foreground": "#DCDFE4",
             "green": "#98C379",
+            "name": "One Half Dark (Admin)",
             "purple": "#C678DD",
             "red": "#E06C75",
+            "selectionBackground": "#FFFFFF",
             "white": "#DCDFE4",
             "yellow": "#E5C07B"
         }
     ],
-
-    "actions": [
-        { "command": { "action": "copy", "singleLine": false }, "keys": "ctrl+c" },
-        { "command": "paste", "keys": "ctrl+v" },
-        { "command": "find", "keys": "ctrl+shift+f" },
-        { "command": { "action": "splitPane", "split": "auto", "splitMode": "duplicate" }, "keys": "alt+shift+d" },
-        { "command": "nextTab", "keys": "ctrl+tab" },
-        { "command": "prevTab", "keys": "ctrl+shift+tab" },
-        { "command": { "action": "newTab" }, "keys": "ctrl+t" },
-        { "command": { "action": "closeTab" }, "keys": "ctrl+w" },
-        {
-            "command": {
-                "action": "globalSummon",
-                "name": "_quake",
-                "dropdownDuration": 1,
-                "toggleVisibility": true,
-                "monitor": "toMouse",
-                "desktop": "toCurrent"
-            },
-            "keys": "win+`"
-        }
-    ]
+    "themes": [],
+    "useAcrylicInTabRow": false,
+    "windowingBehavior": "useAnyExisting"
 }
