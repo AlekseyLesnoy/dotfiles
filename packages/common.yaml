@@ -71,5 +71,6 @@ winget:
     - id: 15722UsefulApp.WorkspaceLauncherForVSCode
     - id: davidegiacometti.EdgeFavoritesForCmdPal
     - id: sharkdp.hyperfine
+    - id: cjpais.Handy
   remove:
     - id: Microsoft.OneDrive   # Flagged (not auto-removed) on non-work machines
