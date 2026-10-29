@@ -79,6 +79,11 @@
 - [ ] Review CmdPal "Include in global results" for all extension fallback commands
 - [ ] Add ZoomIt configuration (`home/AppData/Local/Microsoft/PowerToys/ZoomIt/create_settings.json`)
 
+## Packages to consider adding
+
+- [ ] Add WinMerge (`winget install winmerge.winmerge`) to packages — decide profile (common vs work)
+- [x] Add cjpais.Handy (`winget install cjpais.Handy`) to packages/common.yaml — already added 2026-03-28
+
 ## Pending
 - [ ] Install and integrate mise (runtime version manager)
 - [ ] home/dot_config/nvim/ (init.lua + lazy.nvim plugins)
@@ -120,6 +125,13 @@
 - [ ] First sideload + smoke test on local machine
 - [ ] Create GitHub remote repo and push
 - [ ] Remove PowerToys Run config from dotfiles once migration is complete (delete `home/AppData/Local/Microsoft/PowerToys/PowerToys Run/create_settings.json`, remove from cleanup script)
+
+## Claude Code Config Dotfiles
+- [ ] Add `home/dot_claude/settings.json.tmpl` — template the `ANTHROPIC_BASE_URL` (proxy IP) and the Windows-only `hooks.Stop` block
+- [ ] Add `home/dot_claude/statusline-command.sh` — plain bash script, portable as-is
+- [ ] Decide how to handle `ANTHROPIC_BASE_URL` — chezmoi `promptStringOnce` variable or `.chezmoi.toml.tmpl` key
+- [ ] Check if `~/.claude/CLAUDE.md` (global user instructions) exists and is worth adding
+- [ ] Remove `~/.claude/` from `.gitignore` (currently ignores the whole dir at repo root)
 
 ## Benchmark CI baselines
 - [ ] Set up CI-captured baselines for regression detection
