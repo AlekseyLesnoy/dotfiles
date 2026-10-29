@@ -29,6 +29,7 @@ brew:
     - font-im-writing-nerd-font
     - alacritty
     - notion
+    - google-chrome
 
 apt:
   packages:
@@ -64,6 +65,7 @@ winget:
     - id: GitHub.cli
     - id: Microsoft.PowerShell
     - id: Notion.Notion
+    - id: Google.Chrome
     - id: Ghisler.TotalCommander
     - id: Microsoft.PowerToys
     - id: 15722UsefulApp.WorkspaceLauncherForVSCode
