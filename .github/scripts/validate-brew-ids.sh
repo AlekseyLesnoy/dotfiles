@@ -10,6 +10,12 @@ for yaml_file in packages/*.yaml; do
     echo ""
     echo "Checking ${yaml_file}..."
 
+    # Taps (needed so tap-qualified formulae resolve)
+    while IFS= read -r tap; do
+        [[ -z "$tap" ]] && continue
+        brew tap "$tap" &>/dev/null || { echo "  FAIL tap: $tap" >&2; FAILED=1; }
+    done < <(yq e '.brew.taps[]' "$yaml_file" 2>/dev/null || true)
+
     # Formulae
     while IFS= read -r formula; do
         [[ -z "$formula" ]] && continue

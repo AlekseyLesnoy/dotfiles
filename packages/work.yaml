@@ -4,13 +4,14 @@ meta:
 # Applied in addition to common.yaml
 
 brew:
-  taps: []
+  taps:
+    - hashicorp/tap
   formulae:
     - awscli
     - kubectl
     - helm
-    - terraform
-    - vault
+    - hashicorp/tap/terraform
+    - hashicorp/tap/vault
     - docker
   casks:
     - docker
